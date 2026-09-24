@@ -1,5 +1,14 @@
-import { INDUSTRIES, PAGE_TYPES, PROJECT_STATUSES } from '@uplift/shared';
-import { index, pgEnum, pgTable, primaryKey, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { ELEMENT_TYPES, INDUSTRIES, PAGE_TYPES, PROJECT_STATUSES } from '@uplift/shared';
+import {
+  index,
+  integer,
+  pgEnum,
+  pgTable,
+  primaryKey,
+  text,
+  timestamp,
+  uuid,
+} from 'drizzle-orm/pg-core';
 
 const timestamps = {
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
@@ -74,4 +83,27 @@ export const projects = pgTable(
     ...timestamps,
   },
   (t) => [index('projects_org_updated_idx').on(t.organizationId, t.updatedAt)],
+);
+
+export const elementTypeEnum = pgEnum('element_type', ELEMENT_TYPES);
+
+/** A piece of copy on the project's page that Uplift optimizes. */
+export const pageElements = pgTable(
+  'page_elements',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    projectId: uuid('project_id')
+      .notNull()
+      .references(() => projects.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    type: elementTypeEnum('type').notNull(),
+    selector: text('selector').notNull(),
+    originalText: text('original_text').notNull(),
+    minLength: integer('min_length'),
+    maxLength: integer('max_length'),
+    notes: text('notes').notNull().default(''),
+    position: integer('position').notNull(),
+    ...timestamps,
+  },
+  (t) => [index('page_elements_project_position_idx').on(t.projectId, t.position)],
 );

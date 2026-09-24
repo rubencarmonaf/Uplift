@@ -3,13 +3,19 @@ import { AppShell } from '@/components/layout/app-shell';
 import { NotFoundPage } from '@/components/not-found-page';
 import { PlaceholderPage } from '@/components/placeholder-page';
 import { RedirectIfAuthed, RequireAuth } from '@/features/auth/guards';
+import { ElementsPage } from '@/features/elements/elements-page';
 import { LoginPage } from '@/features/auth/login-page';
 import { RegisterPage } from '@/features/auth/register-page';
 import { ProjectOverviewPage } from '@/features/projects/project-overview-page';
 import { ProjectShell } from '@/features/projects/project-shell';
-import { PROJECT_STEPS } from '@/features/projects/project-steps';
+import { PROJECT_STEPS, type ProjectStep } from '@/features/projects/project-steps';
 import { ProjectStepPlaceholder } from '@/features/projects/project-step-placeholder';
 import { ProjectsPage } from '@/features/projects/projects-page';
+
+/** Steps that are built; the rest show a placeholder. */
+const STEP_PAGES: Partial<Record<ProjectStep, React.ReactNode>> = {
+  elements: <ElementsPage />,
+};
 
 export const router = createBrowserRouter([
   {
@@ -34,7 +40,7 @@ export const router = createBrowserRouter([
               { index: true, element: <ProjectOverviewPage /> },
               ...PROJECT_STEPS.filter((step) => step !== 'overview').map((step) => ({
                 path: step,
-                element: <ProjectStepPlaceholder step={step} />,
+                element: STEP_PAGES[step] ?? <ProjectStepPlaceholder step={step} />,
               })),
             ],
           },

@@ -179,5 +179,76 @@
       "generic": "Something went wrong. Please try again.",
       "loadFailed": "Couldn't load the data."
     }
+  },
+  "elements": {
+    "title": "Elements to optimize",
+    "count_one": "{{count}} element",
+    "count_other": "{{count}} elements",
+    "add": "Add element",
+    "createTitle": "New element",
+    "editTitle": "Edit element",
+    "dialogDescription": "An element is one specific piece of copy: a headline, a button, a benefit…",
+    "charCount_one": "{{count}} character",
+    "charCount_other": "{{count}} characters",
+    "limits": "min {{min}} · max {{max}}",
+    "types": {
+      "headline": "Headline",
+      "subheadline": "Subheadline",
+      "cta": "Button (CTA)",
+      "body": "Paragraph",
+      "bullet": "Benefit / bullet",
+      "label": "Label",
+      "other": "Other"
+    },
+    "fields": {
+      "name": "Name",
+      "type": "Type",
+      "selector": "CSS selector",
+      "originalText": "Original copy",
+      "length": "Variant length",
+      "minLength": "Minimum characters",
+      "maxLength": "Maximum characters",
+      "notes": "Notes for the AI"
+    },
+    "placeholders": {
+      "name": "e.g. Main headline",
+      "originalText": "Paste the copy exactly as it appears on the page",
+      "notes": "e.g. Keep the mention of the 14-day free trial"
+    },
+    "hints": {
+      "selector": "Identifies the element on the page. e.g. #hero h1, .pricing .cta-primary",
+      "originalText": "The starting point (the control version) for generating variants.",
+      "overLimit": "The original copy is over the maximum: variants will be shorter.",
+      "length": "Optional. Limits variant length so they fit the design."
+    },
+    "errors": {
+      "selector": "Invalid CSS selector",
+      "length": "Enter a number between 1 and 5000",
+      "range": "The maximum must be greater than or equal to the minimum"
+    },
+    "toasts": {
+      "created": "Element added",
+      "saved": "Element saved",
+      "deleted": "Element deleted"
+    },
+    "actions": {
+      "moveUp": "Move “{{name}}” up",
+      "moveDown": "Move “{{name}}” down",
+      "edit": "Edit “{{name}}”",
+      "delete": "Delete “{{name}}”"
+    },
+    "deleteTitle": "Delete “{{name}}”?",
+    "deleteDescription": "Its variants will be deleted too. This cannot be undone.",
+    "empty": {
+      "title": "No elements yet",
+      "description": "Add the copy on the page you want to improve. Start with what drives conversion most: the headline and the main button."
+    },
+    "tips": {
+      "title": "How to get the selector",
+      "step1": "Open the page in Chrome, right-click the text and choose “Inspect”.",
+      "step2": "In the Elements panel, right-click the highlighted node → Copy → Copy selector.",
+      "step3": "Paste it here and simplify it if it is very long.",
+      "stable": "Prefer ids or meaningful classes (#hero-title) over long :nth-child paths, which break when the page changes."
+    }
   }
 }

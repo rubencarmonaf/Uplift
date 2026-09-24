@@ -179,5 +179,76 @@
       "generic": "Algo ha fallado. Inténtalo de nuevo.",
       "loadFailed": "No se ha podido cargar la información."
     }
+  },
+  "elements": {
+    "title": "Elementos a optimizar",
+    "count_one": "{{count}} elemento",
+    "count_other": "{{count}} elementos",
+    "add": "Añadir elemento",
+    "createTitle": "Nuevo elemento",
+    "editTitle": "Editar elemento",
+    "dialogDescription": "Un elemento es un texto concreto de la página: un titular, un botón, un beneficio…",
+    "charCount_one": "{{count}} carácter",
+    "charCount_other": "{{count}} caracteres",
+    "limits": "mín. {{min}} · máx. {{max}}",
+    "types": {
+      "headline": "Titular",
+      "subheadline": "Subtítulo",
+      "cta": "Botón (CTA)",
+      "body": "Párrafo",
+      "bullet": "Beneficio / viñeta",
+      "label": "Etiqueta",
+      "other": "Otro"
+    },
+    "fields": {
+      "name": "Nombre",
+      "type": "Tipo",
+      "selector": "Selector CSS",
+      "originalText": "Texto original",
+      "length": "Longitud de las variantes",
+      "minLength": "Mínimo de caracteres",
+      "maxLength": "Máximo de caracteres",
+      "notes": "Notas para la IA"
+    },
+    "placeholders": {
+      "name": "Ej. Titular principal",
+      "originalText": "Copia aquí el texto tal y como aparece en la página",
+      "notes": "Ej. Mantén la mención a la prueba gratuita de 14 días"
+    },
+    "hints": {
+      "selector": "Identifica el elemento en la página. Ej.: #hero h1, .pricing .cta-primary",
+      "originalText": "Es el punto de partida (la versión de control) para generar variantes.",
+      "overLimit": "El texto original supera el máximo: las variantes serán más cortas.",
+      "length": "Opcional. Limita la longitud de las variantes para que encajen en el diseño."
+    },
+    "errors": {
+      "selector": "Selector CSS no válido",
+      "length": "Introduce un número entre 1 y 5000",
+      "range": "El máximo debe ser mayor o igual que el mínimo"
+    },
+    "toasts": {
+      "created": "Elemento añadido",
+      "saved": "Elemento guardado",
+      "deleted": "Elemento eliminado"
+    },
+    "actions": {
+      "moveUp": "Subir «{{name}}»",
+      "moveDown": "Bajar «{{name}}»",
+      "edit": "Editar «{{name}}»",
+      "delete": "Eliminar «{{name}}»"
+    },
+    "deleteTitle": "¿Eliminar «{{name}}»?",
+    "deleteDescription": "Se eliminarán también sus variantes. Esta acción no se puede deshacer.",
+    "empty": {
+      "title": "Aún no hay elementos",
+      "description": "Añade los textos de la página que quieres mejorar. Empieza por los que más influyen en la conversión: el titular y el botón principal."
+    },
+    "tips": {
+      "title": "Cómo obtener el selector",
+      "step1": "Abre la página en Chrome, haz clic derecho sobre el texto y elige «Inspeccionar».",
+      "step2": "En el panel de elementos, clic derecho sobre el nodo resaltado → Copiar → Copiar selector.",
+      "step3": "Pégalo aquí y simplifícalo si es muy largo.",
+      "stable": "Prefiere ids o clases con significado (#hero-title) antes que rutas largas con :nth-child, que se rompen al cambiar la página."
+    }
   }
 }

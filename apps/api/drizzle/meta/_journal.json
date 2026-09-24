@@ -15,6 +15,13 @@
       "when": 1790267596475,
       "tag": "0001_concerned_shooting_star",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1790268601128,
+      "tag": "0002_busy_bastion",
+      "breakpoints": true
     }
   ]
 }
