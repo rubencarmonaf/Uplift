@@ -1,5 +1,4 @@
 import { Check, Languages, LogOut, SunMoon } from 'lucide-react';
-import { useTheme } from 'next-themes';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router';
 import { Avatar, AvatarFallback } from '@/components/ui/avatar';
@@ -17,6 +16,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { useLogout, useMe } from '@/features/auth/api';
 import { LOCALES, setLocale } from '@/lib/i18n';
+import { useTheme } from '@/lib/theme-context';
 
 const THEMES = ['light', 'dark', 'system'] as const;
 const LOCALE_NAMES = { es: 'Español', en: 'English' } as const;

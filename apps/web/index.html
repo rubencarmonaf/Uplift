@@ -5,6 +5,16 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Uplift</title>
+    <script>
+      // Apply the saved theme before first paint to avoid a flash (see src/lib/theme.tsx).
+      try {
+        const t = localStorage.getItem('uplift.theme') || 'system';
+        const dark =
+          t === 'dark' || (t === 'system' && matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('dark', dark);
+        document.documentElement.style.colorScheme = dark ? 'dark' : 'light';
+      } catch {}
+    </script>
   </head>
   <body>
     <div id="root"></div>

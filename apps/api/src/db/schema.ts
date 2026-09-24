@@ -1,4 +1,5 @@
-import { pgEnum, pgTable, primaryKey, text, timestamp, uuid } from 'drizzle-orm/pg-core';
+import { INDUSTRIES, PAGE_TYPES, PROJECT_STATUSES } from '@uplift/shared';
+import { index, pgEnum, pgTable, primaryKey, text, timestamp, uuid } from 'drizzle-orm/pg-core';
 
 const timestamps = {
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
@@ -50,3 +51,27 @@ export const sessions = pgTable('sessions', {
   expiresAt: timestamp('expires_at', { withTimezone: true }).notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
 });
+
+export const industryEnum = pgEnum('industry', INDUSTRIES);
+export const pageTypeEnum = pgEnum('page_type', PAGE_TYPES);
+export const projectStatusEnum = pgEnum('project_status', PROJECT_STATUSES);
+
+export const projects = pgTable(
+  'projects',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    organizationId: uuid('organization_id')
+      .notNull()
+      .references(() => organizations.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    url: text('url').notNull(),
+    industry: industryEnum('industry').notNull(),
+    pageType: pageTypeEnum('page_type').notNull(),
+    locale: text('locale').notNull(),
+    status: projectStatusEnum('status').notNull().default('draft'),
+    archivedAt: timestamp('archived_at', { withTimezone: true }),
+    createdBy: uuid('created_by').references(() => users.id, { onDelete: 'set null' }),
+    ...timestamps,
+  },
+  (t) => [index('projects_org_updated_idx').on(t.organizationId, t.updatedAt)],
+);

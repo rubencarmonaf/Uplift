@@ -1,5 +1,7 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
+import { z } from 'zod';
+import { en as zodEn, es as zodEs } from 'zod/locales';
 import en from '@/locales/en.json';
 import es from '@/locales/es.json';
 
@@ -27,8 +29,12 @@ export function setLocale(locale: Locale) {
   }
 }
 
+const ZOD_LOCALES = { es: zodEs, en: zodEn };
+
+// Keeps the HTML lang attribute and zod validation messages in the current language.
 i18n.on('languageChanged', (lng) => {
   document.documentElement.lang = lng;
+  z.config((ZOD_LOCALES[lng as Locale] ?? zodEn)());
 });
 
 void i18n.use(initReactI18next).init({

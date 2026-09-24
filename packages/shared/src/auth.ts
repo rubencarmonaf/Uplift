@@ -2,10 +2,7 @@ import { z } from 'zod';
 
 export const emailSchema = z.email().trim().toLowerCase();
 
-export const passwordSchema = z
-  .string()
-  .min(10, 'Password must be at least 10 characters')
-  .max(128, 'Password must be at most 128 characters');
+export const passwordSchema = z.string().min(10).max(128);
 
 export const registerSchema = z.object({
   name: z.string().trim().min(1).max(80),

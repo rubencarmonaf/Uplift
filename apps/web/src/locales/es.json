@@ -49,13 +49,135 @@
     "description": "Cada proyecto es una página que quieres hacer convertir mejor.",
     "empty": {
       "title": "Aún no tienes proyectos",
-      "description": "Crea tu primer proyecto a partir de la URL de la página que quieres optimizar.",
-      "cta": "Nuevo proyecto"
+      "description": "Crea tu primer proyecto a partir de la URL de la página que quieres optimizar."
+    },
+    "new": "Nuevo proyecto",
+    "create": "Crear proyecto",
+    "createTitle": "Nuevo proyecto",
+    "createDescription": "Indica la página que quieres optimizar. Podrás cambiar estos datos más adelante.",
+    "archived": "Archivado",
+    "statuses": {
+      "draft": "Borrador",
+      "ready": "Listo",
+      "running": "En experimento",
+      "finished": "Finalizado"
+    },
+    "industries": {
+      "saas": "SaaS / Software",
+      "ecommerce": "E-commerce",
+      "finance": "Finanzas",
+      "insurance": "Seguros",
+      "health": "Salud",
+      "education": "Educación",
+      "travel": "Viajes",
+      "real_estate": "Inmobiliaria",
+      "media": "Medios",
+      "other": "Otro"
+    },
+    "pageTypes": {
+      "landing": "Landing",
+      "home": "Home",
+      "product": "Ficha de producto",
+      "category": "Categoría",
+      "pricing": "Precios",
+      "signup": "Registro",
+      "checkout": "Checkout",
+      "other": "Otra"
+    },
+    "fields": {
+      "name": "Nombre",
+      "url": "URL de la página",
+      "industry": "Sector",
+      "pageType": "Tipo de página",
+      "locale": "Idioma y mercado",
+      "status": "Estado"
+    },
+    "placeholders": {
+      "name": "Ej. Página de precios",
+      "select": "Selecciona…"
+    },
+    "hints": {
+      "url": "La página pública cuyos textos quieres mejorar."
+    },
+    "errors": {
+      "url": "Introduce una URL pública que empiece por http:// o https://",
+      "required": "Campo obligatorio"
+    },
+    "toasts": {
+      "created": "Proyecto creado",
+      "duplicated": "Proyecto duplicado",
+      "archived": "Proyecto archivado",
+      "unarchived": "Proyecto restaurado",
+      "deleted": "Proyecto eliminado",
+      "saved": "Cambios guardados"
+    },
+    "actions": {
+      "duplicate": "Duplicar",
+      "archive": "Archivar",
+      "unarchive": "Restaurar",
+      "delete": "Eliminar"
+    },
+    "copyName": "{{name}} (copia)",
+    "deleteTitle": "¿Eliminar «{{name}}»?",
+    "deleteDescription": "Se eliminarán el proyecto y todos sus datos. Esta acción no se puede deshacer. Si solo quieres ocultarlo, archívalo.",
+    "searchPlaceholder": "Buscar por nombre o URL",
+    "allStatuses": "Todos los estados",
+    "view": "Vista",
+    "views": {
+      "active": "Activos",
+      "archived": "Archivados"
+    },
+    "sortBy": "Ordenar por",
+    "sorts": {
+      "updated": "Última modificación",
+      "created": "Fecha de creación",
+      "name": "Nombre"
+    },
+    "noResults": "Ningún proyecto coincide con los filtros.",
+    "updated": "Modificado",
+    "created": "Creado",
+    "notFound": "Proyecto no encontrado",
+    "backToList": "Volver a proyectos",
+    "stepsLabel": "Pasos del proyecto",
+    "steps": {
+      "overview": "Resumen",
+      "elements": "Elementos",
+      "brief": "Brief",
+      "variants": "Variantes",
+      "goals": "Objetivos",
+      "preview": "Vista previa",
+      "activation": "Activación",
+      "results": "Resultados"
+    },
+    "stepDescriptions": {
+      "overview": "",
+      "elements": "Marca los textos de la página que quieres optimizar: titulares, CTAs, beneficios…",
+      "brief": "Describe la voz de la marca, el negocio y las reglas legales que la IA debe respetar.",
+      "variants": "Genera, revisa y selecciona variantes de texto para cada elemento.",
+      "goals": "Define qué cuenta como conversión: clics, visitas a una URL o eventos.",
+      "preview": "Revisa la página con las variantes aplicadas en escritorio y móvil.",
+      "activation": "Instala el script en tu web y lanza el experimento.",
+      "results": "Compara variantes y descubre cuál convierte mejor."
+    },
+    "overview": {
+      "detailsTitle": "Datos del proyecto",
+      "detailsDescription": "La IA usa el sector, el tipo de página y el mercado para adaptar los textos.",
+      "statusDescription": "Indica en qué punto del proceso está el proyecto."
     }
   },
   "comingSoon": "Próximamente",
   "notFound": {
     "title": "Página no encontrada",
     "back": "Volver al inicio"
+  },
+  "common": {
+    "actions": "Acciones",
+    "cancel": "Cancelar",
+    "save": "Guardar cambios",
+    "retry": "Reintentar",
+    "errors": {
+      "generic": "Algo ha fallado. Inténtalo de nuevo.",
+      "loadFailed": "No se ha podido cargar la información."
+    }
   }
 }

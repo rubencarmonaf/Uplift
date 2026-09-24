@@ -5,9 +5,15 @@ import { AuthModule } from './auth/auth.module.js';
 import { SessionGuard } from './auth/session.guard.js';
 import { DbModule } from './db/db.module.js';
 import { HealthController } from './health.controller.js';
+import { ProjectsModule } from './projects/projects.module.js';
 
 @Module({
-  imports: [ThrottlerModule.forRoot([{ ttl: 60_000, limit: 300 }]), DbModule, AuthModule],
+  imports: [
+    ThrottlerModule.forRoot([{ ttl: 60_000, limit: 300 }]),
+    DbModule,
+    AuthModule,
+    ProjectsModule,
+  ],
   controllers: [HealthController],
   providers: [
     { provide: APP_GUARD, useClass: ThrottlerGuard },

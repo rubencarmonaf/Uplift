@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { useLogin } from './api';
 import { AuthLayout } from './auth-layout';
 import { authErrorMessage } from './error-message';
-import { FormField } from './form-field';
+import { FormField } from '@/components/form-field';
 
 export function LoginPage() {
   const { t } = useTranslation();

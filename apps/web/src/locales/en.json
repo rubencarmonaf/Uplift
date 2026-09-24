@@ -49,13 +49,135 @@
     "description": "Each project is a page you want to convert better.",
     "empty": {
       "title": "No projects yet",
-      "description": "Create your first project from the URL of the page you want to optimize.",
-      "cta": "New project"
+      "description": "Create your first project from the URL of the page you want to optimize."
+    },
+    "new": "New project",
+    "create": "Create project",
+    "createTitle": "New project",
+    "createDescription": "Tell us which page you want to optimize. You can change this later.",
+    "archived": "Archived",
+    "statuses": {
+      "draft": "Draft",
+      "ready": "Ready",
+      "running": "Running",
+      "finished": "Finished"
+    },
+    "industries": {
+      "saas": "SaaS / Software",
+      "ecommerce": "E-commerce",
+      "finance": "Finance",
+      "insurance": "Insurance",
+      "health": "Health",
+      "education": "Education",
+      "travel": "Travel",
+      "real_estate": "Real estate",
+      "media": "Media",
+      "other": "Other"
+    },
+    "pageTypes": {
+      "landing": "Landing page",
+      "home": "Home page",
+      "product": "Product page",
+      "category": "Category page",
+      "pricing": "Pricing",
+      "signup": "Sign-up",
+      "checkout": "Checkout",
+      "other": "Other"
+    },
+    "fields": {
+      "name": "Name",
+      "url": "Page URL",
+      "industry": "Industry",
+      "pageType": "Page type",
+      "locale": "Language and market",
+      "status": "Status"
+    },
+    "placeholders": {
+      "name": "e.g. Pricing page",
+      "select": "Select…"
+    },
+    "hints": {
+      "url": "The public page whose copy you want to improve."
+    },
+    "errors": {
+      "url": "Enter a public URL starting with http:// or https://",
+      "required": "Required"
+    },
+    "toasts": {
+      "created": "Project created",
+      "duplicated": "Project duplicated",
+      "archived": "Project archived",
+      "unarchived": "Project restored",
+      "deleted": "Project deleted",
+      "saved": "Changes saved"
+    },
+    "actions": {
+      "duplicate": "Duplicate",
+      "archive": "Archive",
+      "unarchive": "Restore",
+      "delete": "Delete"
+    },
+    "copyName": "{{name}} (copy)",
+    "deleteTitle": "Delete “{{name}}”?",
+    "deleteDescription": "The project and all its data will be deleted. This cannot be undone. To just hide it, archive it instead.",
+    "searchPlaceholder": "Search by name or URL",
+    "allStatuses": "All statuses",
+    "view": "View",
+    "views": {
+      "active": "Active",
+      "archived": "Archived"
+    },
+    "sortBy": "Sort by",
+    "sorts": {
+      "updated": "Last modified",
+      "created": "Date created",
+      "name": "Name"
+    },
+    "noResults": "No projects match the filters.",
+    "updated": "Modified",
+    "created": "Created",
+    "notFound": "Project not found",
+    "backToList": "Back to projects",
+    "stepsLabel": "Project steps",
+    "steps": {
+      "overview": "Overview",
+      "elements": "Elements",
+      "brief": "Brief",
+      "variants": "Variants",
+      "goals": "Goals",
+      "preview": "Preview",
+      "activation": "Activation",
+      "results": "Results"
+    },
+    "stepDescriptions": {
+      "overview": "",
+      "elements": "Pick the copy on the page you want to optimize: headlines, CTAs, benefits…",
+      "brief": "Describe the brand voice, the business and the legal rules the AI must follow.",
+      "variants": "Generate, review and select copy variants for each element.",
+      "goals": "Define what counts as a conversion: clicks, URL visits or events.",
+      "preview": "Review the page with the variants applied on desktop and mobile.",
+      "activation": "Install the script on your site and launch the experiment.",
+      "results": "Compare variants and find out which one converts best."
+    },
+    "overview": {
+      "detailsTitle": "Project details",
+      "detailsDescription": "The AI uses the industry, page type and market to tailor the copy.",
+      "statusDescription": "Where the project is in the process."
     }
   },
   "comingSoon": "Coming soon",
   "notFound": {
     "title": "Page not found",
     "back": "Back to home"
+  },
+  "common": {
+    "actions": "Actions",
+    "cancel": "Cancel",
+    "save": "Save changes",
+    "retry": "Retry",
+    "errors": {
+      "generic": "Something went wrong. Please try again.",
+      "loadFailed": "Couldn't load the data."
+    }
   }
 }
