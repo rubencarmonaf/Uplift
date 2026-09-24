@@ -1,4 +1,6 @@
-import { Lightbulb, MousePointerClick, Plus } from 'lucide-react';
+import { type CreateElementInput, type PickedElement, SUGGESTED_MAX_LENGTH } from '@uplift/shared';
+import { Lightbulb, MousePointerClick, PencilLine } from 'lucide-react';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -7,6 +9,19 @@ import { useProjectContext } from '@/features/projects/project-steps';
 import { useElements, useReorderElements } from './api';
 import { ElementCard } from './element-card';
 import { ElementDialog } from './element-dialog';
+import { PagePickerDialog } from './page-picker-dialog';
+
+/** Turns a click in the page picker into a pre-filled element. */
+function fromPick(picked: PickedElement, fallbackName: string): Partial<CreateElementInput> {
+  const name = picked.text.length > 40 ? picked.text.slice(0, 40).trimEnd() + '…' : picked.text;
+  return {
+    name: name || fallbackName,
+    type: picked.suggestedType,
+    selector: picked.selector,
+    originalText: picked.text,
+    maxLength: SUGGESTED_MAX_LENGTH[picked.suggestedType] ?? null,
+  };
+}
 
 export function ElementsPage() {
   const { t } = useTranslation();
@@ -23,16 +38,46 @@ export function ElementsPage() {
     reorder.mutate(ids);
   };
 
-  const addButton = (
-    <ElementDialog
-      projectId={project.id}
-      trigger={
-        <Button>
-          <Plus />
-          {t('elements.add')}
-        </Button>
-      }
-    />
+  const [pickerOpen, setPickerOpen] = useState(false);
+  const [draft, setDraft] = useState<Partial<CreateElementInput> | null>(null);
+
+  const onPick = useCallback(
+    (picked: PickedElement) => {
+      setPickerOpen(false);
+      setDraft(fromPick(picked, t(`elements.types.${picked.suggestedType}`)));
+    },
+    [t],
+  );
+
+  const addButtons = (
+    <div className="flex flex-wrap gap-2">
+      <Button onClick={() => setPickerOpen(true)}>
+        <MousePointerClick />
+        {t('elements.pickOnPage')}
+      </Button>
+      <Button variant="outline" onClick={() => setDraft({})}>
+        <PencilLine />
+        {t('elements.addManually')}
+      </Button>
+    </div>
+  );
+
+  const dialogs = (
+    <>
+      <PagePickerDialog
+        project={project}
+        open={pickerOpen}
+        onOpenChange={setPickerOpen}
+        existingSelectors={elements?.map((e) => e.selector) ?? []}
+        onPick={onPick}
+      />
+      <ElementDialog
+        projectId={project.id}
+        open={draft !== null}
+        onOpenChange={(open) => !open && setDraft(null)}
+        defaultValues={draft ?? undefined}
+      />
+    </>
   );
 
   if (isPending) {
@@ -58,6 +103,7 @@ export function ElementsPage() {
 
   return (
     <div className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
+      {dialogs}
       <section className="grid content-start gap-4" aria-labelledby="elements-heading">
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div>
@@ -68,7 +114,7 @@ export function ElementsPage() {
               {t('elements.count', { count: elements.length })}
             </p>
           </div>
-          {org.canEdit && elements.length > 0 && addButton}
+          {org.canEdit && elements.length > 0 && addButtons}
         </div>
 
         {elements.length === 0 ? (
@@ -79,7 +125,7 @@ export function ElementsPage() {
               </div>
               <h3 className="text-lg font-medium">{t('elements.empty.title')}</h3>
               <p className="text-sm text-muted-foreground">{t('elements.empty.description')}</p>
-              {org.canEdit && addButton}
+              {org.canEdit && addButtons}
             </div>
           </div>
         ) : (

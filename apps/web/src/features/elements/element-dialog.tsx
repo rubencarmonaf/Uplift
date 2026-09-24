@@ -1,4 +1,4 @@
-import type { PageElement } from '@uplift/shared';
+import type { CreateElementInput, PageElement } from '@uplift/shared';
 import type { ReactNode } from 'react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -16,22 +16,38 @@ import {
 import { useCreateElement, useUpdateElement } from './api';
 import { ElementForm, type ElementFormValues } from './element-form';
 
-/** Creates an element, or edits `element` when given. */
+/**
+ * Creates an element, or edits `element` when given. Uncontrolled with a `trigger`,
+ * or controlled with `open`/`onOpenChange` (e.g. opened by the page picker with `defaultValues`).
+ */
 export function ElementDialog({
   projectId,
   element,
+  defaultValues,
   trigger,
+  open: controlledOpen,
+  onOpenChange,
 }: {
   projectId: string;
   element?: PageElement;
-  trigger: ReactNode;
+  defaultValues?: Partial<CreateElementInput>;
+  trigger?: ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }) {
   const { t } = useTranslation();
-  const [open, setOpen] = useState(false);
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(false);
+  const open = controlledOpen ?? uncontrolledOpen;
   const create = useCreateElement(projectId);
   const update = useUpdateElement(projectId);
   const mutation = element ? update : create;
   const formId = element ? `edit-element-${element.id}` : 'create-element';
+
+  const setOpen = (next: boolean) => {
+    setUncontrolledOpen(next);
+    onOpenChange?.(next);
+    if (!next) mutation.reset();
+  };
 
   const onSubmit = (values: ElementFormValues) => {
     const options = {
@@ -46,14 +62,8 @@ export function ElementDialog({
   };
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(next) => {
-        setOpen(next);
-        if (!next) mutation.reset();
-      }}
-    >
-      <DialogTrigger asChild>{trigger}</DialogTrigger>
+    <Dialog open={open} onOpenChange={setOpen}>
+      {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
       <DialogContent className="max-h-[90svh] overflow-y-auto sm:max-w-xl">
         <DialogHeader>
           <DialogTitle>{t(element ? 'elements.editTitle' : 'elements.createTitle')}</DialogTitle>
@@ -62,7 +72,7 @@ export function ElementDialog({
         {open && (
           <ElementForm
             id={formId}
-            defaultValues={element}
+            defaultValues={element ?? defaultValues}
             disabled={mutation.isPending}
             onSubmit={onSubmit}
           />

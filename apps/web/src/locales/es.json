@@ -244,11 +244,33 @@
       "description": "Añade los textos de la página que quieres mejorar. Empieza por los que más influyen en la conversión: el titular y el botón principal."
     },
     "tips": {
-      "title": "Cómo obtener el selector",
+      "title": "¿Prefieres escribir el selector?",
       "step1": "Abre la página en Chrome, haz clic derecho sobre el texto y elige «Inspeccionar».",
       "step2": "En el panel de elementos, clic derecho sobre el nodo resaltado → Copiar → Copiar selector.",
       "step3": "Pégalo aquí y simplifícalo si es muy largo.",
       "stable": "Prefiere ids o clases con significado (#hero-title) antes que rutas largas con :nth-child, que se rompen al cambiar la página."
+    },
+    "pickOnPage": "Seleccionar en la página",
+    "addManually": "Añadir manualmente"
+  },
+  "picker": {
+    "title": "Selecciona un elemento",
+    "description": "Pasa el ratón por la página y haz clic en el texto que quieres optimizar. Los enlaces están desactivados.",
+    "frameTitle": "Copia de {{url}} para seleccionar elementos",
+    "capturedAt": "capturada {{when}}",
+    "refresh": "Actualizar página",
+    "capturing": "Abriendo la página…",
+    "capturingHint": "La cargamos en un navegador real para que se vea igual que en tu web. Puede tardar unos segundos.",
+    "loading": "Cargando…",
+    "failedTitle": "No hemos podido abrir la página",
+    "refreshFailed": "No se ha podido actualizar la página.",
+    "errors": {
+      "blocked_url": "La URL apunta a una dirección privada o no permitida. Usa la URL pública de la página.",
+      "timeout": "La página ha tardado demasiado en cargar.",
+      "unreachable": "La página no responde o devuelve un error. Comprueba la URL del proyecto.",
+      "too_large": "La página es demasiado grande para capturarla.",
+      "rate_limited": "Has actualizado demasiadas veces. Espera un minuto.",
+      "unknown": "Algo ha fallado. Inténtalo de nuevo."
     }
   }
 }

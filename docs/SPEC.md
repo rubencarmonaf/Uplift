@@ -45,7 +45,7 @@ Multi-tenant desde el inicio: todo recurso pertenece a una **organización** (wo
 - El usuario define qué elementos de la página quiere optimizar (titular, subtítulo, CTA, bullet de beneficios…).
 - Selección del elemento:
   - escribiendo manualmente un selector CSS, o
-  - **seleccionándolo visualmente** sobre una captura o un render de la página (modo "picker").
+  - **seleccionándolo visualmente** sobre una copia renderizada de la página (modo "picker"): el backend la abre con un navegador headless, incrusta su CSS y elimina los scripts; el front la muestra en un iframe aislado donde, al hacer clic, se obtienen el selector, el texto y un tipo sugerido.
 - Por elemento: tipo, texto original (extraído automáticamente), longitud mínima y máxima, y notas.
 - Validación: el selector debe resolver exactamente un elemento en la página.
 

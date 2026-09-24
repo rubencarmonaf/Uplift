@@ -244,11 +244,33 @@
       "description": "Add the copy on the page you want to improve. Start with what drives conversion most: the headline and the main button."
     },
     "tips": {
-      "title": "How to get the selector",
+      "title": "Prefer to type the selector?",
       "step1": "Open the page in Chrome, right-click the text and choose “Inspect”.",
       "step2": "In the Elements panel, right-click the highlighted node → Copy → Copy selector.",
       "step3": "Paste it here and simplify it if it is very long.",
       "stable": "Prefer ids or meaningful classes (#hero-title) over long :nth-child paths, which break when the page changes."
+    },
+    "pickOnPage": "Pick on the page",
+    "addManually": "Add manually"
+  },
+  "picker": {
+    "title": "Pick an element",
+    "description": "Hover over the page and click the copy you want to optimize. Links are disabled.",
+    "frameTitle": "Copy of {{url}} for picking elements",
+    "capturedAt": "captured {{when}}",
+    "refresh": "Refresh page",
+    "capturing": "Opening the page…",
+    "capturingHint": "We load it in a real browser so it looks just like your site. This can take a few seconds.",
+    "loading": "Loading…",
+    "failedTitle": "We couldn't open the page",
+    "refreshFailed": "Couldn't refresh the page.",
+    "errors": {
+      "blocked_url": "The URL points to a private or disallowed address. Use the public page URL.",
+      "timeout": "The page took too long to load.",
+      "unreachable": "The page isn't responding or returns an error. Check the project URL.",
+      "too_large": "The page is too large to capture.",
+      "rate_limited": "Too many refreshes. Wait a minute.",
+      "unknown": "Something went wrong. Please try again."
     }
   }
 }

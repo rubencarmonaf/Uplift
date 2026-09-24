@@ -21,6 +21,8 @@
     "@uplift/shared": "workspace:*",
     "cookie-parser": "^1.4.7",
     "drizzle-orm": "^0.45.3",
+    "ipaddr.js": "^2.5.0",
+    "playwright": "^1.63.0",
     "postgres": "^3.4.9",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.8.2",

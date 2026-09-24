@@ -7,6 +7,7 @@ import { DbModule } from './db/db.module.js';
 import { ElementsModule } from './elements/elements.module.js';
 import { HealthController } from './health.controller.js';
 import { ProjectsModule } from './projects/projects.module.js';
+import { SnapshotsModule } from './snapshots/snapshots.module.js';
 
 @Module({
   imports: [
@@ -15,6 +16,7 @@ import { ProjectsModule } from './projects/projects.module.js';
     AuthModule,
     ProjectsModule,
     ElementsModule,
+    SnapshotsModule,
   ],
   controllers: [HealthController],
   providers: [

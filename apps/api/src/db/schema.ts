@@ -107,3 +107,17 @@ export const pageElements = pgTable(
   },
   (t) => [index('page_elements_project_position_idx').on(t.projectId, t.position)],
 );
+
+/** Latest rendered copy of a project's page (one per project), shown in the visual element picker. */
+export const pageSnapshots = pgTable('page_snapshots', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  projectId: uuid('project_id')
+    .notNull()
+    .unique()
+    .references(() => projects.id, { onDelete: 'cascade' }),
+  url: text('url').notNull(),
+  finalUrl: text('final_url').notNull(),
+  title: text('title').notNull(),
+  html: text('html').notNull(),
+  createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+});
