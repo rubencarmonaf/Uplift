@@ -39,6 +39,6 @@ export function snapshotErrorReason(err: unknown): SnapshotError | 'rate_limited
   return 'unknown';
 }
 
-export const snapshotDocumentUrl = (snapshot: Snapshot) =>
+export const snapshotDocumentUrl = (snapshot: Snapshot, mode: 'picker' | 'preview' = 'picker') =>
   // The timestamp busts any cached copy when the snapshot is refreshed.
-  `/api/snapshots/${snapshot.id}/document?v=${encodeURIComponent(snapshot.createdAt)}`;
+  `/api/snapshots/${snapshot.id}/document?mode=${mode}&v=${encodeURIComponent(snapshot.createdAt)}`;

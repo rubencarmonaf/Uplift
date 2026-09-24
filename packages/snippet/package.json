@@ -1,0 +1,21 @@
+{
+  "name": "@uplift/snippet",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./preview": "./dist/preview.js"
+  },
+  "scripts": {
+    "build": "node build.mjs",
+    "dev": "node build.mjs --watch",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "@uplift/shared": "workspace:*",
+    "esbuild": "^0.28.2",
+    "jsdom": "^30.1.1",
+    "vitest": "^5.0.1"
+  }
+}

@@ -579,5 +579,28 @@
       "title": "Primary goal",
       "description": "The metric that decides the winning variant. Secondary goals are measured too, to catch side effects."
     }
+  },
+  "preview": {
+    "viewport": "Device",
+    "viewports": {
+      "desktop": "Desktop",
+      "tablet": "Tablet",
+      "mobile": "Mobile"
+    },
+    "hideConsent": "Hide cookie banners",
+    "elements": "Variant per element",
+    "allOriginal": "Original",
+    "best": "Best",
+    "random": "Random",
+    "original": "Original",
+    "noElements": "No elements yet.",
+    "notFound": "Not found on the page",
+    "notFoundHint": "The selector doesn't match this element in the current snapshot.",
+    "frameTitle": "Preview of {{url}} with variants",
+    "noSnapshot": {
+      "title": "No snapshot of the page yet",
+      "description": "We load the page in a real browser to show you how the variants look.",
+      "cta": "Load the page"
+    }
   }
 }

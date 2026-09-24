@@ -6,6 +6,7 @@ import { RedirectIfAuthed, RequireAuth } from '@/features/auth/guards';
 import { BriefPage } from '@/features/brief/brief-page';
 import { ElementsPage } from '@/features/elements/elements-page';
 import { GoalsPage } from '@/features/goals/goals-page';
+import { PreviewPage } from '@/features/preview/preview-page';
 import { LoginPage } from '@/features/auth/login-page';
 import { RegisterPage } from '@/features/auth/register-page';
 import { ProjectOverviewPage } from '@/features/projects/project-overview-page';
@@ -21,6 +22,7 @@ const STEP_PAGES: Partial<Record<ProjectStep, React.ReactNode>> = {
   brief: <BriefPage />,
   variants: <VariantsPage />,
   goals: <GoalsPage />,
+  preview: <PreviewPage />,
 };
 
 export const router = createBrowserRouter([

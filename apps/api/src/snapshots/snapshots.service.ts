@@ -1,4 +1,6 @@
 import { randomBytes } from 'node:crypto';
+import { readFileSync } from 'node:fs';
+import { createRequire } from 'node:module';
 import { Injectable, NotFoundException, UnprocessableEntityException } from '@nestjs/common';
 import type { Snapshot } from '@uplift/shared';
 import { eq } from 'drizzle-orm';
@@ -6,6 +8,7 @@ import type { Db } from '../db/client.js';
 import { InjectDb } from '../db/db.module.js';
 import { pageSnapshots } from '../db/schema.js';
 import { ProjectAccessService } from '../projects/project-access.service.js';
+import { isProd } from '../config/env.js';
 import { pickerMain } from './picker-script.js';
 import { RendererService, SnapshotFailedError } from './renderer.service.js';
 
@@ -21,6 +24,18 @@ const toSnapshotDto = (row: SnapshotRow): Snapshot => ({
 });
 
 const PICKER_SOURCE = `(${pickerMain.toString()})();`;
+
+export type DocumentMode = 'picker' | 'preview';
+
+const previewBundlePath = createRequire(import.meta.url).resolve('@uplift/snippet/preview');
+let cachedPreviewBundle: string | null = null;
+/** The preview bundle; re-read in development so rebuilding the snippet needs no API restart. */
+function previewBundle() {
+  if (cachedPreviewBundle === null || !isProd) {
+    cachedPreviewBundle = readFileSync(previewBundlePath, 'utf8');
+  }
+  return cachedPreviewBundle;
+}
 
 @Injectable()
 export class SnapshotsService {
@@ -61,8 +76,12 @@ export class SnapshotsService {
     return toSnapshotDto(row!);
   }
 
-  /** The snapshot document with the picker injected, plus the nonce its CSP must allow. */
-  async document(userId: string, snapshotId: string) {
+  /**
+   * The snapshot document with our scripts injected, plus the nonce its CSP must allow.
+   * - picker: consent banners hidden, click-to-select enabled;
+   * - preview: the app drives which variant each element shows.
+   */
+  async document(userId: string, snapshotId: string, mode: DocumentMode) {
     const [row] = await this.db
       .select()
       .from(pageSnapshots)
@@ -71,7 +90,13 @@ export class SnapshotsService {
     await this.projectAccess.load(userId, row.projectId, 'viewer');
 
     const nonce = randomBytes(16).toString('base64');
-    const script = `<script nonce="${nonce}">${PICKER_SOURCE}</script>`;
+    // Inline scripts must not contain "</script" or they would end early.
+    const inline = (code: string, attrs = '') =>
+      `<script nonce="${nonce}"${attrs}>${code.replace(/<\/script/gi, '<\\/script')}</script>`;
+    const script =
+      mode === 'picker'
+        ? inline(previewBundle(), ' data-hide-consent="true"') + inline(PICKER_SOURCE)
+        : inline(previewBundle());
     const html = row.html.includes('</body>')
       ? // Function replacer: a string replacement would expand `$&`-style patterns in the script.
         row.html.replace(/<\/body>(?![\s\S]*<\/body>)/i, (end) => script + end)

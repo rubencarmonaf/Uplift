@@ -16,7 +16,7 @@ jobs:
           node-version: 24
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @uplift/shared build
+      - run: pnpm --filter @uplift/shared --filter @uplift/snippet build
       - run: pnpm typecheck
       - run: pnpm lint
       - run: pnpm test

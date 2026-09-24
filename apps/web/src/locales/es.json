@@ -579,5 +579,28 @@
       "title": "Objetivo principal",
       "description": "Es la métrica con la que se decide la variante ganadora. Los secundarios se miden también para detectar efectos no deseados."
     }
+  },
+  "preview": {
+    "viewport": "Dispositivo",
+    "viewports": {
+      "desktop": "Escritorio",
+      "tablet": "Tablet",
+      "mobile": "Móvil"
+    },
+    "hideConsent": "Ocultar banners de cookies",
+    "elements": "Variante por elemento",
+    "allOriginal": "Original",
+    "best": "Mejores",
+    "random": "Aleatorio",
+    "original": "Original",
+    "noElements": "Aún no hay elementos.",
+    "notFound": "No encontrado en la página",
+    "notFoundHint": "El selector no encuentra este elemento en la captura actual.",
+    "frameTitle": "Vista previa de {{url}} con variantes",
+    "noSnapshot": {
+      "title": "Aún no hay captura de la página",
+      "description": "Cargamos la página en un navegador real para enseñarte cómo quedan las variantes.",
+      "cta": "Cargar la página"
+    }
   }
 }

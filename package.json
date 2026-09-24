@@ -3,9 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "bootstrap": "pnpm install && pnpm --filter api exec playwright install chromium && pnpm --filter @uplift/shared build && pnpm db:up && pnpm db:migrate",
-    "dev": "pnpm --filter @uplift/shared build && pnpm --parallel --filter @uplift/shared --filter web --filter api dev",
-    "build": "pnpm --filter @uplift/shared build && pnpm -r --filter !@uplift/shared build",
+    "bootstrap": "pnpm install && pnpm --filter api exec playwright install chromium && pnpm --filter @uplift/shared --filter @uplift/snippet build && pnpm db:up && pnpm db:migrate",
+    "dev": "pnpm --filter @uplift/shared --filter @uplift/snippet build && pnpm --parallel --filter @uplift/shared --filter @uplift/snippet --filter web --filter api dev",
+    "build": "pnpm --filter @uplift/shared --filter @uplift/snippet build && pnpm -r --filter web --filter api build",
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint",
     "format": "prettier --write .",

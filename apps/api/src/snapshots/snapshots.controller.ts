@@ -1,4 +1,4 @@
-import { Controller, Get, Header, Param, ParseUUIDPipe, Post, Res } from '@nestjs/common';
+import { Controller, Get, Header, Param, ParseUUIDPipe, Post, Query, Res } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import type { Response } from 'express';
 import { type AuthUser, CurrentUser } from '../auth/current-user.decorator.js';
@@ -51,9 +51,14 @@ export class SnapshotsController {
   async document(
     @CurrentUser() user: AuthUser,
     @Param('id', uuid) id: string,
+    @Query('mode') mode: string | undefined,
     @Res() res: Response,
   ) {
-    const { html, nonce } = await this.snapshots.document(user.id, id);
+    const { html, nonce } = await this.snapshots.document(
+      user.id,
+      id,
+      mode === 'preview' ? 'preview' : 'picker',
+    );
     res.setHeader('Content-Security-Policy', snapshotCsp(nonce));
     res.type('html').send(html);
   }
