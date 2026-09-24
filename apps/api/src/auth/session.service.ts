@@ -1,6 +1,6 @@
 import { createHash, randomBytes } from 'node:crypto';
 import { Injectable } from '@nestjs/common';
-import { eq } from 'drizzle-orm';
+import { and, eq, ne } from 'drizzle-orm';
 import type { Response } from 'express';
 import { isProd } from '../config/env.js';
 import type { Db } from '../db/client.js';
@@ -48,6 +48,13 @@ export class SessionService {
       renewed = true;
     }
     return { user, expiresAt, renewed };
+  }
+
+  /** Signs the user out everywhere except the session holding `keepToken`. */
+  async invalidateOthers(userId: string, keepToken: string) {
+    await this.db
+      .delete(sessions)
+      .where(and(eq(sessions.userId, userId), ne(sessions.id, hashToken(keepToken))));
   }
 
   async invalidate(token: string) {

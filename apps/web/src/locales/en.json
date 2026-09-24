@@ -813,5 +813,45 @@
       "goToVariants": "See the project variants",
       "close": "Close"
     }
+  },
+  "settings": {
+    "title": "Settings",
+    "description": "Your account, your organization and how copy is generated.",
+    "toasts": {
+      "saved": "Changes saved",
+      "passwordChanged": "Password changed. Other devices have been signed out."
+    },
+    "profile": {
+      "title": "Profile",
+      "description": "How others see you and which language you use Uplift in."
+    },
+    "password": {
+      "title": "Password",
+      "description": "Changing it signs out every other device.",
+      "current": "Current password",
+      "new": "New password",
+      "submit": "Change password",
+      "wrong": "The current password is not correct",
+      "demo": "Demo accounts don't have a password."
+    },
+    "organization": {
+      "title": "Organization",
+      "description": "Projects belong to the organization and are shared by all its members.",
+      "name": "Name",
+      "members": "Members",
+      "you": "you",
+      "invitesSoon": "Inviting new members is coming soon."
+    },
+    "roles": {
+      "admin": "Admin",
+      "editor": "Editor",
+      "viewer": "Viewer"
+    },
+    "ai": {
+      "title": "AI generation",
+      "description": "Which engine writes the variants.",
+      "mock": "Demo mode: variants come from sample templates. Set ANTHROPIC_API_KEY on the server to use Claude.",
+      "claude": "Claude ({{model}}) with structured outputs and compliance checks on every variant."
+    }
   }
 }

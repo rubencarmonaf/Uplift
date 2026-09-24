@@ -1,6 +1,18 @@
 import { hash, verify } from '@node-rs/argon2';
-import { ConflictException, Injectable, UnauthorizedException } from '@nestjs/common';
-import type { LoginInput, MeResponse, RegisterInput } from '@uplift/shared';
+import {
+  BadRequestException,
+  ConflictException,
+  ForbiddenException,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
+import type {
+  ChangePasswordInput,
+  LoginInput,
+  MeResponse,
+  RegisterInput,
+  UpdateProfileInput,
+} from '@uplift/shared';
 import { eq } from 'drizzle-orm';
 import type { Db } from '../db/client.js';
 import { InjectDb } from '../db/db.module.js';
@@ -40,6 +52,27 @@ export class AuthService {
     const valid = await verify(user?.passwordHash ?? DUMMY_HASH, password);
     if (!user || !valid) throw new UnauthorizedException('Invalid email or password');
     return user;
+  }
+
+  async updateProfile(user: AuthUser, input: UpdateProfileInput) {
+    const [updated] = await this.db
+      .update(users)
+      .set(input)
+      .where(eq(users.id, user.id))
+      .returning();
+    return this.me(updated!);
+  }
+
+  async changePassword(user: AuthUser, { currentPassword, newPassword }: ChangePasswordInput) {
+    // Demo accounts are shared-looking throwaways; they have no password to change.
+    if (user.isDemo) throw new ForbiddenException('Demo accounts cannot change the password');
+    if (!(await verify(user.passwordHash, currentPassword))) {
+      throw new BadRequestException({ message: 'Wrong password', reason: 'wrong_password' });
+    }
+    await this.db
+      .update(users)
+      .set({ passwordHash: await hash(newPassword) })
+      .where(eq(users.id, user.id));
   }
 
   async me(user: AuthUser): Promise<MeResponse> {

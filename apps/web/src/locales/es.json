@@ -813,5 +813,45 @@
       "goToVariants": "Ver variantes del proyecto",
       "close": "Cerrar"
     }
+  },
+  "settings": {
+    "title": "Ajustes",
+    "description": "Tu cuenta, tu organización y cómo se generan los textos.",
+    "toasts": {
+      "saved": "Cambios guardados",
+      "passwordChanged": "Contraseña cambiada. Se ha cerrado la sesión en los demás dispositivos."
+    },
+    "profile": {
+      "title": "Perfil",
+      "description": "Cómo te ven los demás y en qué idioma usas Uplift."
+    },
+    "password": {
+      "title": "Contraseña",
+      "description": "Al cambiarla se cierra la sesión en los demás dispositivos.",
+      "current": "Contraseña actual",
+      "new": "Nueva contraseña",
+      "submit": "Cambiar contraseña",
+      "wrong": "La contraseña actual no es correcta",
+      "demo": "Las cuentas de demo no tienen contraseña."
+    },
+    "organization": {
+      "title": "Organización",
+      "description": "Los proyectos pertenecen a la organización y los comparten todos sus miembros.",
+      "name": "Nombre",
+      "members": "Miembros",
+      "you": "tú",
+      "invitesSoon": "Las invitaciones a nuevos miembros llegarán pronto."
+    },
+    "roles": {
+      "admin": "Administrador",
+      "editor": "Editor",
+      "viewer": "Lector"
+    },
+    "ai": {
+      "title": "Generación con IA",
+      "description": "Qué motor escribe las variantes.",
+      "mock": "Modo demo: las variantes salen de plantillas de ejemplo. Configura ANTHROPIC_API_KEY en el servidor para usar Claude.",
+      "claude": "Claude ({{model}}) con salidas estructuradas y comprobaciones de cumplimiento en cada variante."
+    }
   }
 }

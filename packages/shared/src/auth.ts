@@ -39,3 +39,30 @@ export const meResponseSchema = z.object({
   organizations: z.array(organizationSchema),
 });
 export type MeResponse = z.infer<typeof meResponseSchema>;
+
+export const updateProfileSchema = z
+  .object({
+    name: z.string().trim().min(1).max(80),
+    locale: z.enum(['es', 'en']),
+  })
+  .partial();
+export type UpdateProfileInput = z.infer<typeof updateProfileSchema>;
+
+export const changePasswordSchema = z.object({
+  currentPassword: z.string().min(1),
+  newPassword: passwordSchema,
+});
+export type ChangePasswordInput = z.infer<typeof changePasswordSchema>;
+
+export const updateOrganizationSchema = z.object({
+  name: z.string().trim().min(1).max(80),
+});
+export type UpdateOrganizationInput = z.infer<typeof updateOrganizationSchema>;
+
+export type Member = {
+  userId: string;
+  name: string;
+  email: string;
+  role: 'admin' | 'editor' | 'viewer';
+  isYou: boolean;
+};

@@ -1,6 +1,15 @@
-import { Body, Controller, Get, HttpCode, Post, Req, Res } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, Patch, Post, Req, Res } from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
-import { type LoginInput, loginSchema, type RegisterInput, registerSchema } from '@uplift/shared';
+import {
+  type ChangePasswordInput,
+  changePasswordSchema,
+  type LoginInput,
+  loginSchema,
+  type RegisterInput,
+  registerSchema,
+  type UpdateProfileInput,
+  updateProfileSchema,
+} from '@uplift/shared';
 import type { Request, Response } from 'express';
 import { ZodValidationPipe } from '../common/zod-validation.pipe.js';
 import { AuthService } from './auth.service.js';
@@ -54,6 +63,28 @@ export class AuthController {
   @Get('me')
   me(@CurrentUser() user: AuthUser) {
     return this.auth.me(user);
+  }
+
+  @Patch('me')
+  updateProfile(
+    @CurrentUser() user: AuthUser,
+    @Body(new ZodValidationPipe(updateProfileSchema)) body: UpdateProfileInput,
+  ) {
+    return this.auth.updateProfile(user, body);
+  }
+
+  /** Changes the password and signs out every other session. */
+  @Throttle(strictLimit)
+  @HttpCode(204)
+  @Post('me/password')
+  async changePassword(
+    @CurrentUser() user: AuthUser,
+    @Req() req: Request,
+    @Body(new ZodValidationPipe(changePasswordSchema)) body: ChangePasswordInput,
+  ) {
+    await this.auth.changePassword(user, body);
+    const token: string | undefined = req.cookies?.[SESSION_COOKIE];
+    if (token) await this.sessions.invalidateOthers(user.id, token);
   }
 
   private async startSession(res: Response, userId: string) {

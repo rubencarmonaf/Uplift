@@ -2,7 +2,6 @@ import type { ComponentType } from 'react';
 import { createBrowserRouter, Navigate } from 'react-router';
 import { AppShell } from '@/components/layout/app-shell';
 import { NotFoundPage } from '@/components/not-found-page';
-import { PlaceholderPage } from '@/components/placeholder-page';
 import { RedirectIfAuthed, RequireAuth } from '@/features/auth/guards';
 import { LoginPage } from '@/features/auth/login-page';
 import { RegisterPage } from '@/features/auth/register-page';
@@ -65,7 +64,12 @@ export const router = createBrowserRouter([
               Component: (await import('@/features/library/library-page')).LibraryPage,
             }),
           },
-          { path: '/settings', element: <PlaceholderPage titleKey="nav.settings" /> },
+          {
+            path: '/settings',
+            lazy: async () => ({
+              Component: (await import('@/features/settings/settings-page')).SettingsPage,
+            }),
+          },
         ],
       },
     ],
