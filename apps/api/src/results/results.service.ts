@@ -124,7 +124,7 @@ export class ResultsService {
    */
   async generateTraffic(
     experiment: ExperimentRow,
-    input: { days: number; visitorsPerDay: number },
+    input: { days: number; visitorsPerDay: number; endAt?: Date },
     /** Fixed seed, so every demo account tells the same story; defaults to the experiment. */
     seedKey = experiment.id,
   ) {
@@ -149,7 +149,7 @@ export class ResultsService {
       .filter((g) => !g.isPrimary)
       .map((g) => ({ id: g.id, factor: 0.8 + rand() * 1.6 }));
 
-    const start = Date.now() - input.days * DAY_MS;
+    const start = (input.endAt?.getTime() ?? Date.now()) - input.days * DAY_MS;
     const rows: (typeof experimentEvents.$inferInsert)[] = [];
     for (let day = 0; day < input.days; day++) {
       // Traffic varies by day (weekends, campaigns).

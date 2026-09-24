@@ -773,5 +773,45 @@
   "demoBanner": {
     "text": "You're in a demo account: data is deleted after 24 hours.",
     "cta": "Create my account"
+  },
+  "library": {
+    "title": "Library",
+    "description": "Copy that won experiments and variants you saved, ready to reuse.",
+    "search": "Search copy",
+    "source": "Source",
+    "sources": {
+      "all": "All",
+      "winner": "Winners",
+      "saved": "Saved"
+    },
+    "allTypes": "All types",
+    "winner": "Winner",
+    "saved": "Saved",
+    "replaced": "Replaced",
+    "copy": "Copy",
+    "copied": "Copied",
+    "useInProject": "Use in a project",
+    "save": "Save",
+    "inLibrary": "In library",
+    "toasts": {
+      "saved": "Saved to the library",
+      "removed": "Removed from the library"
+    },
+    "noResults": "Nothing matches the filters.",
+    "empty": {
+      "title": "Your library is empty",
+      "description": "Variants that win experiments and the ones you save from the variants screen will show up here."
+    },
+    "use": {
+      "title": "Use in a project",
+      "description": "It will be added as a new variant of the element you choose.",
+      "project": "Project",
+      "element": "Element",
+      "noElements": "This project has no elements",
+      "submit": "Add variant",
+      "done": "Variant added.",
+      "goToVariants": "See the project variants",
+      "close": "Close"
+    }
   }
 }

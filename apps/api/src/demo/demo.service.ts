@@ -30,6 +30,7 @@ import {
   DEMO_BRIEF,
   DEMO_ELEMENTS,
   DEMO_GOALS,
+  DEMO_SAVED,
   DEMO_SITE,
   SECONDARY_PROJECTS,
 } from './demo-content.js';
@@ -72,7 +73,7 @@ export class DemoService implements OnApplicationBootstrap, OnApplicationShutdow
     // Demo accounts never log in with a password; this one is random and never shown.
     const passwordHash = await hash(randomBytes(32).toString('base64url'));
 
-    const { user, experimentId } = await this.db.transaction(async (tx) => {
+    const { user, experimentId, finished } = await this.db.transaction(async (tx) => {
       const [user] = await tx
         .insert(users)
         .values({
@@ -91,10 +92,15 @@ export class DemoService implements OnApplicationBootstrap, OnApplicationShutdow
         .insert(memberships)
         .values({ userId: user!.id, organizationId: org!.id, role: 'admin' });
 
-      await this.seedSecondaryProjects(tx, org!.id, user!.id);
+      const finished = await this.seedSecondaryProjects(tx, org!.id, user!.id);
       const experimentId = await this.seedMainProject(tx, org!.id, user!.id);
-      return { user: user!, experimentId };
+      return { user: user!, experimentId, finished };
     });
+
+    for (const past of finished) {
+      const [row] = await this.db.select().from(experiments).where(eq(experiments.id, past.id));
+      await this.results.generateTraffic(row!, past.traffic, past.seed);
+    }
 
     // Three weeks of simulated traffic so the results page has something to show.
     const [experiment] = await this.db
@@ -195,6 +201,13 @@ export class DemoService implements OnApplicationBootstrap, OnApplicationShutdow
       );
     }
 
+    for (const saved of DEMO_SAVED) {
+      await tx
+        .update(variants)
+        .set({ savedAt: new Date() })
+        .where(eq(variants.id, variantIds.get(saved.element)![saved.variant]!));
+    }
+
     await tx.insert(goals).values(DEMO_GOALS.map((g) => ({ projectId, ...g })));
 
     const arms: Arm[] = [
@@ -228,6 +241,11 @@ export class DemoService implements OnApplicationBootstrap, OnApplicationShutdow
   }
 
   private async seedSecondaryProjects(tx: Tx, organizationId: string, userId: string) {
+    const finished: {
+      id: string;
+      seed: string;
+      traffic: { days: number; visitorsPerDay: number; endAt: Date };
+    }[] = [];
     for (const spec of SECONDARY_PROJECTS) {
       const touched = new Date(Date.now() - spec.ageDays * 24 * 60 * 60 * 1000);
       const [project] = await tx
@@ -246,6 +264,8 @@ export class DemoService implements OnApplicationBootstrap, OnApplicationShutdow
           updatedAt: touched,
         })
         .returning();
+      const firstElementVariants: string[] = [];
+      let elementForExperiment: string | null = null;
       for (const [position, element] of spec.elements.entries()) {
         const [row] = await tx
           .insert(pageElements)
@@ -258,18 +278,64 @@ export class DemoService implements OnApplicationBootstrap, OnApplicationShutdow
             position,
           })
           .returning();
-        await tx.insert(variants).values(
-          element.variants.map((text, i) => ({
-            elementId: row!.id,
-            text,
-            rationale: '',
-            qualityScore: 70 + i * 6,
-            complianceScore: 100,
-            source: 'ai' as const,
-            createdBy: userId,
+        const inserted = await tx
+          .insert(variants)
+          .values(
+            element.variants.map((text, i) => ({
+              elementId: row!.id,
+              text,
+              rationale: '',
+              qualityScore: 70 + i * 6,
+              complianceScore: 100,
+              source: 'ai' as const,
+              createdBy: userId,
+            })),
+          )
+          .returning({ id: variants.id });
+        if (position === 0) firstElementVariants.push(...inserted.map((v) => v.id));
+        if (position === 0) elementForExperiment = row!.id;
+      }
+
+      const plan = spec.finishedExperiment;
+      if (plan && elementForExperiment) {
+        const elementId = elementForExperiment;
+        await tx.insert(goals).values({
+          projectId: project!.id,
+          name: 'Clic en el botón de la campaña',
+          target: { kind: 'click', selector: '[data-testid="bf-cta"]' },
+          isPrimary: true,
+        });
+        const arms: Arm[] = [
+          { id: randomUUID(), name: 'Control', weight: 34, isControl: true, changes: [] },
+          ...firstElementVariants.map((variantId, i) => ({
+            id: randomUUID(),
+            name: `Variante ${'AB'[i]}`,
+            weight: 33,
+            isControl: false,
+            changes: [{ elementId, variantId }],
           })),
-        );
+        ];
+        const endedAt = touched;
+        const [experiment] = await tx
+          .insert(experiments)
+          .values({
+            projectId: project!.id,
+            publicKey: `pk_${randomBytes(12).toString('base64url')}`,
+            status: 'finished',
+            startedAt: new Date(endedAt.getTime() - plan.days * 24 * 60 * 60 * 1000),
+            endedAt,
+            winnerArmId: arms[plan.winnerVariant + 1]!.id,
+            scope: { domains: ['www.casaclara-seguros.example'], path: null },
+            arms,
+          })
+          .returning({ id: experiments.id });
+        finished.push({
+          id: experiment!.id,
+          seed: plan.seed,
+          traffic: { days: plan.days, visitorsPerDay: plan.visitorsPerDay, endAt: endedAt },
+        });
       }
     }
+    return finished;
   }
 }

@@ -80,8 +80,10 @@ export function useCreateVariant(projectId: string) {
   return useMutation({
     mutationFn: ({ elementId, text }: { elementId: string; text: string }) =>
       api<Variant>(`/elements/${elementId}/variants`, { method: 'POST', json: { text } }),
-    onSuccess: (variant) =>
-      qc.setQueryData<Variant[]>(variantKeys.list(projectId), (old) => [variant, ...(old ?? [])]),
+    onSuccess: (variant) => {
+      qc.setQueryData<Variant[]>(variantKeys.list(projectId), (old) => [variant, ...(old ?? [])]);
+      return qc.invalidateQueries({ queryKey: ['library'] });
+    },
   });
 }
 
@@ -101,9 +103,11 @@ export function useUpdateVariant(projectId: string) {
       return { previous };
     },
     onError: (_err, _vars, context) => qc.setQueryData(key, context?.previous),
-    onSuccess: (variant) =>
+    onSuccess: (variant) => {
       qc.setQueryData<Variant[]>(key, (old) =>
         old?.map((v) => (v.id === variant.id ? variant : v)),
-      ),
+      );
+      return qc.invalidateQueries({ queryKey: ['library'] });
+    },
   });
 }

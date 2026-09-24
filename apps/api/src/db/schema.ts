@@ -200,6 +200,8 @@ export const variants = pgTable(
     issues: jsonb('issues').$type<ComplianceIssue[]>().notNull().default([]),
     status: variantStatusEnum('status').notNull().default('active'),
     source: variantSourceEnum('source').notNull(),
+    /** Kept in the organization's library for reuse in other projects. */
+    savedAt: timestamp('saved_at', { withTimezone: true }),
     createdBy: uuid('created_by').references(() => users.id, { onDelete: 'set null' }),
     ...timestamps,
   },

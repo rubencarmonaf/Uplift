@@ -59,7 +59,12 @@ export const router = createBrowserRouter([
               ...PROJECT_STEPS.filter((step) => step !== 'overview').map(stepRoute),
             ],
           },
-          { path: '/library', element: <PlaceholderPage titleKey="nav.library" /> },
+          {
+            path: '/library',
+            lazy: async () => ({
+              Component: (await import('@/features/library/library-page')).LibraryPage,
+            }),
+          },
           { path: '/settings', element: <PlaceholderPage titleKey="nav.settings" /> },
         ],
       },

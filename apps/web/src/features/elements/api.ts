@@ -11,6 +11,7 @@ export function useElements(projectId: string) {
   return useQuery({
     queryKey: elementKeys.list(projectId),
     queryFn: () => api<PageElement[]>(`/projects/${projectId}/elements`),
+    enabled: projectId !== '',
   });
 }
 

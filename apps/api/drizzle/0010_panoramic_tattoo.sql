@@ -1,0 +1,1 @@
+ALTER TABLE "variants" ADD COLUMN "saved_at" timestamp with time zone;

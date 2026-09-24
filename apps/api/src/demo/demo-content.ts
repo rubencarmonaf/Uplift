@@ -223,6 +223,12 @@ export const DEMO_ARMS = [
   },
 ] as const;
 
+/** Variants bookmarked to the library in the demo (element key → variant index). */
+export const DEMO_SAVED = [
+  { element: 'subheadline', variant: 1 },
+  { element: 'benefit', variant: 0 },
+] as const;
+
 export const SECONDARY_PROJECTS: {
   name: string;
   url: string;
@@ -232,6 +238,13 @@ export const SECONDARY_PROJECTS: {
   archived: boolean;
   /** How long ago the project was last touched, so the list looks lived-in. */
   ageDays: number;
+  /** A finished experiment (Control vs. each variant of the first element) and its winner. */
+  finishedExperiment?: {
+    winnerVariant: number;
+    seed: string;
+    days: number;
+    visitorsPerDay: number;
+  };
   elements: {
     name: string;
     type: ElementType;
@@ -276,6 +289,18 @@ export const SECONDARY_PROJECTS: {
     status: 'finished',
     archived: true,
     ageDays: 45,
-    elements: [],
+    finishedExperiment: { winnerVariant: 1, seed: 'casaclara-bf-7', days: 14, visitorsPerDay: 900 },
+    elements: [
+      {
+        name: 'Titular de campaña',
+        type: 'headline',
+        selector: '[data-testid="bf-title"]',
+        originalText: 'Black Friday: 30 % de descuento en tu seguro de hogar',
+        variants: [
+          'Este Black Friday, protege tu casa por un 30 % menos',
+          'Tu seguro de hogar con un 30 % menos todo el primer año',
+        ],
+      },
+    ],
   },
 ];

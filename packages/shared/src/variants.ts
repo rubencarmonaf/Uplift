@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { type ElementType, elementTypeSchema } from './elements.js';
 
 export const VARIANT_STATUSES = ['active', 'discarded'] as const;
 export const VARIANT_SOURCES = ['ai', 'manual'] as const;
@@ -37,6 +38,8 @@ export const variantSchema = z.object({
   issues: z.array(complianceIssueSchema),
   status: z.enum(VARIANT_STATUSES),
   source: z.enum(VARIANT_SOURCES),
+  /** In the organization's library. */
+  saved: z.boolean(),
   createdAt: z.iso.datetime(),
 });
 export type Variant = z.infer<typeof variantSchema>;
@@ -50,6 +53,7 @@ export const updateVariantSchema = z
   .object({
     text: z.string().trim().min(1).max(5000),
     status: z.enum(VARIANT_STATUSES),
+    saved: z.boolean(),
   })
   .partial();
 export type UpdateVariantInput = z.infer<typeof updateVariantSchema>;
@@ -82,3 +86,30 @@ export const generationJobSchema = z.object({
   finishedAt: z.iso.datetime().nullable(),
 });
 export type GenerationJob = z.infer<typeof generationJobSchema>;
+
+export const LIBRARY_SOURCES = ['winner', 'saved'] as const;
+
+/** A proven or bookmarked piece of copy, reusable across the organization's projects. */
+export type LibraryItem = {
+  variantId: string;
+  text: string;
+  angle: VariantAngle | null;
+  elementType: ElementType;
+  elementName: string;
+  originalText: string;
+  project: { id: string; name: string };
+  source: (typeof LIBRARY_SOURCES)[number];
+  /** Winners only: measured relative uplift over control and its probability. */
+  uplift: number | null;
+  probBeatControl: number | null;
+  qualityScore: number | null;
+  /** When it won or was saved. */
+  date: string;
+};
+
+export const libraryQuerySchema = z.object({
+  q: z.string().trim().max(120).optional(),
+  type: elementTypeSchema.optional(),
+  source: z.enum(LIBRARY_SOURCES).optional(),
+});
+export type LibraryQuery = z.input<typeof libraryQuerySchema>;

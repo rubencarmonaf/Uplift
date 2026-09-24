@@ -773,5 +773,45 @@
   "demoBanner": {
     "text": "Estás en una cuenta de demo: los datos se borran en 24 horas.",
     "cta": "Crear mi cuenta"
+  },
+  "library": {
+    "title": "Biblioteca",
+    "description": "Textos que han ganado experimentos y variantes que has guardado, listos para reutilizar.",
+    "search": "Buscar textos",
+    "source": "Origen",
+    "sources": {
+      "all": "Todo",
+      "winner": "Ganadoras",
+      "saved": "Guardadas"
+    },
+    "allTypes": "Todos los tipos",
+    "winner": "Ganadora",
+    "saved": "Guardada",
+    "replaced": "Sustituía a",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "useInProject": "Usar en un proyecto",
+    "save": "Guardar",
+    "inLibrary": "En la biblioteca",
+    "toasts": {
+      "saved": "Guardada en la biblioteca",
+      "removed": "Quitada de la biblioteca"
+    },
+    "noResults": "Nada coincide con los filtros.",
+    "empty": {
+      "title": "Tu biblioteca está vacía",
+      "description": "Aquí aparecerán las variantes que ganen experimentos y las que guardes desde la pantalla de variantes."
+    },
+    "use": {
+      "title": "Usar en un proyecto",
+      "description": "Se añadirá como nueva variante del elemento que elijas.",
+      "project": "Proyecto",
+      "element": "Elemento",
+      "noElements": "Este proyecto no tiene elementos",
+      "submit": "Añadir variante",
+      "done": "Variante añadida.",
+      "goToVariants": "Ver variantes del proyecto",
+      "close": "Cerrar"
+    }
   }
 }

@@ -22,6 +22,7 @@ export const toVariantDto = (row: VariantRow): Variant => ({
   issues: row.issues,
   status: row.status,
   source: row.source,
+  saved: row.savedAt !== null,
   createdAt: row.createdAt.toISOString(),
 });
 
@@ -67,7 +68,9 @@ export class VariantsService {
     if (!current) throw new NotFoundException();
     const { element, brief } = await this.loadElement(userId, current.elementId, 'editor');
 
-    const changes: Partial<typeof variants.$inferInsert> = { ...input };
+    const { saved, ...fields } = input;
+    const changes: Partial<typeof variants.$inferInsert> = { ...fields };
+    if (saved !== undefined) changes.savedAt = saved ? (current.savedAt ?? new Date()) : null;
     if (input.text !== undefined && input.text !== current.text) {
       // Edited copy is re-checked; the model's quality score no longer describes it.
       const { issues, score } = checkCompliance(input.text, element, brief);

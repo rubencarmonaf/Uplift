@@ -1,5 +1,15 @@
 import type { Variant } from '@uplift/shared';
-import { Check, Pencil, RotateCcw, ShieldAlert, ShieldCheck, Trash2, X } from 'lucide-react';
+import {
+  Bookmark,
+  BookmarkCheck,
+  Check,
+  Pencil,
+  RotateCcw,
+  ShieldAlert,
+  ShieldCheck,
+  Trash2,
+  X,
+} from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
@@ -163,6 +173,28 @@ export function VariantCard({
             <Button size="sm" variant="ghost" onClick={() => setEditing(true)}>
               <Pencil />
               {t('variants.edit')}
+            </Button>
+          )}
+          {!discarded && (
+            <Button
+              size="sm"
+              variant="ghost"
+              aria-pressed={variant.saved}
+              onClick={() =>
+                update.mutate(
+                  { id: variant.id, saved: !variant.saved },
+                  {
+                    onSuccess: () =>
+                      toast.success(
+                        t(variant.saved ? 'library.toasts.removed' : 'library.toasts.saved'),
+                      ),
+                    onError,
+                  },
+                )
+              }
+            >
+              {variant.saved ? <BookmarkCheck className="text-primary" /> : <Bookmark />}
+              {t(variant.saved ? 'library.inLibrary' : 'library.save')}
             </Button>
           )}
           <Button
