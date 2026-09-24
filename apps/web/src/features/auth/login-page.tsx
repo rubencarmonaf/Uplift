@@ -6,6 +6,7 @@ import { Link, useLocation, useNavigate } from 'react-router';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
 import { useLogin } from './api';
+import { DemoButton } from './demo-button';
 import { AuthLayout } from './auth-layout';
 import { authErrorMessage } from './error-message';
 import { FormField } from '@/components/form-field';
@@ -65,6 +66,7 @@ export function LoginPage() {
         <Button type="submit" className="w-full" disabled={login.isPending}>
           {t('auth.login.submit')}
         </Button>
+        <DemoButton />
       </form>
     </AuthLayout>
   );

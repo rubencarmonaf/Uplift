@@ -47,12 +47,15 @@ export const users = pgTable('users', {
   email: text('email').notNull().unique(),
   passwordHash: text('password_hash').notNull(),
   locale: localeEnum('locale').notNull().default('es'),
+  /** Temporary accounts created by "Try the demo"; deleted after a day. */
+  isDemo: boolean('is_demo').notNull().default(false),
   ...timestamps,
 });
 
 export const organizations = pgTable('organizations', {
   id: uuid('id').primaryKey().defaultRandom(),
   name: text('name').notNull(),
+  isDemo: boolean('is_demo').notNull().default(false),
   ...timestamps,
 });
 

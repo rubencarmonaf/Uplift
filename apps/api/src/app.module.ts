@@ -6,6 +6,7 @@ import { AuthModule } from './auth/auth.module.js';
 import { SessionGuard } from './auth/session.guard.js';
 import { BriefsModule } from './briefs/briefs.module.js';
 import { DbModule } from './db/db.module.js';
+import { DemoModule } from './demo/demo.module.js';
 import { ElementsModule } from './elements/elements.module.js';
 import { ExperimentsModule } from './experiments/experiments.module.js';
 import { GoalsModule } from './goals/goals.module.js';
@@ -29,6 +30,7 @@ import { VariantsModule } from './variants/variants.module.js';
     GoalsModule,
     ExperimentsModule,
     ResultsModule,
+    DemoModule,
   ],
   controllers: [HealthController],
   providers: [

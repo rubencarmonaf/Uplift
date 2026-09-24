@@ -33,6 +33,12 @@
       "emailTaken": "An account with that email already exists.",
       "tooManyAttempts": "Too many attempts. Wait a minute.",
       "generic": "Something went wrong. Please try again."
+    },
+    "demo": {
+      "or": "or",
+      "cta": "Try the demo",
+      "preparing": "Preparing your demo…",
+      "hint": "No sign-up: a temporary account with a complete example project."
     }
   },
   "user": {
@@ -727,6 +733,10 @@
       "noDifference": {
         "title": "No clear difference",
         "description": "At this traffic level no version stands out. Try bolder changes."
+      },
+      "beatsControl": {
+        "title": "Several versions beat the original",
+        "description": "{{names}} convert better than control with 95% certainty, but it's not yet clear which is best."
       }
     },
     "table": {
@@ -759,5 +769,9 @@
       "clear": "Clear simulated data",
       "needsLive": "Launch the experiment to simulate traffic."
     }
+  },
+  "demoBanner": {
+    "text": "You're in a demo account: data is deleted after 24 hours.",
+    "cta": "Create my account"
   }
 }

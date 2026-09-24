@@ -146,6 +146,16 @@ function VerdictBanner({ results, canEdit }: { results: ExperimentResults; canEd
         probability: probability(verdict.status === 'control' ? verdict.probability : 0, locale),
       }),
     },
+    beats_control: {
+      icon: CheckCircle2,
+      title: t('results.verdict.beatsControl.title'),
+      description: t('results.verdict.beatsControl.description', {
+        names: results.arms
+          .filter((a) => verdict.status === 'beats_control' && verdict.armIds.includes(a.armId))
+          .map((a) => a.name)
+          .join(', '),
+      }),
+    },
     no_difference: {
       icon: Minus,
       title: t('results.verdict.noDifference.title'),

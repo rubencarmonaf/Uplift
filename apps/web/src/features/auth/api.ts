@@ -48,3 +48,16 @@ export function useLogout() {
     },
   });
 }
+
+/** Creates a throwaway demo account with example data and signs in to it. */
+export function useStartDemo() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (language: 'es' | 'en') =>
+      api<MeResponse>('/auth/demo', { method: 'POST', json: { language } }),
+    onSuccess: (me) => {
+      qc.clear();
+      qc.setQueryData(meQueryKey, me);
+    },
+  });
+}

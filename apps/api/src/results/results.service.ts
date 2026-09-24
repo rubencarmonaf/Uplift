@@ -114,17 +114,34 @@ export class ResultsService {
     if (experiment.status !== 'running' && experiment.status !== 'paused') {
       throw new BadRequestException('Launch the experiment before simulating traffic');
     }
-    const goalRows = await this.db.select().from(goals).where(eq(goals.projectId, projectId));
+    await this.generateTraffic(experiment, input);
+    return this.results(userId, projectId);
+  }
+
+  /**
+   * Replaces the experiment's simulated events with freshly generated ones. No access checks:
+   * callers (the endpoint above, the demo seed) are responsible for that.
+   */
+  async generateTraffic(
+    experiment: ExperimentRow,
+    input: { days: number; visitorsPerDay: number },
+    /** Fixed seed, so every demo account tells the same story; defaults to the experiment. */
+    seedKey = experiment.id,
+  ) {
+    const goalRows = await this.db
+      .select()
+      .from(goals)
+      .where(eq(goals.projectId, experiment.projectId));
     const primary = goalRows.find((g) => g.isPrimary);
     if (!primary) throw new BadRequestException('A primary goal is needed');
 
-    const rand = seededRandom(seedFrom(`${experiment.id}:simulation`));
+    const rand = seededRandom(seedFrom(`${seedKey}:simulation`));
     const baseRate = 0.03 + rand() * 0.04; // control converts at 3-7%
     const quality = await this.armQuality(experiment);
     const armRates = experiment.arms.map((arm) => {
       if (arm.isControl) return baseRate;
       // Better-rated copy tends to win, but not always: a real test can surprise.
-      const lift = -0.08 + (quality.get(arm.id) ?? 0.5) * 0.35 + (rand() - 0.5) * 0.1;
+      const lift = ((quality.get(arm.id) ?? 0.5) - 0.6) * 1.2 + (rand() - 0.5) * 0.1;
       return Math.max(0.005, baseRate * (1 + lift));
     });
     const totalWeight = experiment.arms.reduce((s, a) => s + a.weight, 0) || 1;
@@ -193,7 +210,6 @@ export class ResultsService {
           .where(eq(experiments.id, experiment.id));
       }
     });
-    return this.results(userId, projectId);
   }
 
   async clearSimulation(userId: string, projectId: string) {

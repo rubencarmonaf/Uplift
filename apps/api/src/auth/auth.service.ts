@@ -49,7 +49,13 @@ export class AuthService {
       .innerJoin(organizations, eq(memberships.organizationId, organizations.id))
       .where(eq(memberships.userId, user.id));
     return {
-      user: { id: user.id, name: user.name, email: user.email, locale: user.locale },
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        locale: user.locale,
+        isDemo: user.isDemo,
+      },
       organizations: orgs,
     };
   }

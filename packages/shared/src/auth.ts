@@ -22,6 +22,8 @@ export const userSchema = z.object({
   name: z.string(),
   email: z.string(),
   locale: z.enum(['es', 'en']),
+  /** Temporary account from "Try the demo". */
+  isDemo: z.boolean(),
 });
 export type User = z.infer<typeof userSchema>;
 

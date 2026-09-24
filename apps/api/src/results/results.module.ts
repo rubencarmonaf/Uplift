@@ -7,5 +7,6 @@ import { ResultsService } from './results.service.js';
   imports: [ProjectsModule],
   controllers: [ResultsController],
   providers: [ResultsService],
+  exports: [ResultsService],
 })
 export class ResultsModule {}

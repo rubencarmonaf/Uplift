@@ -162,7 +162,7 @@ export function PreviewPage() {
 
   return (
     <div className="grid gap-4 lg:grid-cols-[18rem_minmax(0,1fr)]">
-      <aside className="grid content-start gap-5 rounded-xl border p-4">
+      <aside className="grid min-w-0 content-start gap-5 rounded-xl border p-4">
         <div className="grid gap-2">
           <span className="text-sm font-medium" id="viewport-label">
             {t('preview.viewport')}
@@ -253,7 +253,10 @@ export function PreviewPage() {
                     value={selection[element.id] ?? ORIGINAL}
                     onValueChange={(value) => setSelection((s) => ({ ...s, [element.id]: value }))}
                   >
-                    <SelectTrigger id={`preview-${element.id}`} className="w-full">
+                    <SelectTrigger
+                      id={`preview-${element.id}`}
+                      className="w-full min-w-0 [&_[data-slot=select-value]]:block [&_[data-slot=select-value]]:min-w-0 [&_[data-slot=select-value]]:truncate"
+                    >
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>

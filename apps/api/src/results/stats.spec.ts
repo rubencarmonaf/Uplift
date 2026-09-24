@@ -79,10 +79,37 @@ describe('verdict', () => {
     expect(verdict(input, analyze(input, 1)).status).toBe('control');
   });
 
+  it('keeps collecting while an arm is leading but not yet at 95%', () => {
+    const input = [
+      { id: 'control', isControl: true, visitors: 2400, conversions: 86 },
+      { id: 'a', isControl: false, visitors: 2300, conversions: 96 },
+      { id: 'b', isControl: false, visitors: 2350, conversions: 80 },
+    ];
+    const stats = analyze(input, 1);
+    const a = stats.find((s) => s.id === 'a')!;
+    expect(a.probBest).toBeGreaterThan(0.75);
+    expect(a.probBeatControl!).toBeLessThan(0.95);
+    expect(verdict(input, stats).status).toBe('collecting');
+  });
+
   it('concludes no difference only with a large sample', () => {
     const small = arms([500, 25], [500, 25]);
     expect(verdict(small, analyze(small, 1)).status).toBe('collecting');
     const large = arms([5000, 250], [5000, 250]);
     expect(verdict(large, analyze(large, 1)).status).toBe('no_difference');
+  });
+});
+
+describe('verdict with several arms', () => {
+  it('reports arms that beat control when none is clearly the best', () => {
+    const input = [
+      { id: 'control', isControl: true, visitors: 2500, conversions: 140 },
+      { id: 'a', isControl: false, visitors: 2500, conversions: 185 },
+      { id: 'b', isControl: false, visitors: 2500, conversions: 185 },
+    ];
+    expect(verdict(input, analyze(input, 1))).toEqual({
+      status: 'beats_control',
+      armIds: ['a', 'b'],
+    });
   });
 });

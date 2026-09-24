@@ -135,16 +135,19 @@ export function analyze(arms: ArmCounts[], seed: number, draws = 20_000): ArmSta
 
 export const DECISION_THRESHOLD = 0.95;
 export const MIN_VISITORS_PER_ARM = 100;
+/** Below this probability of being best, nothing is leading. */
+export const NO_DIFFERENCE_CEILING = 0.75;
 
 export type Verdict =
   | { status: 'collecting'; minVisitors: number }
   | { status: 'winner'; armId: string; probability: number }
   | { status: 'control'; probability: number }
+  | { status: 'beats_control'; armIds: string[] }
   | { status: 'no_difference' };
 
 /**
  * A decision needs enough visitors in every arm and one arm with at least 95% probability of
- * being the best. `no_difference` is only concluded once every arm has 10x the minimum sample.
+ * being the best. `no_difference` needs 10x the minimum sample in every arm and no arm above 75%.
  */
 export function verdict(arms: ArmCounts[], stats: ArmStats[]): Verdict {
   const smallest = Math.min(...arms.map((a) => a.visitors));
@@ -158,6 +161,13 @@ export function verdict(arms: ArmCounts[], stats: ArmStats[]): Verdict {
       ? { status: 'control', probability: leader.probBest }
       : { status: 'winner', armId: leader.id, probability: leader.probBest };
   }
-  if (smallest >= MIN_VISITORS_PER_ARM * 10) return { status: 'no_difference' };
+  const beating = stats
+    .filter((s) => s.probBeatControl !== null && s.probBeatControl >= DECISION_THRESHOLD)
+    .map((s) => s.id);
+  if (beating.length > 0) return { status: 'beats_control', armIds: beating };
+  // "No difference" only when nothing is even close to leading, with plenty of data.
+  if (smallest >= MIN_VISITORS_PER_ARM * 10 && leader.probBest < NO_DIFFERENCE_CEILING) {
+    return { status: 'no_difference' };
+  }
   return { status: 'collecting', minVisitors: MIN_VISITORS_PER_ARM };
 }

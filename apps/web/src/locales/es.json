@@ -33,6 +33,12 @@
       "emailTaken": "Ya existe una cuenta con ese email.",
       "tooManyAttempts": "Demasiados intentos. Espera un minuto.",
       "generic": "Algo ha fallado. Inténtalo de nuevo."
+    },
+    "demo": {
+      "or": "o",
+      "cta": "Probar la demo",
+      "preparing": "Preparando tu demo…",
+      "hint": "Sin registro: una cuenta temporal con un proyecto de ejemplo completo."
     }
   },
   "user": {
@@ -727,6 +733,10 @@
       "noDifference": {
         "title": "Sin diferencias claras",
         "description": "Con este volumen de visitas, ninguna versión destaca. Prueba cambios más ambiciosos."
+      },
+      "beatsControl": {
+        "title": "Varias versiones superan al original",
+        "description": "{{names}} convierten mejor que el control con un 95 % de seguridad, pero aún no está claro cuál es la mejor."
       }
     },
     "table": {
@@ -759,5 +769,9 @@
       "clear": "Borrar datos simulados",
       "needsLive": "Lanza el experimento para poder simular tráfico."
     }
+  },
+  "demoBanner": {
+    "text": "Estás en una cuenta de demo: los datos se borran en 24 horas.",
+    "cta": "Crear mi cuenta"
   }
 }

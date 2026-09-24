@@ -18,6 +18,8 @@ export type Verdict =
   | { status: 'collecting'; minVisitors: number }
   | { status: 'winner'; armId: string; probability: number }
   | { status: 'control'; probability: number }
+  /** Several arms beat control with >= 95% probability, but none is clearly the best yet. */
+  | { status: 'beats_control'; armIds: string[] }
   | { status: 'no_difference' };
 
 export type ExperimentResults = {
