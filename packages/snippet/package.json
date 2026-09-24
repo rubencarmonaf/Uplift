@@ -4,7 +4,9 @@
   "private": true,
   "type": "module",
   "exports": {
-    "./preview": "./dist/preview.js"
+    "./preview": "./dist/preview.js",
+    "./uplift": "./dist/uplift.js",
+    "./testbar": "./dist/testbar.js"
   },
   "scripts": {
     "build": "node build.mjs",

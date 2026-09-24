@@ -105,6 +105,8 @@ export type RuntimeConfig = {
     | { kind: 'event'; eventName: string }
   ))[];
   endpoint: string;
+  /** Test page only: the URL of the original page, used instead of location for scope and goals. */
+  pageUrl?: string;
 };
 
 export const EVENT_TYPES = ['exposure', 'conversion'] as const;

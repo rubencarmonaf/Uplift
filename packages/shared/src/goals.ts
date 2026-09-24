@@ -1,9 +1,10 @@
 import { z } from 'zod';
+import { URL_MATCH_TYPES } from './url-match.js';
 
 export const GOAL_KINDS = ['click', 'pageview', 'event'] as const;
 export type GoalKind = (typeof GOAL_KINDS)[number];
 
-export const URL_MATCH_TYPES = ['exact', 'prefix', 'regex'] as const;
+export { matchesPageview, URL_MATCH_TYPES } from './url-match.js';
 
 const isValidRegex = (pattern: string) => {
   try {
@@ -69,36 +70,3 @@ export const goalSchema = z.object({
   updatedAt: z.iso.datetime(),
 });
 export type Goal = z.infer<typeof goalSchema>;
-
-/** Drops the hash and a trailing slash so `/pricing/` and `/pricing#faq` match `/pricing`. */
-function normalizeUrl(raw: string) {
-  const noHash = raw.split('#')[0]!;
-  return noHash.length > 1 ? noHash.replace(/\/(?=$|\?)/, '') : noHash;
-}
-
-/**
- * Whether a visited URL satisfies a page-visit goal. `value` may be a full URL or just a path;
- * paths are compared against the URL's path (and query). Used by the app and the tracking script.
- */
-export function matchesPageview(
-  target: { match: (typeof URL_MATCH_TYPES)[number]; value: string },
-  visitedUrl: string,
-) {
-  let url: URL;
-  try {
-    url = new URL(visitedUrl);
-  } catch {
-    return false;
-  }
-  if (target.match === 'regex') {
-    try {
-      return new RegExp(target.value).test(url.href);
-    } catch {
-      return false;
-    }
-  }
-  const isFullUrl = /^https?:\/\//i.test(target.value);
-  const candidate = normalizeUrl(isFullUrl ? url.href : url.pathname + url.search);
-  const expected = normalizeUrl(target.value);
-  return target.match === 'exact' ? candidate === expected : candidate.startsWith(expected);
-}

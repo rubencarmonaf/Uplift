@@ -2,7 +2,7 @@ import * as esbuild from 'esbuild';
 
 // Browser bundles: self-contained IIFEs, no dependencies, small enough to inline in a page.
 const options = {
-  entryPoints: { preview: 'src/preview.ts' },
+  entryPoints: { preview: 'src/preview.ts', uplift: 'src/runtime.ts', testbar: 'src/testbar.ts' },
   outdir: 'dist',
   bundle: true,
   format: 'iife',

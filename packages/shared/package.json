@@ -7,6 +7,10 @@
     ".": {
       "types": "./dist/index.d.ts",
       "default": "./dist/index.js"
+    },
+    "./url-match": {
+      "types": "./dist/url-match.d.ts",
+      "default": "./dist/url-match.js"
     }
   },
   "scripts": {
