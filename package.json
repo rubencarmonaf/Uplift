@@ -1,0 +1,25 @@
+{
+  "name": "uplift",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "bootstrap": "pnpm install && pnpm --filter api exec playwright install chromium && pnpm --filter @uplift/shared --filter @uplift/snippet build && pnpm db:up && pnpm db:migrate",
+    "dev": "pnpm --filter @uplift/shared --filter @uplift/snippet build && pnpm --parallel --filter @uplift/shared --filter @uplift/snippet --filter web --filter api dev",
+    "build": "pnpm --filter @uplift/shared --filter @uplift/snippet build && pnpm -r --filter web --filter api build",
+    "typecheck": "pnpm -r typecheck",
+    "lint": "pnpm -r lint",
+    "format": "prettier --write .",
+    "db:up": "docker compose up -d --wait",
+    "db:down": "docker compose down",
+    "db:migrate": "pnpm --filter api db:migrate",
+    "test": "pnpm -r test"
+  },
+  "devDependencies": {
+    "prettier": "^3.9.9",
+    "typescript": "~6.0.3"
+  },
+  "packageManager": "pnpm@12.6.0",
+  "engines": {
+    "node": ">=22"
+  }
+}
