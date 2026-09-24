@@ -2,7 +2,7 @@ import { lookup } from 'node:dns/promises';
 import ipaddr from 'ipaddr.js';
 
 const ALLOWED_PROTOCOLS = new Set(['http:', 'https:']);
-const ALLOWED_PORTS = new Set(['', '80', '443']);
+export const ALLOWED_PORTS = new Set(['', '80', '443']);
 
 /** True for globally routable unicast addresses; false for loopback, private, link-local, metadata… */
 export function isPublicIp(address: string) {
@@ -13,16 +13,39 @@ export function isPublicIp(address: string) {
   }
 }
 
+export type Resolver = (host: string) => Promise<string[]>;
+
+const systemResolver: Resolver = async (host) =>
+  (await lookup(host, { all: true, verbatim: true })).map((a) => a.address);
+
 /**
- * Guards server-side requests to user-provided URLs (SSRF): only http(s) on standard ports,
- * and every address the hostname resolves to must be public. Lookups are cached per instance,
- * so create one guard per rendering job.
+ * Resolves `host` and returns one of its addresses, or null unless *every* address is public
+ * (a name that also points inside the network is rejected outright).
+ */
+export async function resolvePublicAddress(host: string, resolve: Resolver = systemResolver) {
+  const bare = host.replace(/^\[|\]$/g, '');
+  if (ipaddr.isValid(bare)) return isPublicIp(bare) ? bare : null;
+  try {
+    const addresses = await resolve(bare);
+    if (addresses.length === 0 || !addresses.every(isPublicIp)) return null;
+    return addresses[0]!;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * First line of defence against SSRF: only http(s) on standard ports to hosts that resolve to
+ * public addresses. Lookups are cached per instance, so create one guard per rendering job.
  *
- * Known limit: the address is checked before the request is made, so a DNS answer that changes
- * in between (DNS rebinding) is not caught. Pinning resolved IPs would need a custom proxy.
+ * On its own this is open to DNS rebinding (the name could resolve differently when the browser
+ * connects); the renderer therefore also sends all traffic through PinnedProxy, which connects
+ * to the exact address it validated.
  */
 export class UrlGuard {
   private readonly cache = new Map<string, Promise<boolean>>();
+
+  constructor(private readonly resolve: Resolver = systemResolver) {}
 
   async isAllowed(rawUrl: string) {
     let url: URL;
@@ -34,22 +57,11 @@ export class UrlGuard {
     if (!ALLOWED_PROTOCOLS.has(url.protocol) || !ALLOWED_PORTS.has(url.port)) return false;
     if (url.username || url.password) return false;
 
-    const host = url.hostname.replace(/^\[|\]$/g, '');
-    let result = this.cache.get(host);
+    let result = this.cache.get(url.hostname);
     if (!result) {
-      result = this.resolvesToPublic(host);
-      this.cache.set(host, result);
+      result = resolvePublicAddress(url.hostname, this.resolve).then((ip) => ip !== null);
+      this.cache.set(url.hostname, result);
     }
     return result;
-  }
-
-  private async resolvesToPublic(host: string) {
-    if (ipaddr.isValid(host)) return isPublicIp(host);
-    try {
-      const addresses = await lookup(host, { all: true, verbatim: true });
-      return addresses.length > 0 && addresses.every((a) => isPublicIp(a.address));
-    } catch {
-      return false;
-    }
   }
 }

@@ -3,14 +3,16 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "bootstrap": "pnpm install && pnpm --filter api exec playwright install chromium && pnpm --filter @uplift/shared build && pnpm db:up && pnpm db:migrate",
     "dev": "pnpm --filter @uplift/shared build && pnpm --parallel --filter @uplift/shared --filter web --filter api dev",
     "build": "pnpm --filter @uplift/shared build && pnpm -r --filter !@uplift/shared build",
     "typecheck": "pnpm -r typecheck",
     "lint": "pnpm -r lint",
     "format": "prettier --write .",
-    "db:up": "docker compose up -d",
+    "db:up": "docker compose up -d --wait",
     "db:down": "docker compose down",
-    "db:migrate": "pnpm --filter api db:migrate"
+    "db:migrate": "pnpm --filter api db:migrate",
+    "test": "pnpm -r test"
   },
   "devDependencies": {
     "prettier": "^3.9.9",

@@ -18,12 +18,10 @@ AI-assisted conversion rate optimization. Point Uplift at a page, pick the eleme
 Requirements: Node 22+, pnpm 10+ and Docker.
 
 ```bash
-pnpm install
-pnpm --filter api exec playwright install chromium   # headless browser for page snapshots
 cp apps/api/.env.example apps/api/.env
-pnpm db:up        # Postgres + Redis
-pnpm db:migrate   # apply migrations
-pnpm dev          # web on :5173, API on :3000
+pnpm bootstrap   # install deps, headless Chromium, start Postgres + Redis, run migrations
+pnpm dev         # web on :5173, API on :3000
+pnpm test        # unit tests
 ```
 
 ## AI copy generation
@@ -55,7 +53,8 @@ docs/
 - Sessions are opaque random tokens in an httpOnly cookie; only their SHA-256 hash is stored.
 - Every API route requires a session unless explicitly marked `@Public()`.
 - Passwords are hashed with argon2; login is rate limited and timing-safe for unknown emails.
-- Page snapshots (visual element picker): every request the headless browser makes, redirects
-  included, is checked against an SSRF guard that only allows public addresses. Snapshots are
+- Page snapshots (visual element picker): the headless browser can only reach the network through
+  a local pinned proxy that resolves each host once, allows only public addresses and connects to
+  exactly the address it checked, which also defeats DNS rebinding. Snapshots are
   stripped of scripts, served with a strict CSP (`sandbox allow-scripts`, nonce-only scripts) and
   shown in a sandboxed iframe with an opaque origin, talking to the app only via `postMessage`.

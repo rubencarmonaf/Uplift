@@ -1,6 +1,7 @@
 import { Injectable, Logger, type OnModuleDestroy } from '@nestjs/common';
 import type { SnapshotError } from '@uplift/shared';
 import { type Browser, chromium, errors } from 'playwright';
+import { PinnedProxy } from './pinned-proxy.js';
 import { UrlGuard } from './ssrf.js';
 
 const VIEWPORT = { width: 1366, height: 900 };
@@ -122,11 +123,13 @@ async function autoScroll() {
 export class RendererService implements OnModuleDestroy {
   private readonly logger = new Logger(RendererService.name);
   private browser: Promise<Browser> | null = null;
+  private proxy: PinnedProxy | null = null;
   private active = 0;
   private readonly queue: (() => void)[] = [];
 
   async onModuleDestroy() {
-    if (this.browser) await (await this.browser).close();
+    if (this.browser) await (await this.browser).close().catch(() => {});
+    await this.proxy?.close();
   }
 
   async render(url: string): Promise<RenderedPage> {
@@ -153,7 +156,8 @@ export class RendererService implements OnModuleDestroy {
     const pendingSheets: Promise<void>[] = [];
 
     try {
-      // Every request goes through Node so each hop (including redirects) is checked against the guard.
+      // Fast early rejection of disallowed URLs. The actual enforcement, including every redirect
+      // hop, is PinnedProxy: the browser can only reach the network through it.
       await context.route('**/*', async (route) => {
         const request = route.request();
         const target = request.url();
@@ -162,24 +166,22 @@ export class RendererService implements OnModuleDestroy {
           return route.abort('blockedbyclient');
         }
         if (!(await guard.isAllowed(target))) return route.abort('blockedbyclient');
-        try {
-          // With redirects disabled, a 3xx is handed back to the browser, which requests the
-          // Location as a new request and so comes back through this handler and the guard.
-          const response = await route.fetch({ maxRedirects: 0, timeout: NAVIGATION_TIMEOUT_MS });
-          if (request.resourceType() === 'stylesheet' && response.ok()) {
-            pendingSheets.push(
-              response.text().then((css) => {
-                stylesheets[target] = absolutizeCss(css, target);
-              }),
-            );
-          }
-          return route.fulfill({ response });
-        } catch {
-          return route.abort('failed');
-        }
+        return route.continue();
       });
 
       const page = await context.newPage();
+      page.on('response', (response) => {
+        if (response.request().resourceType() !== 'stylesheet' || !response.ok()) return;
+        const sheetUrl = response.url();
+        pendingSheets.push(
+          response
+            .text()
+            .then((css) => {
+              stylesheets[sheetUrl] = absolutizeCss(css, sheetUrl);
+            })
+            .catch(() => {}),
+        );
+      });
       let response;
       try {
         response = await page.goto(url, { waitUntil: 'load', timeout: NAVIGATION_TIMEOUT_MS });
@@ -208,12 +210,32 @@ export class RendererService implements OnModuleDestroy {
 
   private getBrowser() {
     if (!this.browser) {
-      this.browser = chromium.launch({ args: ['--disable-dev-shm-usage'] });
+      this.browser = this.launch();
       this.browser.catch(() => {
         this.browser = null;
       });
     }
     return this.browser;
+  }
+
+  private async launch() {
+    this.proxy ??= new PinnedProxy();
+    const server = await this.proxy.listen();
+    return chromium.launch({
+      proxy: {
+        server,
+        username: this.proxy.username,
+        password: this.proxy.password,
+        // Chromium sends loopback traffic directly by default; force it through the proxy too.
+        bypass: '<-loopback>',
+      },
+      args: [
+        '--disable-dev-shm-usage',
+        // WebRTC can open UDP connections that bypass the proxy.
+        '--force-webrtc-ip-handling-policy=disable_non_proxied_udp',
+        '--webrtc-ip-handling-policy=disable_non_proxied_udp',
+      ],
+    });
   }
 
   private async acquire() {
