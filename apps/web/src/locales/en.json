@@ -1,0 +1,61 @@
+{
+  "app": {
+    "name": "Uplift",
+    "tagline": "Copy that converts, proven by experiments."
+  },
+  "nav": {
+    "projects": "Projects",
+    "library": "Library",
+    "settings": "Settings"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Password",
+    "name": "Name",
+    "login": {
+      "title": "Sign in",
+      "description": "Access your optimization projects.",
+      "submit": "Sign in",
+      "noAccount": "Don't have an account?",
+      "toRegister": "Sign up"
+    },
+    "register": {
+      "title": "Create your account",
+      "description": "Start optimizing your pages in minutes.",
+      "submit": "Create account",
+      "hasAccount": "Already have an account?",
+      "toLogin": "Sign in",
+      "passwordHint": "At least 10 characters."
+    },
+    "logout": "Sign out",
+    "errors": {
+      "invalidCredentials": "Incorrect email or password.",
+      "emailTaken": "An account with that email already exists.",
+      "tooManyAttempts": "Too many attempts. Wait a minute.",
+      "generic": "Something went wrong. Please try again."
+    }
+  },
+  "user": {
+    "language": "Language",
+    "theme": "Theme",
+    "themes": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    }
+  },
+  "projects": {
+    "title": "Projects",
+    "description": "Each project is a page you want to convert better.",
+    "empty": {
+      "title": "No projects yet",
+      "description": "Create your first project from the URL of the page you want to optimize.",
+      "cta": "New project"
+    }
+  },
+  "comingSoon": "Coming soon",
+  "notFound": {
+    "title": "Page not found",
+    "back": "Back to home"
+  }
+}

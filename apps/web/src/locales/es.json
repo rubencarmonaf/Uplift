@@ -1,0 +1,61 @@
+{
+  "app": {
+    "name": "Uplift",
+    "tagline": "Textos que convierten, validados con experimentos."
+  },
+  "nav": {
+    "projects": "Proyectos",
+    "library": "Biblioteca",
+    "settings": "Ajustes"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Contraseña",
+    "name": "Nombre",
+    "login": {
+      "title": "Inicia sesión",
+      "description": "Accede a tus proyectos de optimización.",
+      "submit": "Entrar",
+      "noAccount": "¿No tienes cuenta?",
+      "toRegister": "Regístrate"
+    },
+    "register": {
+      "title": "Crea tu cuenta",
+      "description": "Empieza a optimizar tus páginas en minutos.",
+      "submit": "Crear cuenta",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "toLogin": "Inicia sesión",
+      "passwordHint": "Mínimo 10 caracteres."
+    },
+    "logout": "Cerrar sesión",
+    "errors": {
+      "invalidCredentials": "Email o contraseña incorrectos.",
+      "emailTaken": "Ya existe una cuenta con ese email.",
+      "tooManyAttempts": "Demasiados intentos. Espera un minuto.",
+      "generic": "Algo ha fallado. Inténtalo de nuevo."
+    }
+  },
+  "user": {
+    "language": "Idioma",
+    "theme": "Tema",
+    "themes": {
+      "light": "Claro",
+      "dark": "Oscuro",
+      "system": "Sistema"
+    }
+  },
+  "projects": {
+    "title": "Proyectos",
+    "description": "Cada proyecto es una página que quieres hacer convertir mejor.",
+    "empty": {
+      "title": "Aún no tienes proyectos",
+      "description": "Crea tu primer proyecto a partir de la URL de la página que quieres optimizar.",
+      "cta": "Nuevo proyecto"
+    }
+  },
+  "comingSoon": "Próximamente",
+  "notFound": {
+    "title": "Página no encontrada",
+    "back": "Volver al inicio"
+  }
+}

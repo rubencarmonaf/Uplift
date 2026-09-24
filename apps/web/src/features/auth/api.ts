@@ -1,0 +1,50 @@
+import type { LoginInput, MeResponse, RegisterInput } from '@uplift/shared';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { api, ApiError } from '@/lib/api';
+
+export const meQueryKey = ['auth', 'me'] as const;
+
+export function useMe() {
+  return useQuery({
+    queryKey: meQueryKey,
+    queryFn: async () => {
+      try {
+        return await api<MeResponse>('/auth/me');
+      } catch (err) {
+        if (err instanceof ApiError && err.status === 401) return null;
+        throw err;
+      }
+    },
+    staleTime: 5 * 60 * 1000,
+    retry: false,
+  });
+}
+
+export function useLogin() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (input: LoginInput) =>
+      api<MeResponse>('/auth/login', { method: 'POST', json: input }),
+    onSuccess: (me) => qc.setQueryData(meQueryKey, me),
+  });
+}
+
+export function useRegister() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (input: RegisterInput) =>
+      api<MeResponse>('/auth/register', { method: 'POST', json: input }),
+    onSuccess: (me) => qc.setQueryData(meQueryKey, me),
+  });
+}
+
+export function useLogout() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: () => api<void>('/auth/logout', { method: 'POST' }),
+    onSettled: () => {
+      qc.clear();
+      qc.setQueryData(meQueryKey, null);
+    },
+  });
+}
