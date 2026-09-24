@@ -1,7 +1,14 @@
-import { ELEMENT_TYPES, INDUSTRIES, PAGE_TYPES, PROJECT_STATUSES } from '@uplift/shared';
+import {
+  type Brief,
+  ELEMENT_TYPES,
+  INDUSTRIES,
+  PAGE_TYPES,
+  PROJECT_STATUSES,
+} from '@uplift/shared';
 import {
   index,
   integer,
+  jsonb,
   pgEnum,
   pgTable,
   primaryKey,
@@ -120,4 +127,14 @@ export const pageSnapshots = pgTable('page_snapshots', {
   title: text('title').notNull(),
   html: text('html').notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+});
+
+/** The project's brief (one per project). Stored as JSON and validated with the shared schema. */
+export const projectBriefs = pgTable('project_briefs', {
+  projectId: uuid('project_id')
+    .primaryKey()
+    .references(() => projects.id, { onDelete: 'cascade' }),
+  data: jsonb('data').$type<Brief>().notNull(),
+  updatedBy: uuid('updated_by').references(() => users.id, { onDelete: 'set null' }),
+  updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });

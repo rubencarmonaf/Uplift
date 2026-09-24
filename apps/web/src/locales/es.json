@@ -272,5 +272,163 @@
       "rate_limited": "Has actualizado demasiadas veces. Espera un minuto.",
       "unknown": "Algo ha fallado. Inténtalo de nuevo."
     }
+  },
+  "tagInput": {
+    "hint": "Escribe y pulsa Enter para añadir. Pega varias líneas para añadir varias a la vez.",
+    "remove": "Quitar «{{item}}»",
+    "full": "Has llegado al máximo"
+  },
+  "brief": {
+    "save": "Guardar brief",
+    "discard": "Descartar cambios",
+    "saved": "Brief guardado",
+    "unsaved": "Tienes cambios sin guardar.",
+    "lastSaved": "Guardado {{when}}.",
+    "neverSaved": "Aún no has guardado el brief.",
+    "leave": {
+      "title": "¿Salir sin guardar?",
+      "description": "Tienes cambios en el brief que se perderán si sales ahora.",
+      "stay": "Seguir editando",
+      "discard": "Salir sin guardar"
+    },
+    "sections": {
+      "business": "Negocio y página",
+      "voice": "Voz de la marca",
+      "truth": "Fuente de verdad",
+      "guardrails": "Límites y cumplimiento"
+    },
+    "sectionDescriptions": {
+      "business": "El contexto que la IA necesita para escribir textos que vendan en esta página.",
+      "voice": "Cómo suena la marca. Así las variantes parecerán escritas por tu equipo.",
+      "truth": "Lo que se puede afirmar y lo que no. La IA solo usará datos de esta lista.",
+      "guardrails": "Reglas que ninguna variante puede romper. Se comprueban al generar."
+    },
+    "fields": {
+      "business": {
+        "offering": "Qué ofreces",
+        "audience": "A quién va dirigido",
+        "pageGoal": "Objetivo de la página",
+        "funnelStage": "Fase del funnel",
+        "valueProps": "Propuestas de valor",
+        "objections": "Objeciones habituales"
+      },
+      "voice": {
+        "tones": "Tono",
+        "formality": "Tratamiento",
+        "readingLevel": "Nivel de lectura",
+        "notes": "Notas de estilo"
+      },
+      "truth": {
+        "facts": "Hechos verificables",
+        "forbiddenClaims": "Nunca afirmar"
+      },
+      "guardrails": {
+        "riskLevel": "Nivel de riesgo",
+        "bannedWords": "Palabras vetadas",
+        "requiredMentions": "Menciones obligatorias",
+        "disclaimers": "Avisos legales",
+        "avoidStyles": "Estilos a evitar"
+      }
+    },
+    "placeholders": {
+      "business": {
+        "offering": "Ej. Seguro de hogar con asistencia 24 h y reparaciones urgentes incluidas",
+        "audience": "Ej. Familias que alquilan o compran su primera vivienda",
+        "pageGoal": "Ej. Que pidan un presupuesto online",
+        "valueProps": "Ej. Presupuesto en 2 minutos",
+        "objections": "Ej. «Seguro que luego sube el precio»"
+      },
+      "voice": {
+        "notes": "Ej. Frases cortas. Evitamos tecnicismos. Hablamos de «tu casa», no de «la vivienda»."
+      },
+      "truth": {
+        "facts": "Ej. Más de 200.000 clientes",
+        "forbiddenClaims": "Ej. «El más barato del mercado»"
+      },
+      "guardrails": {
+        "bannedWords": "Ej. gratis, garantizado",
+        "requiredMentions": "Ej. Sin permanencia",
+        "disclaimers": "Ej. Precio para vivienda de 90 m² en Madrid. Consulta condiciones.",
+        "avoidStyles": "Ej. Urgencia falsa («¡solo hoy!»)"
+      }
+    },
+    "hints": {
+      "business": {
+        "valueProps": "Los motivos por los que alguien elegiría tu producto. Uno por línea.",
+        "objections": "Dudas que frenan la conversión; las variantes intentarán resolverlas."
+      },
+      "voice": {
+        "tones": "Elige hasta 3."
+      },
+      "truth": {
+        "facts": "Datos, cifras y garantías reales que la IA puede citar tal cual.",
+        "forbiddenClaims": "Afirmaciones que no se pueden hacer aunque parezcan atractivas."
+      },
+      "guardrails": {
+        "bannedWords": "Separa con comas o Enter. Ninguna variante podrá contenerlas.",
+        "requiredMentions": "Textos que deben aparecer donde aplique.",
+        "disclaimers": "Textos legales que acompañan a ciertas afirmaciones (precios, rentabilidad…).",
+        "avoidStyles": "Recursos de redacción que no encajan con tu marca."
+      }
+    },
+    "options": {
+      "funnelStage": {
+        "awareness": "Descubrimiento",
+        "consideration": "Consideración",
+        "decision": "Decisión",
+        "retention": "Fidelización"
+      },
+      "tone": {
+        "friendly": "Cercano",
+        "professional": "Profesional",
+        "bold": "Atrevido",
+        "playful": "Desenfadado",
+        "reassuring": "Tranquilizador",
+        "premium": "Premium",
+        "technical": "Técnico",
+        "inspiring": "Inspirador"
+      },
+      "formality": {
+        "formal": "De usted",
+        "neutral": "Impersonal",
+        "informal": "De tú"
+      },
+      "readingLevel": {
+        "simple": "Sencillo",
+        "standard": "Estándar",
+        "advanced": "Especializado"
+      },
+      "riskLevel": {
+        "low": "Bajo",
+        "medium": "Medio",
+        "high": "Alto"
+      },
+      "riskLevelDescriptions": {
+        "low": "Textos creativos con libertad.",
+        "medium": "Afirmaciones prudentes y verificables.",
+        "high": "Sector regulado: solo hechos de la fuente de verdad, con sus avisos legales."
+      }
+    },
+    "regulated": {
+      "title": "Sector regulado",
+      "description": "En {{industry}} las afirmaciones comerciales están reguladas. Te recomendamos un nivel de riesgo alto.",
+      "apply": "Usar riesgo alto"
+    },
+    "completeness": {
+      "title": "Calidad del brief",
+      "description": "Cuanto más completo, mejores y más seguras serán las variantes.",
+      "done": "completado",
+      "pending": "pendiente",
+      "checks": {
+        "offering": "Qué ofreces",
+        "audience": "A quién va dirigido",
+        "pageGoal": "Objetivo de la página",
+        "tone": "Tono de la marca",
+        "formality": "Tratamiento (tú / usted)",
+        "valueProps": "Al menos una propuesta de valor",
+        "facts": "Al menos un hecho verificable",
+        "riskLevel": "Nivel de riesgo"
+      }
+    }
   }
 }

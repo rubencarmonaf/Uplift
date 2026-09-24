@@ -10,7 +10,7 @@ import { and, asc, desc, eq, ilike, isNotNull, isNull, or, type SQL } from 'driz
 import type { z } from 'zod';
 import type { Db } from '../db/client.js';
 import { InjectDb } from '../db/db.module.js';
-import { pageElements, projects } from '../db/schema.js';
+import { pageElements, projectBriefs, projects } from '../db/schema.js';
 import { OrgAccessService } from '../organizations/org-access.service.js';
 import { ProjectAccessService } from './project-access.service.js';
 
@@ -98,7 +98,7 @@ export class ProjectsService {
     return toProjectDto(row!);
   }
 
-  /** Copies the project setup (details and elements) into a new draft. Later phases add brief and goals. */
+  /** Copies the project setup (details, elements and brief) into a new draft. Later phases add goals. */
   async duplicate(userId: string, id: string, { name }: DuplicateProjectInput) {
     const { project: source } = await this.projectAccess.load(userId, id, 'editor');
     const row = await this.db.transaction(async (tx) => {
@@ -125,6 +125,15 @@ export class ProjectsService {
             projectId: copy!.id,
           })),
         );
+      }
+      const [brief] = await tx
+        .select()
+        .from(projectBriefs)
+        .where(eq(projectBriefs.projectId, source.id));
+      if (brief) {
+        await tx
+          .insert(projectBriefs)
+          .values({ projectId: copy!.id, data: brief.data, updatedBy: userId });
       }
       return copy!;
     });

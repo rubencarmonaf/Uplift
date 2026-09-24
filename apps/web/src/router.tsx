@@ -3,6 +3,7 @@ import { AppShell } from '@/components/layout/app-shell';
 import { NotFoundPage } from '@/components/not-found-page';
 import { PlaceholderPage } from '@/components/placeholder-page';
 import { RedirectIfAuthed, RequireAuth } from '@/features/auth/guards';
+import { BriefPage } from '@/features/brief/brief-page';
 import { ElementsPage } from '@/features/elements/elements-page';
 import { LoginPage } from '@/features/auth/login-page';
 import { RegisterPage } from '@/features/auth/register-page';
@@ -15,6 +16,7 @@ import { ProjectsPage } from '@/features/projects/projects-page';
 /** Steps that are built; the rest show a placeholder. */
 const STEP_PAGES: Partial<Record<ProjectStep, React.ReactNode>> = {
   elements: <ElementsPage />,
+  brief: <BriefPage />,
 };
 
 export const router = createBrowserRouter([

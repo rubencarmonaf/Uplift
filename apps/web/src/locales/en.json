@@ -272,5 +272,163 @@
       "rate_limited": "Too many refreshes. Wait a minute.",
       "unknown": "Something went wrong. Please try again."
     }
+  },
+  "tagInput": {
+    "hint": "Type and press Enter to add. Paste several lines to add many at once.",
+    "remove": "Remove “{{item}}”",
+    "full": "Limit reached"
+  },
+  "brief": {
+    "save": "Save brief",
+    "discard": "Discard changes",
+    "saved": "Brief saved",
+    "unsaved": "You have unsaved changes.",
+    "lastSaved": "Saved {{when}}.",
+    "neverSaved": "You haven't saved the brief yet.",
+    "leave": {
+      "title": "Leave without saving?",
+      "description": "Your changes to the brief will be lost if you leave now.",
+      "stay": "Keep editing",
+      "discard": "Leave without saving"
+    },
+    "sections": {
+      "business": "Business and page",
+      "voice": "Brand voice",
+      "truth": "Source of truth",
+      "guardrails": "Guardrails and compliance"
+    },
+    "sectionDescriptions": {
+      "business": "The context the AI needs to write copy that sells on this page.",
+      "voice": "How the brand sounds, so variants read like your team wrote them.",
+      "truth": "What can and cannot be claimed. The AI only uses facts from this list.",
+      "guardrails": "Rules no variant may break. They are checked on generation."
+    },
+    "fields": {
+      "business": {
+        "offering": "What you offer",
+        "audience": "Who it is for",
+        "pageGoal": "Page goal",
+        "funnelStage": "Funnel stage",
+        "valueProps": "Value propositions",
+        "objections": "Common objections"
+      },
+      "voice": {
+        "tones": "Tone",
+        "formality": "Form of address",
+        "readingLevel": "Reading level",
+        "notes": "Style notes"
+      },
+      "truth": {
+        "facts": "Verifiable facts",
+        "forbiddenClaims": "Never claim"
+      },
+      "guardrails": {
+        "riskLevel": "Risk level",
+        "bannedWords": "Banned words",
+        "requiredMentions": "Required mentions",
+        "disclaimers": "Legal disclaimers",
+        "avoidStyles": "Styles to avoid"
+      }
+    },
+    "placeholders": {
+      "business": {
+        "offering": "e.g. Home insurance with 24/7 assistance and urgent repairs included",
+        "audience": "e.g. Families renting or buying their first home",
+        "pageGoal": "e.g. Get an online quote",
+        "valueProps": "e.g. Quote in 2 minutes",
+        "objections": "e.g. “The price will go up later”"
+      },
+      "voice": {
+        "notes": "e.g. Short sentences. No jargon. We say “your home”, not “the property”."
+      },
+      "truth": {
+        "facts": "e.g. Over 200,000 customers",
+        "forbiddenClaims": "e.g. “The cheapest on the market”"
+      },
+      "guardrails": {
+        "bannedWords": "e.g. free, guaranteed",
+        "requiredMentions": "e.g. No commitment",
+        "disclaimers": "e.g. Price for a 90 m² home in London. Terms apply.",
+        "avoidStyles": "e.g. Fake urgency (“today only!”)"
+      }
+    },
+    "hints": {
+      "business": {
+        "valueProps": "Why someone would choose your product. One per line.",
+        "objections": "Doubts that hold conversion back; variants will try to address them."
+      },
+      "voice": {
+        "tones": "Pick up to 3."
+      },
+      "truth": {
+        "facts": "Real data, figures and guarantees the AI may quote as they are.",
+        "forbiddenClaims": "Claims that must not be made, however tempting."
+      },
+      "guardrails": {
+        "bannedWords": "Separate with commas or Enter. No variant may contain them.",
+        "requiredMentions": "Texts that must appear where relevant.",
+        "disclaimers": "Legal texts that go with certain claims (prices, returns…).",
+        "avoidStyles": "Copywriting devices that don't fit your brand."
+      }
+    },
+    "options": {
+      "funnelStage": {
+        "awareness": "Awareness",
+        "consideration": "Consideration",
+        "decision": "Decision",
+        "retention": "Retention"
+      },
+      "tone": {
+        "friendly": "Friendly",
+        "professional": "Professional",
+        "bold": "Bold",
+        "playful": "Playful",
+        "reassuring": "Reassuring",
+        "premium": "Premium",
+        "technical": "Technical",
+        "inspiring": "Inspiring"
+      },
+      "formality": {
+        "formal": "Formal",
+        "neutral": "Neutral",
+        "informal": "Informal"
+      },
+      "readingLevel": {
+        "simple": "Simple",
+        "standard": "Standard",
+        "advanced": "Expert"
+      },
+      "riskLevel": {
+        "low": "Low",
+        "medium": "Medium",
+        "high": "High"
+      },
+      "riskLevelDescriptions": {
+        "low": "Creative copy with freedom.",
+        "medium": "Careful, verifiable claims.",
+        "high": "Regulated industry: only facts from the source of truth, with their disclaimers."
+      }
+    },
+    "regulated": {
+      "title": "Regulated industry",
+      "description": "Marketing claims in {{industry}} are regulated. We recommend a high risk level.",
+      "apply": "Use high risk"
+    },
+    "completeness": {
+      "title": "Brief quality",
+      "description": "The more complete it is, the better and safer the variants.",
+      "done": "done",
+      "pending": "pending",
+      "checks": {
+        "offering": "What you offer",
+        "audience": "Who it is for",
+        "pageGoal": "Page goal",
+        "tone": "Brand tone",
+        "formality": "Form of address",
+        "valueProps": "At least one value proposition",
+        "facts": "At least one verifiable fact",
+        "riskLevel": "Risk level"
+      }
+    }
   }
 }

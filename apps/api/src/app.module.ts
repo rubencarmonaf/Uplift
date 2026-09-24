@@ -3,6 +3,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { ThrottlerGuard, ThrottlerModule } from '@nestjs/throttler';
 import { AuthModule } from './auth/auth.module.js';
 import { SessionGuard } from './auth/session.guard.js';
+import { BriefsModule } from './briefs/briefs.module.js';
 import { DbModule } from './db/db.module.js';
 import { ElementsModule } from './elements/elements.module.js';
 import { HealthController } from './health.controller.js';
@@ -17,6 +18,7 @@ import { SnapshotsModule } from './snapshots/snapshots.module.js';
     ProjectsModule,
     ElementsModule,
     SnapshotsModule,
+    BriefsModule,
   ],
   controllers: [HealthController],
   providers: [
