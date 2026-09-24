@@ -9,7 +9,7 @@ AI-assisted conversion rate optimization. Point Uplift at a page, pick the eleme
 | Layer   | Tech                                                                                                                |
 | ------- | ------------------------------------------------------------------------------------------------------------------- |
 | Web     | React 19, Vite, TypeScript, Tailwind CSS 4, shadcn/ui, TanStack Query, React Router, react-hook-form, react-i18next |
-| API     | NestJS 12 (ESM + SWC), Drizzle ORM, PostgreSQL, argon2, Playwright                                                  |
+| API     | NestJS 12 (ESM + SWC), Drizzle ORM, PostgreSQL, argon2, Playwright, Anthropic SDK (Claude)                          |
 | Shared  | zod schemas shared by web and API (`packages/shared`)                                                               |
 | Tooling | pnpm workspaces, Docker Compose, GitHub Actions                                                                     |
 
@@ -25,6 +25,18 @@ pnpm db:up        # Postgres + Redis
 pnpm db:migrate   # apply migrations
 pnpm dev          # web on :5173, API on :3000
 ```
+
+## AI copy generation
+
+Variants are written by Claude (`claude-opus-5` by default) through the Anthropic SDK, with
+structured outputs validated by zod and server-side refusal fallbacks enabled. Set
+`ANTHROPIC_API_KEY` in `apps/api/.env` to use it; without a key the app runs in **demo mode** with a
+template-based mock provider, so everything works end to end at no cost. `AI_MODEL`, `AI_EFFORT`
+and `AI_PROVIDER` (`auto` | `anthropic` | `mock`) tune it.
+
+Every variant, AI-written or manual, goes through deterministic compliance checks (banned words,
+forbidden claims, length limits) based on the project brief; the model is told the rules but is
+never trusted to police itself.
 
 ## Project layout
 

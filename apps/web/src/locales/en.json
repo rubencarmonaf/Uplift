@@ -430,5 +430,82 @@
         "riskLevel": "Risk level"
       }
     }
+  },
+  "variants": {
+    "generate": "Generate variants",
+    "count": "Variants",
+    "perElement_one": "{{count}} per element",
+    "perElement_other": "{{count}} per element",
+    "instructions": "Direction for this run (optional)",
+    "instructionsPlaceholder": "e.g. shorter and punchier, try a savings angle…",
+    "generateAll_one": "Generate for {{count}} element",
+    "generateAll_other": "Generate for {{count}} elements",
+    "generateMore": "Generate more",
+    "progress": "Generating variants… {{done}} of {{total}} elements",
+    "control": "Original",
+    "activeCount_one": "{{count}} variant",
+    "activeCount_other": "{{count}} variants",
+    "empty": "No variants for this element yet.",
+    "manual": "Manual",
+    "manualPlaceholder": "Write your own variant…",
+    "manualLabel": "New manual variant for “{{name}}”",
+    "add": "Add",
+    "edit": "Edit",
+    "editLabel": "Variant copy",
+    "discard": "Discard",
+    "restore": "Restore",
+    "showDiscarded_one": "Show {{count}} discarded",
+    "showDiscarded_other": "Show {{count}} discarded",
+    "hideDiscarded_one": "Hide discarded",
+    "hideDiscarded_other": "Hide discarded",
+    "compliance": "Compliance {{score}}",
+    "complianceHint": "Automatic check for banned words, forbidden claims and length.",
+    "quality": "Quality",
+    "qualityHint": "The AI's rating: clarity, relevance and persuasiveness.",
+    "toasts": {
+      "added": "Variant added"
+    },
+    "angles": {
+      "clarity": "Clarity",
+      "benefit": "Benefit",
+      "social_proof": "Social proof",
+      "urgency": "Urgency",
+      "risk_reversal": "Risk reversal",
+      "curiosity": "Curiosity",
+      "specificity": "Specificity",
+      "objection_handling": "Objection",
+      "emotional": "Emotional"
+    },
+    "issues": {
+      "banned_word": "Uses the banned word “{{detail}}”.",
+      "forbidden_claim": "Makes a forbidden claim: “{{detail}}”.",
+      "too_long": "Too long ({{detail}} characters).",
+      "too_short": "Too short ({{detail}} characters).",
+      "unchanged": "Same as the original copy."
+    },
+    "errors": {
+      "alreadyRunning": "A generation is already running for this project.",
+      "rateLimited": "Too many generations in a row. Wait a minute."
+    },
+    "failed": {
+      "all": "Couldn't generate any variants",
+      "some_one": "{{count}} element failed",
+      "some_other": "{{count}} elements failed",
+      "description": "Try again with “Generate more”. If it keeps failing, review the original copy and the brief."
+    },
+    "demo": {
+      "title": "Demo mode",
+      "description": "No Claude API key is configured, so variants come from sample templates. Set ANTHROPIC_API_KEY on the server to use the real AI."
+    },
+    "weakBrief": {
+      "title": "The brief is thin",
+      "description": "With more context about the business and brand, the variants will be much better.",
+      "cta": "Complete the brief"
+    },
+    "noElements": {
+      "title": "Add elements first",
+      "description": "Variants are generated for the copy you mark as elements on the page.",
+      "cta": "Go to Elements"
+    }
   }
 }

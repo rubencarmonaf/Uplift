@@ -430,5 +430,82 @@
         "riskLevel": "Nivel de riesgo"
       }
     }
+  },
+  "variants": {
+    "generate": "Generar variantes",
+    "count": "Variantes",
+    "perElement_one": "{{count}} por elemento",
+    "perElement_other": "{{count}} por elemento",
+    "instructions": "Indicaciones para esta tanda (opcional)",
+    "instructionsPlaceholder": "Ej. más cortas y directas, prueba un enfoque de ahorro…",
+    "generateAll_one": "Generar para {{count}} elemento",
+    "generateAll_other": "Generar para {{count}} elementos",
+    "generateMore": "Generar más",
+    "progress": "Generando variantes… {{done}} de {{total}} elementos",
+    "control": "Original",
+    "activeCount_one": "{{count}} variante",
+    "activeCount_other": "{{count}} variantes",
+    "empty": "Aún no hay variantes para este elemento.",
+    "manual": "Manual",
+    "manualPlaceholder": "Escribe tu propia variante…",
+    "manualLabel": "Nueva variante manual para «{{name}}»",
+    "add": "Añadir",
+    "edit": "Editar",
+    "editLabel": "Texto de la variante",
+    "discard": "Descartar",
+    "restore": "Restaurar",
+    "showDiscarded_one": "Ver {{count}} descartada",
+    "showDiscarded_other": "Ver {{count}} descartadas",
+    "hideDiscarded_one": "Ocultar descartada",
+    "hideDiscarded_other": "Ocultar descartadas",
+    "compliance": "Cumplimiento {{score}}",
+    "complianceHint": "Comprobación automática de palabras vetadas, afirmaciones prohibidas y longitud.",
+    "quality": "Calidad",
+    "qualityHint": "Valoración de la IA: claridad, relevancia y capacidad de persuasión.",
+    "toasts": {
+      "added": "Variante añadida"
+    },
+    "angles": {
+      "clarity": "Claridad",
+      "benefit": "Beneficio",
+      "social_proof": "Prueba social",
+      "urgency": "Urgencia",
+      "risk_reversal": "Sin riesgo",
+      "curiosity": "Curiosidad",
+      "specificity": "Concreción",
+      "objection_handling": "Objeción",
+      "emotional": "Emocional"
+    },
+    "issues": {
+      "banned_word": "Usa la palabra vetada «{{detail}}».",
+      "forbidden_claim": "Hace una afirmación prohibida: «{{detail}}».",
+      "too_long": "Demasiado larga ({{detail}} caracteres).",
+      "too_short": "Demasiado corta ({{detail}} caracteres).",
+      "unchanged": "Es igual que el texto original."
+    },
+    "errors": {
+      "alreadyRunning": "Ya hay una generación en curso para este proyecto.",
+      "rateLimited": "Has lanzado muchas generaciones seguidas. Espera un minuto."
+    },
+    "failed": {
+      "all": "No se ha podido generar ninguna variante",
+      "some_one": "Ha fallado {{count}} elemento",
+      "some_other": "Han fallado {{count}} elementos",
+      "description": "Inténtalo de nuevo con «Generar más». Si sigue fallando, revisa el texto original y el brief."
+    },
+    "demo": {
+      "title": "Modo demo",
+      "description": "No hay una clave de la API de Claude configurada, así que las variantes se generan con plantillas de ejemplo. Añade ANTHROPIC_API_KEY en el servidor para usar la IA real."
+    },
+    "weakBrief": {
+      "title": "El brief está poco completo",
+      "description": "Con más contexto sobre el negocio y la marca, las variantes serán mucho mejores.",
+      "cta": "Completar el brief"
+    },
+    "noElements": {
+      "title": "Primero añade elementos",
+      "description": "Las variantes se generan para los textos de la página que marques como elementos.",
+      "cta": "Ir a Elementos"
+    }
   }
 }

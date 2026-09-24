@@ -4,6 +4,11 @@ import {
   INDUSTRIES,
   PAGE_TYPES,
   PROJECT_STATUSES,
+  type ComplianceIssue,
+  GENERATION_STATUSES,
+  VARIANT_ANGLES,
+  VARIANT_SOURCES,
+  VARIANT_STATUSES,
 } from '@uplift/shared';
 import {
   index,
@@ -138,3 +143,54 @@ export const projectBriefs = pgTable('project_briefs', {
   updatedBy: uuid('updated_by').references(() => users.id, { onDelete: 'set null' }),
   updatedAt: timestamp('updated_at', { withTimezone: true }).notNull().defaultNow(),
 });
+
+export const variantStatusEnum = pgEnum('variant_status', VARIANT_STATUSES);
+export const variantSourceEnum = pgEnum('variant_source', VARIANT_SOURCES);
+export const variantAngleEnum = pgEnum('variant_angle', VARIANT_ANGLES);
+export const generationStatusEnum = pgEnum('generation_status', GENERATION_STATUSES);
+
+/** A background run that generates variants for some of a project's elements. */
+export const generationJobs = pgTable(
+  'generation_jobs',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    projectId: uuid('project_id')
+      .notNull()
+      .references(() => projects.id, { onDelete: 'cascade' }),
+    status: generationStatusEnum('status').notNull().default('queued'),
+    provider: text('provider').$type<'anthropic' | 'mock'>().notNull(),
+    model: text('model'),
+    totalElements: integer('total_elements').notNull(),
+    completedElements: integer('completed_elements').notNull().default(0),
+    failedElements: integer('failed_elements').notNull().default(0),
+    inputTokens: integer('input_tokens').notNull().default(0),
+    outputTokens: integer('output_tokens').notNull().default(0),
+    error: text('error'),
+    createdBy: uuid('created_by').references(() => users.id, { onDelete: 'set null' }),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+    finishedAt: timestamp('finished_at', { withTimezone: true }),
+  },
+  (t) => [index('generation_jobs_project_created_idx').on(t.projectId, t.createdAt)],
+);
+
+export const variants = pgTable(
+  'variants',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    elementId: uuid('element_id')
+      .notNull()
+      .references(() => pageElements.id, { onDelete: 'cascade' }),
+    jobId: uuid('job_id').references(() => generationJobs.id, { onDelete: 'set null' }),
+    text: text('text').notNull(),
+    angle: variantAngleEnum('angle'),
+    rationale: text('rationale').notNull().default(''),
+    complianceScore: integer('compliance_score').notNull(),
+    qualityScore: integer('quality_score'),
+    issues: jsonb('issues').$type<ComplianceIssue[]>().notNull().default([]),
+    status: variantStatusEnum('status').notNull().default('active'),
+    source: variantSourceEnum('source').notNull(),
+    createdBy: uuid('created_by').references(() => users.id, { onDelete: 'set null' }),
+    ...timestamps,
+  },
+  (t) => [index('variants_element_created_idx').on(t.elementId, t.createdAt)],
+);
