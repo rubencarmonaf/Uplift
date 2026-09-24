@@ -4,7 +4,11 @@ import {
   INDUSTRIES,
   PAGE_TYPES,
   PROJECT_STATUSES,
+  type Arm,
   type ComplianceIssue,
+  EVENT_TYPES,
+  EXPERIMENT_STATUSES,
+  type ExperimentScope,
   type GoalTarget,
   GENERATION_STATUSES,
   VARIANT_ANGLES,
@@ -217,5 +221,58 @@ export const goals = pgTable(
     uniqueIndex('goals_one_primary_per_project')
       .on(t.projectId)
       .where(sql`${t.isPrimary}`),
+  ],
+);
+
+export const experimentStatusEnum = pgEnum('experiment_status', EXPERIMENT_STATUSES);
+export const eventTypeEnum = pgEnum('event_type', EVENT_TYPES);
+
+/** The project's A/B/n experiment (one per project); `publicKey` identifies it to the snippet. */
+export const experiments = pgTable('experiments', {
+  id: uuid('id').primaryKey().defaultRandom(),
+  projectId: uuid('project_id')
+    .notNull()
+    .unique()
+    .references(() => projects.id, { onDelete: 'cascade' }),
+  publicKey: text('public_key').notNull().unique(),
+  status: experimentStatusEnum('status').notNull().default('draft'),
+  trafficPercent: integer('traffic_percent').notNull().default(100),
+  antiFlickerEnabled: boolean('anti_flicker_enabled').notNull().default(true),
+  antiFlickerTimeoutMs: integer('anti_flicker_timeout_ms').notNull().default(1000),
+  scope: jsonb('scope').$type<ExperimentScope>().notNull(),
+  arms: jsonb('arms').$type<Arm[]>().notNull(),
+  winnerArmId: uuid('winner_arm_id'),
+  startedAt: timestamp('started_at', { withTimezone: true }),
+  endedAt: timestamp('ended_at', { withTimezone: true }),
+  ...timestamps,
+});
+
+/**
+ * Exposures (a visitor saw an arm) and conversions (a visitor completed a goal). One row per
+ * visitor, arm and goal: repeats are ignored, so counts are unique visitors.
+ */
+export const experimentEvents = pgTable(
+  'experiment_events',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    experimentId: uuid('experiment_id')
+      .notNull()
+      .references(() => experiments.id, { onDelete: 'cascade' }),
+    armId: uuid('arm_id').notNull(),
+    visitorId: text('visitor_id').notNull(),
+    type: eventTypeEnum('type').notNull(),
+    /** Empty for exposures (NULLs would defeat the unique index). */
+    goalId: text('goal_id').notNull().default(''),
+    simulated: boolean('simulated').notNull().default(false),
+    createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
+  },
+  (t) => [
+    uniqueIndex('experiment_events_unique_visitor').on(
+      t.experimentId,
+      t.visitorId,
+      t.type,
+      t.goalId,
+    ),
+    index('experiment_events_experiment_created_idx').on(t.experimentId, t.createdAt),
   ],
 );

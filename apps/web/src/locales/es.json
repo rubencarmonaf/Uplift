@@ -602,5 +602,95 @@
       "description": "Cargamos la página en un navegador real para enseñarte cómo quedan las variantes.",
       "cta": "Cargar la página"
     }
+  },
+  "activation": {
+    "armName": "Variante {{letter}}",
+    "statuses": {
+      "draft": "Borrador",
+      "running": "En marcha",
+      "paused": "Pausado",
+      "finished": "Finalizado"
+    },
+    "status": {
+      "title": "Experimento",
+      "startedAt": "En marcha desde el {{date}}",
+      "hints": {
+        "draft": "Configura las versiones y lánzalo cuando esté listo.",
+        "running": "",
+        "paused": "No se asigna tráfico nuevo mientras esté pausado.",
+        "finished": "El experimento ha terminado."
+      }
+    },
+    "checks": {
+      "goal": "Hay un objetivo principal",
+      "variantArm": "Al menos una versión cambia algún elemento y recibe tráfico",
+      "saved": "Los cambios están guardados",
+      "fix": "Configurar"
+    },
+    "actions": {
+      "start": "Lanzar experimento",
+      "pause": "Pausar",
+      "resume": "Reanudar",
+      "finish": "Finalizar",
+      "reset": "Reiniciar"
+    },
+    "toasts": {
+      "start": "Experimento en marcha",
+      "pause": "Experimento pausado",
+      "resume": "Experimento reanudado",
+      "finish": "Experimento finalizado",
+      "reset": "Experimento reiniciado",
+      "saved": "Configuración guardada"
+    },
+    "errors": {
+      "no_primary_goal": "Define un objetivo principal antes de lanzar el experimento.",
+      "no_variant_arm": "Al menos una versión debe cambiar algún elemento y recibir tráfico.",
+      "no_control_traffic": "La versión de control necesita recibir tráfico.",
+      "invalid": "Revisa la configuración: hay datos que no son válidos."
+    },
+    "finish": {
+      "title": "¿Finalizar el experimento?",
+      "description": "Dejaremos de medir. Si eliges una versión ganadora, el script la mostrará a todos los visitantes a partir de ahora.",
+      "winner": "Versión ganadora",
+      "noWinner": "Ninguna (mantener el original)"
+    },
+    "resetConfirm": {
+      "title": "¿Reiniciar el experimento?",
+      "description": "Se borrarán todos los datos recogidos y volverá a borrador para que puedas cambiar las versiones."
+    },
+    "arms": {
+      "title": "Versiones",
+      "description": "Cada columna es una versión de la página. Elige qué variante muestra cada elemento y cómo se reparte el tráfico.",
+      "locked": "Las versiones no se pueden cambiar con el experimento lanzado. Reinícialo para editarlas.",
+      "element": "Elemento",
+      "control": "Control",
+      "traffic": "Tráfico",
+      "add": "Añadir versión",
+      "split": "Repartir por igual",
+      "remove": "Quitar «{{name}}»",
+      "nameLabel": "Nombre de la versión",
+      "cellLabel": "Variante de «{{element}}» en «{{arm}}»",
+      "weightLabel": "Peso de tráfico de «{{name}}»"
+    },
+    "settings": {
+      "title": "Ajustes",
+      "description": "Dónde se ejecuta el experimento y a cuánta gente llega.",
+      "traffic": "Visitantes en el experimento",
+      "trafficHint": "El resto ve la página original y no cuenta en los resultados.",
+      "antiFlicker": "Evitar parpadeo",
+      "antiFlickerHint": "Oculta la página un instante hasta aplicar la variante, para que no se vea el texto original.",
+      "timeout": "Mostrar la página como máximo tras",
+      "domains": "Dominios permitidos",
+      "domainsHint": "El script solo actúa en estos dominios. Usa *.dominio.com para todos los subdominios.",
+      "pages": "Páginas",
+      "allPages": "Todas las páginas"
+    },
+    "install": {
+      "title": "Instalación",
+      "description": "Pega este código en el <head> de la página, lo más arriba posible.",
+      "copy": "Copiar código",
+      "testPage": "Abrir página de prueba",
+      "testPageHint": "Una copia de la página con el script ya instalado, para probar el experimento."
+    }
   }
 }

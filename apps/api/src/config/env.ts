@@ -11,6 +11,8 @@ const envSchema = z.object({
   PORT: z.coerce.number().int().default(3000),
   DATABASE_URL: z.url(),
   WEB_ORIGIN: z.url().default('http://localhost:5173'),
+  /** Where customer sites reach the public snippet endpoints (/s/...). */
+  PUBLIC_API_URL: z.url().default('http://localhost:3000'),
   // Copy generation. With AI_PROVIDER=auto, Claude is used only when an API key is present.
   ANTHROPIC_API_KEY: z
     .string()

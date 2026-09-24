@@ -602,5 +602,95 @@
       "description": "We load the page in a real browser to show you how the variants look.",
       "cta": "Load the page"
     }
+  },
+  "activation": {
+    "armName": "Variant {{letter}}",
+    "statuses": {
+      "draft": "Draft",
+      "running": "Running",
+      "paused": "Paused",
+      "finished": "Finished"
+    },
+    "status": {
+      "title": "Experiment",
+      "startedAt": "Running since {{date}}",
+      "hints": {
+        "draft": "Set up the versions and launch it when ready.",
+        "running": "",
+        "paused": "No new traffic is assigned while paused.",
+        "finished": "The experiment has ended."
+      }
+    },
+    "checks": {
+      "goal": "There is a primary goal",
+      "variantArm": "At least one version changes an element and gets traffic",
+      "saved": "Changes are saved",
+      "fix": "Set up"
+    },
+    "actions": {
+      "start": "Launch experiment",
+      "pause": "Pause",
+      "resume": "Resume",
+      "finish": "Finish",
+      "reset": "Reset"
+    },
+    "toasts": {
+      "start": "Experiment running",
+      "pause": "Experiment paused",
+      "resume": "Experiment resumed",
+      "finish": "Experiment finished",
+      "reset": "Experiment reset",
+      "saved": "Settings saved"
+    },
+    "errors": {
+      "no_primary_goal": "Set a primary goal before launching the experiment.",
+      "no_variant_arm": "At least one version must change an element and get traffic.",
+      "no_control_traffic": "The control version needs traffic.",
+      "invalid": "Check the settings: some values are not valid."
+    },
+    "finish": {
+      "title": "Finish the experiment?",
+      "description": "Measuring stops. If you pick a winning version, the script will show it to every visitor from now on.",
+      "winner": "Winning version",
+      "noWinner": "None (keep the original)"
+    },
+    "resetConfirm": {
+      "title": "Reset the experiment?",
+      "description": "All collected data will be deleted and it goes back to draft so you can change the versions."
+    },
+    "arms": {
+      "title": "Versions",
+      "description": "Each column is a version of the page. Choose which variant each element shows and how traffic is split.",
+      "locked": "Versions can't change while the experiment is live. Reset it to edit them.",
+      "element": "Element",
+      "control": "Control",
+      "traffic": "Traffic",
+      "add": "Add version",
+      "split": "Split evenly",
+      "remove": "Remove “{{name}}”",
+      "nameLabel": "Version name",
+      "cellLabel": "Variant of “{{element}}” in “{{arm}}”",
+      "weightLabel": "Traffic weight of “{{name}}”"
+    },
+    "settings": {
+      "title": "Settings",
+      "description": "Where the experiment runs and how many people it reaches.",
+      "traffic": "Visitors in the experiment",
+      "trafficHint": "The rest see the original page and don't count in the results.",
+      "antiFlicker": "Prevent flicker",
+      "antiFlickerHint": "Briefly hides the page until the variant is applied, so the original copy never flashes.",
+      "timeout": "Show the page after at most",
+      "domains": "Allowed domains",
+      "domainsHint": "The script only acts on these domains. Use *.domain.com for every subdomain.",
+      "pages": "Pages",
+      "allPages": "All pages"
+    },
+    "install": {
+      "title": "Installation",
+      "description": "Paste this code in the page <head>, as high as possible.",
+      "copy": "Copy code",
+      "testPage": "Open test page",
+      "testPageHint": "A copy of the page with the script installed, to try the experiment out."
+    }
   }
 }

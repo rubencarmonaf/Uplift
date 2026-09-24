@@ -2,6 +2,7 @@ import { createBrowserRouter, Navigate } from 'react-router';
 import { AppShell } from '@/components/layout/app-shell';
 import { NotFoundPage } from '@/components/not-found-page';
 import { PlaceholderPage } from '@/components/placeholder-page';
+import { ActivationPage } from '@/features/activation/activation-page';
 import { RedirectIfAuthed, RequireAuth } from '@/features/auth/guards';
 import { BriefPage } from '@/features/brief/brief-page';
 import { ElementsPage } from '@/features/elements/elements-page';
@@ -23,6 +24,7 @@ const STEP_PAGES: Partial<Record<ProjectStep, React.ReactNode>> = {
   variants: <VariantsPage />,
   goals: <GoalsPage />,
   preview: <PreviewPage />,
+  activation: <ActivationPage />,
 };
 
 export const router = createBrowserRouter([
