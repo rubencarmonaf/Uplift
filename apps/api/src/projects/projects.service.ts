@@ -10,7 +10,7 @@ import { and, asc, desc, eq, ilike, isNotNull, isNull, or, type SQL } from 'driz
 import type { z } from 'zod';
 import type { Db } from '../db/client.js';
 import { InjectDb } from '../db/db.module.js';
-import { pageElements, projectBriefs, projects } from '../db/schema.js';
+import { goals, pageElements, projectBriefs, projects } from '../db/schema.js';
 import { OrgAccessService } from '../organizations/org-access.service.js';
 import { ProjectAccessService } from './project-access.service.js';
 
@@ -98,7 +98,7 @@ export class ProjectsService {
     return toProjectDto(row!);
   }
 
-  /** Copies the project setup (details, elements and brief) into a new draft. Later phases add goals. */
+  /** Copies the project setup (details, elements, brief and goals) into a new draft. */
   async duplicate(userId: string, id: string, { name }: DuplicateProjectInput) {
     const { project: source } = await this.projectAccess.load(userId, id, 'editor');
     const row = await this.db.transaction(async (tx) => {
@@ -134,6 +134,17 @@ export class ProjectsService {
         await tx
           .insert(projectBriefs)
           .values({ projectId: copy!.id, data: brief.data, updatedBy: userId });
+      }
+      const sourceGoals = await tx.select().from(goals).where(eq(goals.projectId, source.id));
+      if (sourceGoals.length > 0) {
+        await tx.insert(goals).values(
+          sourceGoals.map(({ name, target, isPrimary }) => ({
+            projectId: copy!.id,
+            name,
+            target,
+            isPrimary,
+          })),
+        );
       }
       return copy!;
     });

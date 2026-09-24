@@ -7,6 +7,7 @@ import { SessionGuard } from './auth/session.guard.js';
 import { BriefsModule } from './briefs/briefs.module.js';
 import { DbModule } from './db/db.module.js';
 import { ElementsModule } from './elements/elements.module.js';
+import { GoalsModule } from './goals/goals.module.js';
 import { HealthController } from './health.controller.js';
 import { ProjectsModule } from './projects/projects.module.js';
 import { SnapshotsModule } from './snapshots/snapshots.module.js';
@@ -23,6 +24,7 @@ import { VariantsModule } from './variants/variants.module.js';
     BriefsModule,
     AiModule,
     VariantsModule,
+    GoalsModule,
   ],
   controllers: [HealthController],
   providers: [

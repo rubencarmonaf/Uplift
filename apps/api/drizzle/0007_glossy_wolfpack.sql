@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX "goals_one_primary_per_project" ON "goals" USING btree ("project_id") WHERE "goals"."is_primary";

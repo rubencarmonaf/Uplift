@@ -507,5 +507,77 @@
       "description": "Variants are generated for the copy you mark as elements on the page.",
       "cta": "Go to Elements"
     }
+  },
+  "goals": {
+    "title": "Conversion goals",
+    "description": "Which visitor action counts as a conversion in the experiment.",
+    "add": "Add goal",
+    "createTitle": "New goal",
+    "editTitle": "Edit goal",
+    "dialogDescription": "Define how we detect that a visitor converted.",
+    "primary": "Primary",
+    "secondary": "Secondary",
+    "makePrimary": "Make primary",
+    "pick": "Pick on the page",
+    "defaultClickName": "Click on “{{text}}”",
+    "fields": {
+      "name": "Name",
+      "kind": "Goal type",
+      "match": "Match",
+      "value": "URL or path",
+      "eventName": "Event name"
+    },
+    "placeholders": {
+      "name": "e.g. Requests a quote"
+    },
+    "kinds": {
+      "click": "Click",
+      "pageview": "URL visit",
+      "event": "Event"
+    },
+    "kindHints": {
+      "click": "When a button or link is clicked.",
+      "pageview": "When a page is reached, e.g. the “thank you” page.",
+      "event": "When your site sends a custom event."
+    },
+    "matches": {
+      "exact": "Exact",
+      "prefix": "Starts with",
+      "regex": "Regular expression"
+    },
+    "hints": {
+      "eventName": "Letters, numbers, dashes, dots or colons.",
+      "or": "or"
+    },
+    "errors": {
+      "regex": "The regular expression is not valid",
+      "eventName": "Use only letters, numbers, _, -, . or :"
+    },
+    "test": {
+      "label": "Try a URL",
+      "match": "This URL counts as a conversion",
+      "noMatch": "This URL doesn't count as a conversion"
+    },
+    "toasts": {
+      "created": "Goal added",
+      "saved": "Goal saved",
+      "deleted": "Goal deleted",
+      "primary": "Primary goal updated"
+    },
+    "actions": {
+      "edit": "Edit “{{name}}”",
+      "delete": "Delete “{{name}}”"
+    },
+    "deleteTitle": "Delete “{{name}}”?",
+    "deleteDescription": "It will no longer be measured in experiments.",
+    "deletePrimaryDescription": "It's the primary goal: the next oldest goal will become primary.",
+    "empty": {
+      "title": "No goals yet",
+      "description": "Without a goal there's no way to tell which variant wins. Start with the page's most important action."
+    },
+    "primaryHelp": {
+      "title": "Primary goal",
+      "description": "The metric that decides the winning variant. Secondary goals are measured too, to catch side effects."
+    }
   }
 }

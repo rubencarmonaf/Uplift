@@ -5,12 +5,14 @@ import {
   PAGE_TYPES,
   PROJECT_STATUSES,
   type ComplianceIssue,
+  type GoalTarget,
   GENERATION_STATUSES,
   VARIANT_ANGLES,
   VARIANT_SOURCES,
   VARIANT_STATUSES,
 } from '@uplift/shared';
 import {
+  boolean,
   index,
   integer,
   jsonb,
@@ -19,8 +21,10 @@ import {
   primaryKey,
   text,
   timestamp,
+  uniqueIndex,
   uuid,
 } from 'drizzle-orm/pg-core';
+import { sql } from 'drizzle-orm';
 
 const timestamps = {
   createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
@@ -193,4 +197,25 @@ export const variants = pgTable(
     ...timestamps,
   },
   (t) => [index('variants_element_created_idx').on(t.elementId, t.createdAt)],
+);
+
+/** A conversion goal. Exactly one per project is primary: the metric experiments are decided on. */
+export const goals = pgTable(
+  'goals',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    projectId: uuid('project_id')
+      .notNull()
+      .references(() => projects.id, { onDelete: 'cascade' }),
+    name: text('name').notNull(),
+    target: jsonb('target').$type<GoalTarget>().notNull(),
+    isPrimary: boolean('is_primary').notNull().default(false),
+    ...timestamps,
+  },
+  (t) => [
+    index('goals_project_idx').on(t.projectId),
+    uniqueIndex('goals_one_primary_per_project')
+      .on(t.projectId)
+      .where(sql`${t.isPrimary}`),
+  ],
 );

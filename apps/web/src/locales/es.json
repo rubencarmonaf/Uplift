@@ -507,5 +507,77 @@
       "description": "Las variantes se generan para los textos de la página que marques como elementos.",
       "cta": "Ir a Elementos"
     }
+  },
+  "goals": {
+    "title": "Objetivos de conversión",
+    "description": "Qué acción del visitante cuenta como conversión en el experimento.",
+    "add": "Añadir objetivo",
+    "createTitle": "Nuevo objetivo",
+    "editTitle": "Editar objetivo",
+    "dialogDescription": "Define cómo detectamos que un visitante ha convertido.",
+    "primary": "Principal",
+    "secondary": "Secundario",
+    "makePrimary": "Hacer principal",
+    "pick": "Elegir en la página",
+    "defaultClickName": "Clic en «{{text}}»",
+    "fields": {
+      "name": "Nombre",
+      "kind": "Tipo de objetivo",
+      "match": "Coincidencia",
+      "value": "URL o ruta",
+      "eventName": "Nombre del evento"
+    },
+    "placeholders": {
+      "name": "Ej. Solicita presupuesto"
+    },
+    "kinds": {
+      "click": "Clic",
+      "pageview": "Visita a URL",
+      "event": "Evento"
+    },
+    "kindHints": {
+      "click": "Cuando se pulsa un botón o enlace.",
+      "pageview": "Cuando se llega a una página, p. ej. la de «gracias».",
+      "event": "Cuando tu web envía un evento personalizado."
+    },
+    "matches": {
+      "exact": "Exacta",
+      "prefix": "Empieza por",
+      "regex": "Expresión regular"
+    },
+    "hints": {
+      "eventName": "Letras, números, guiones, puntos o dos puntos.",
+      "or": "o bien"
+    },
+    "errors": {
+      "regex": "La expresión regular no es válida",
+      "eventName": "Usa solo letras, números, _, -, . o :"
+    },
+    "test": {
+      "label": "Prueba con una URL",
+      "match": "Esta URL cuenta como conversión",
+      "noMatch": "Esta URL no cuenta como conversión"
+    },
+    "toasts": {
+      "created": "Objetivo añadido",
+      "saved": "Objetivo guardado",
+      "deleted": "Objetivo eliminado",
+      "primary": "Objetivo principal actualizado"
+    },
+    "actions": {
+      "edit": "Editar «{{name}}»",
+      "delete": "Eliminar «{{name}}»"
+    },
+    "deleteTitle": "¿Eliminar «{{name}}»?",
+    "deleteDescription": "Dejará de medirse en los experimentos.",
+    "deletePrimaryDescription": "Es el objetivo principal: el siguiente objetivo más antiguo pasará a ser el principal.",
+    "empty": {
+      "title": "Aún no hay objetivos",
+      "description": "Sin un objetivo no se puede saber qué variante gana. Empieza por la acción más importante de la página."
+    },
+    "primaryHelp": {
+      "title": "Objetivo principal",
+      "description": "Es la métrica con la que se decide la variante ganadora. Los secundarios se miden también para detectar efectos no deseados."
+    }
   }
 }
