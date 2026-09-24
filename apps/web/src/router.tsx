@@ -15,6 +15,7 @@ import { ProjectShell } from '@/features/projects/project-shell';
 import { PROJECT_STEPS, type ProjectStep } from '@/features/projects/project-steps';
 import { ProjectStepPlaceholder } from '@/features/projects/project-step-placeholder';
 import { ProjectsPage } from '@/features/projects/projects-page';
+import { ResultsPage } from '@/features/results/results-page';
 import { VariantsPage } from '@/features/variants/variants-page';
 
 /** Steps that are built; the rest show a placeholder. */
@@ -25,6 +26,7 @@ const STEP_PAGES: Partial<Record<ProjectStep, React.ReactNode>> = {
   goals: <GoalsPage />,
   preview: <PreviewPage />,
   activation: <ActivationPage />,
+  results: <ResultsPage />,
 };
 
 export const router = createBrowserRouter([

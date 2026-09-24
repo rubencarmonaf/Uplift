@@ -11,6 +11,7 @@ import { ExperimentsModule } from './experiments/experiments.module.js';
 import { GoalsModule } from './goals/goals.module.js';
 import { HealthController } from './health.controller.js';
 import { ProjectsModule } from './projects/projects.module.js';
+import { ResultsModule } from './results/results.module.js';
 import { SnapshotsModule } from './snapshots/snapshots.module.js';
 import { VariantsModule } from './variants/variants.module.js';
 
@@ -27,6 +28,7 @@ import { VariantsModule } from './variants/variants.module.js';
     VariantsModule,
     GoalsModule,
     ExperimentsModule,
+    ResultsModule,
   ],
   controllers: [HealthController],
   providers: [

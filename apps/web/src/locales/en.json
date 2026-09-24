@@ -692,5 +692,72 @@
       "testPage": "Open test page",
       "testPageHint": "A copy of the page with the script installed, to try the experiment out."
     }
+  },
+  "results": {
+    "applyWinner": "Apply winner",
+    "toasts": {
+      "applied": "Winner applied: every visitor will see it",
+      "simulated": "Traffic simulated",
+      "cleared": "Simulated data cleared"
+    },
+    "notStarted": {
+      "title": "The experiment hasn't started",
+      "description": "Launch it from Activation to start collecting data.",
+      "cta": "Go to Activation"
+    },
+    "finished": {
+      "title": "Experiment finished",
+      "serving": "Every visitor now sees “{{name}}”.",
+      "original": "Every visitor sees the original page."
+    },
+    "verdict": {
+      "collecting": {
+        "title": "Collecting data",
+        "description_one": "A decision needs at least {{count}} visitor per version and 95% certainty.",
+        "description_other": "A decision needs at least {{count}} visitors per version and 95% certainty."
+      },
+      "winner": {
+        "title": "“{{name}}” is the winner",
+        "description": "{{probability}} probability of being the best, with an estimated uplift of {{uplift}}."
+      },
+      "control": {
+        "title": "The original performs better",
+        "description": "Control has a {{probability}} probability of being the best version."
+      },
+      "noDifference": {
+        "title": "No clear difference",
+        "description": "At this traffic level no version stands out. Try bolder changes."
+      }
+    },
+    "table": {
+      "title": "Results",
+      "description": "Conversion on the primary goal: {{goal}}.",
+      "noGoal": "Set a primary goal to see results.",
+      "version": "Version",
+      "baseline": "Baseline",
+      "visitors": "Visitors",
+      "conversions": "Conversions",
+      "rate": "Rate (95% CI)",
+      "uplift": "Uplift vs control",
+      "probBeat": "Prob. to beat control"
+    },
+    "chart": {
+      "title": "Cumulative conversion rate",
+      "legend": "Legend",
+      "caption": "Each point is the cumulative rate up to that day. It usually settles over time.",
+      "notEnough": "The trend appears once there are at least two days of data."
+    },
+    "secondary": {
+      "title": "Secondary goals",
+      "description": "To catch side effects: a version can win on the primary goal and hurt others."
+    },
+    "simulation": {
+      "title": "Demo mode: simulate traffic",
+      "description": "Generates 14 days of simulated, reproducible visits so you can see results without installing the script on a real site. Kept apart from real data.",
+      "run": "Simulate traffic",
+      "rerun": "Simulate again",
+      "clear": "Clear simulated data",
+      "needsLive": "Launch the experiment to simulate traffic."
+    }
   }
 }

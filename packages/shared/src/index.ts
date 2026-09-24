@@ -4,5 +4,6 @@ export * from './elements.js';
 export * from './experiments.js';
 export * from './goals.js';
 export * from './projects.js';
+export * from './results.js';
 export * from './snapshots.js';
 export * from './variants.js';

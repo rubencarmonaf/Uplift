@@ -692,5 +692,72 @@
       "testPage": "Abrir página de prueba",
       "testPageHint": "Una copia de la página con el script ya instalado, para probar el experimento."
     }
+  },
+  "results": {
+    "applyWinner": "Aplicar ganadora",
+    "toasts": {
+      "applied": "Ganadora aplicada: se mostrará a todos los visitantes",
+      "simulated": "Tráfico simulado",
+      "cleared": "Datos simulados borrados"
+    },
+    "notStarted": {
+      "title": "El experimento aún no ha empezado",
+      "description": "Lánzalo desde Activación para empezar a recoger datos.",
+      "cta": "Ir a Activación"
+    },
+    "finished": {
+      "title": "Experimento finalizado",
+      "serving": "Todos los visitantes ven ahora «{{name}}».",
+      "original": "Todos los visitantes ven la página original."
+    },
+    "verdict": {
+      "collecting": {
+        "title": "Recogiendo datos",
+        "description_one": "Hacen falta al menos {{count}} visitante por versión y un 95 % de seguridad para decidir.",
+        "description_other": "Hacen falta al menos {{count}} visitantes por versión y un 95 % de seguridad para decidir."
+      },
+      "winner": {
+        "title": "«{{name}}» es la ganadora",
+        "description": "{{probability}} de probabilidad de ser la mejor, con una mejora estimada de {{uplift}}."
+      },
+      "control": {
+        "title": "El original funciona mejor",
+        "description": "El control tiene un {{probability}} de probabilidad de ser la mejor versión."
+      },
+      "noDifference": {
+        "title": "Sin diferencias claras",
+        "description": "Con este volumen de visitas, ninguna versión destaca. Prueba cambios más ambiciosos."
+      }
+    },
+    "table": {
+      "title": "Resultados",
+      "description": "Conversión en el objetivo principal: {{goal}}.",
+      "noGoal": "Define un objetivo principal para ver resultados.",
+      "version": "Versión",
+      "baseline": "Referencia",
+      "visitors": "Visitantes",
+      "conversions": "Conversiones",
+      "rate": "Tasa (IC 95 %)",
+      "uplift": "Mejora vs control",
+      "probBeat": "Prob. de superar al control"
+    },
+    "chart": {
+      "title": "Tasa de conversión acumulada",
+      "legend": "Leyenda",
+      "caption": "Cada punto es la tasa acumulada hasta ese día. Suele estabilizarse con el tiempo.",
+      "notEnough": "La evolución aparecerá cuando haya datos de al menos dos días."
+    },
+    "secondary": {
+      "title": "Objetivos secundarios",
+      "description": "Para detectar efectos no deseados: una versión puede ganar en el principal y empeorar otros."
+    },
+    "simulation": {
+      "title": "Modo demo: simular tráfico",
+      "description": "Genera 14 días de visitas simuladas y reproducibles para ver los resultados sin instalar el script en una web real. Se guardan aparte de los datos reales.",
+      "run": "Simular tráfico",
+      "rerun": "Volver a simular",
+      "clear": "Borrar datos simulados",
+      "needsLive": "Lanza el experimento para poder simular tráfico."
+    }
   }
 }
