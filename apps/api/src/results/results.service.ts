@@ -1,4 +1,3 @@
-import { randomUUID } from 'node:crypto';
 import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
 import type {
   ArmResult,
@@ -150,7 +149,12 @@ export class ResultsService {
       .map((g) => ({ id: g.id, factor: 0.8 + rand() * 1.6 }));
 
     const start = (input.endAt?.getTime() ?? Date.now()) - input.days * DAY_MS;
-    const rows: (typeof experimentEvents.$inferInsert)[] = [];
+    // Events travel as one compact JSON document that Postgres expands: building tens of
+    // thousands of parameterized rows in Node is what made this slow on small instances.
+    // Each tuple is [visitorId, arm index, goal index (0 = exposure), timestamp in ms].
+    const goalIds = ['', primary.id, ...secondaryRates.map((g) => g.id)];
+    const events: [string, number, number, number][] = [];
+    let visitorCount = 0;
     for (let day = 0; day < input.days; day++) {
       // Traffic varies by day (weekends, campaigns).
       const dailyVisitors = Math.round(input.visitorsPerDay * (0.7 + rand() * 0.6));
@@ -160,30 +164,16 @@ export class ResultsService {
           0,
           experiment.arms.findIndex((a) => (point -= a.weight) < 0),
         );
-        const arm = experiment.arms[armIndex]!;
-        const visitorId = `sim_${randomUUID().replace(/-/g, '').slice(0, 16)}`;
-        const at = new Date(start + day * DAY_MS + rand() * DAY_MS);
-        const base = { experimentId: experiment.id, armId: arm.id, visitorId, simulated: true };
-        rows.push({ ...base, type: 'exposure', goalId: '', createdAt: at });
+        const visitorId = `sim_${(visitorCount++).toString(36)}`;
+        const at = Math.round(start + day * DAY_MS + rand() * DAY_MS);
+        events.push([visitorId, armIndex, 0, at]);
         const armRate = armRates[armIndex]!;
-        if (rand() < armRate) {
-          rows.push({
-            ...base,
-            type: 'conversion',
-            goalId: primary.id,
-            createdAt: new Date(at.getTime() + rand() * 600_000),
-          });
-        }
-        for (const secondary of secondaryRates) {
+        if (rand() < armRate) events.push([visitorId, armIndex, 1, at + rand() * 600_000]);
+        secondaryRates.forEach((secondary, i) => {
           if (rand() < Math.min(0.9, armRate * secondary.factor)) {
-            rows.push({
-              ...base,
-              type: 'conversion',
-              goalId: secondary.id,
-              createdAt: new Date(at.getTime() + rand() * 600_000),
-            });
+            events.push([visitorId, armIndex, i + 2, at + rand() * 600_000]);
           }
-        }
+        });
       }
     }
 
@@ -196,12 +186,19 @@ export class ResultsService {
             eq(experimentEvents.simulated, true),
           ),
         );
-      for (let i = 0; i < rows.length; i += 2000) {
-        await tx
-          .insert(experimentEvents)
-          .values(rows.slice(i, i + 2000))
-          .onConflictDoNothing();
-      }
+      await tx.execute(sql`
+        insert into experiment_events
+          (experiment_id, arm_id, visitor_id, type, goal_id, simulated, created_at)
+        select
+          ${experiment.id}::uuid,
+          (${JSON.stringify(experiment.arms.map((a) => a.id))}::jsonb ->> (e ->> 1)::int)::uuid,
+          e ->> 0,
+          (case when (e ->> 2)::int = 0 then 'exposure' else 'conversion' end)::event_type,
+          ${JSON.stringify(goalIds)}::jsonb ->> (e ->> 2)::int,
+          true,
+          to_timestamp((e ->> 3)::double precision / 1000)
+        from jsonb_array_elements(${JSON.stringify(events)}::jsonb) as e
+        on conflict do nothing`);
       // Keep the timeline coherent: the experiment "started" when the simulated traffic did.
       if (!experiment.startedAt || experiment.startedAt.getTime() > start) {
         await tx
