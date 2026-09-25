@@ -1,0 +1,871 @@
+{
+  "app": {
+    "name": "Uplift",
+    "tagline": "Textos que convierten, validados con experimentos."
+  },
+  "nav": {
+    "projects": "Proyectos",
+    "library": "Biblioteca",
+    "settings": "Ajustes"
+  },
+  "auth": {
+    "email": "Email",
+    "password": "Contraseña",
+    "name": "Nombre",
+    "login": {
+      "title": "Inicia sesión",
+      "description": "Accede a tus proyectos de optimización.",
+      "submit": "Entrar",
+      "noAccount": "¿No tienes cuenta?",
+      "toRegister": "Regístrate"
+    },
+    "register": {
+      "title": "Crea tu cuenta",
+      "description": "Empieza a optimizar tus páginas en minutos.",
+      "submit": "Crear cuenta",
+      "hasAccount": "¿Ya tienes cuenta?",
+      "toLogin": "Inicia sesión",
+      "passwordHint": "Mínimo 10 caracteres."
+    },
+    "logout": "Cerrar sesión",
+    "errors": {
+      "invalidCredentials": "Email o contraseña incorrectos.",
+      "emailTaken": "Ya existe una cuenta con ese email.",
+      "tooManyAttempts": "Demasiados intentos. Espera un minuto.",
+      "generic": "Algo ha fallado. Inténtalo de nuevo."
+    },
+    "demo": {
+      "or": "o",
+      "cta": "Probar la demo",
+      "preparing": "Preparando tu demo…",
+      "hint": "Sin registro: una cuenta temporal con un proyecto de ejemplo completo."
+    }
+  },
+  "user": {
+    "language": "Idioma",
+    "theme": "Tema",
+    "themes": {
+      "light": "Claro",
+      "dark": "Oscuro",
+      "system": "Sistema"
+    }
+  },
+  "projects": {
+    "title": "Proyectos",
+    "description": "Cada proyecto es una página que quieres hacer convertir mejor.",
+    "empty": {
+      "title": "Aún no tienes proyectos",
+      "description": "Crea tu primer proyecto a partir de la URL de la página que quieres optimizar."
+    },
+    "new": "Nuevo proyecto",
+    "create": "Crear proyecto",
+    "createTitle": "Nuevo proyecto",
+    "createDescription": "Indica la página que quieres optimizar. Podrás cambiar estos datos más adelante.",
+    "archived": "Archivado",
+    "statuses": {
+      "draft": "Borrador",
+      "ready": "Listo",
+      "running": "En experimento",
+      "finished": "Finalizado"
+    },
+    "industries": {
+      "saas": "SaaS / Software",
+      "ecommerce": "E-commerce",
+      "finance": "Finanzas",
+      "insurance": "Seguros",
+      "health": "Salud",
+      "education": "Educación",
+      "travel": "Viajes",
+      "real_estate": "Inmobiliaria",
+      "media": "Medios",
+      "other": "Otro"
+    },
+    "pageTypes": {
+      "landing": "Landing",
+      "home": "Home",
+      "product": "Ficha de producto",
+      "category": "Categoría",
+      "pricing": "Precios",
+      "signup": "Registro",
+      "checkout": "Checkout",
+      "other": "Otra"
+    },
+    "fields": {
+      "name": "Nombre",
+      "url": "URL de la página",
+      "industry": "Sector",
+      "pageType": "Tipo de página",
+      "locale": "Idioma y mercado",
+      "status": "Estado"
+    },
+    "placeholders": {
+      "name": "Ej. Página de precios",
+      "select": "Selecciona…"
+    },
+    "hints": {
+      "url": "La página pública cuyos textos quieres mejorar."
+    },
+    "errors": {
+      "url": "Introduce una URL pública que empiece por http:// o https://",
+      "required": "Campo obligatorio"
+    },
+    "toasts": {
+      "created": "Proyecto creado",
+      "archived": "Proyecto archivado",
+      "unarchived": "Proyecto restaurado",
+      "deleted": "Proyecto eliminado",
+      "saved": "Cambios guardados",
+      "copied": "Copia creada"
+    },
+    "actions": {
+      "archive": "Archivar",
+      "unarchive": "Restaurar",
+      "delete": "Eliminar",
+      "copy": "Hacer una copia"
+    },
+    "copyName": "{{name}} (copia)",
+    "deleteTitle": "¿Eliminar «{{name}}»?",
+    "deleteDescription": "Se eliminarán el proyecto y todos sus datos. Esta acción no se puede deshacer. Si solo quieres ocultarlo, archívalo.",
+    "searchPlaceholder": "Buscar por nombre o URL",
+    "allStatuses": "Todos los estados",
+    "view": "Vista",
+    "views": {
+      "active": "Activos",
+      "archived": "Archivados"
+    },
+    "sortBy": "Ordenar por",
+    "sorts": {
+      "updated": "Última modificación",
+      "created": "Fecha de creación",
+      "name": "Nombre"
+    },
+    "noResults": "Ningún proyecto coincide con los filtros.",
+    "updated": "Modificado",
+    "created": "Creado",
+    "notFound": "Proyecto no encontrado",
+    "backToList": "Volver a proyectos",
+    "stepsLabel": "Pasos del proyecto",
+    "steps": {
+      "overview": "Resumen",
+      "elements": "Elementos",
+      "brief": "Brief",
+      "variants": "Variantes",
+      "goals": "Objetivos",
+      "preview": "Vista previa",
+      "activation": "Activación",
+      "results": "Resultados"
+    },
+    "stepDescriptions": {
+      "overview": "",
+      "elements": "Marca los textos de la página que quieres optimizar: titulares, CTAs, beneficios…",
+      "brief": "Describe la voz de la marca, el negocio y las reglas legales que la IA debe respetar.",
+      "variants": "Genera, revisa y selecciona variantes de texto para cada elemento.",
+      "goals": "Define qué cuenta como conversión: clics, visitas a una URL o eventos.",
+      "preview": "Revisa la página con las variantes aplicadas en escritorio y móvil.",
+      "activation": "Instala el script en tu web y lanza el experimento.",
+      "results": "Compara variantes y descubre cuál convierte mejor."
+    },
+    "overview": {
+      "detailsTitle": "Datos del proyecto",
+      "detailsDescription": "La IA usa el sector, el tipo de página y el mercado para adaptar los textos.",
+      "statusDescription": "Indica en qué punto del proceso está el proyecto."
+    }
+  },
+  "comingSoon": "Próximamente",
+  "notFound": {
+    "title": "Página no encontrada",
+    "back": "Volver al inicio"
+  },
+  "common": {
+    "actions": "Acciones",
+    "cancel": "Cancelar",
+    "save": "Guardar cambios",
+    "retry": "Reintentar",
+    "errors": {
+      "generic": "Algo ha fallado. Inténtalo de nuevo.",
+      "loadFailed": "No se ha podido cargar la información."
+    }
+  },
+  "elements": {
+    "title": "Elementos a optimizar",
+    "count_one": "{{count}} elemento",
+    "count_other": "{{count}} elementos",
+    "add": "Añadir elemento",
+    "createTitle": "Nuevo elemento",
+    "editTitle": "Editar elemento",
+    "dialogDescription": "Un elemento es un texto concreto de la página: un titular, un botón, un beneficio…",
+    "charCount_one": "{{count}} carácter",
+    "charCount_other": "{{count}} caracteres",
+    "limits": "mín. {{min}} · máx. {{max}}",
+    "types": {
+      "headline": "Titular",
+      "subheadline": "Subtítulo",
+      "cta": "Botón (CTA)",
+      "body": "Párrafo",
+      "bullet": "Beneficio / viñeta",
+      "label": "Etiqueta",
+      "other": "Otro"
+    },
+    "fields": {
+      "name": "Nombre",
+      "type": "Tipo",
+      "selector": "Selector CSS",
+      "originalText": "Texto original",
+      "length": "Longitud de las variantes",
+      "minLength": "Mínimo de caracteres",
+      "maxLength": "Máximo de caracteres",
+      "notes": "Notas para la IA"
+    },
+    "placeholders": {
+      "name": "Ej. Titular principal",
+      "originalText": "Copia aquí el texto tal y como aparece en la página",
+      "notes": "Ej. Mantén la mención a la prueba gratuita de 14 días"
+    },
+    "hints": {
+      "selector": "Identifica el elemento en la página. Ej.: #hero h1, .pricing .cta-primary",
+      "originalText": "Es el punto de partida (la versión de control) para generar variantes.",
+      "overLimit": "El texto original supera el máximo: las variantes serán más cortas.",
+      "length": "Opcional. Limita la longitud de las variantes para que encajen en el diseño."
+    },
+    "errors": {
+      "selector": "Selector CSS no válido",
+      "length": "Introduce un número entre 1 y 5000",
+      "range": "El máximo debe ser mayor o igual que el mínimo"
+    },
+    "toasts": {
+      "created": "Elemento añadido",
+      "saved": "Elemento guardado",
+      "deleted": "Elemento eliminado"
+    },
+    "actions": {
+      "moveUp": "Subir «{{name}}»",
+      "moveDown": "Bajar «{{name}}»",
+      "edit": "Editar «{{name}}»",
+      "delete": "Eliminar «{{name}}»"
+    },
+    "deleteTitle": "¿Eliminar «{{name}}»?",
+    "deleteDescription": "Se eliminarán también sus variantes. Esta acción no se puede deshacer.",
+    "empty": {
+      "title": "Aún no hay elementos",
+      "description": "Añade los textos de la página que quieres mejorar. Empieza por los que más influyen en la conversión: el titular y el botón principal."
+    },
+    "tips": {
+      "title": "¿Prefieres escribir el selector?",
+      "step1": "Abre la página en Chrome, haz clic derecho sobre el texto y elige «Inspeccionar».",
+      "step2": "En el panel de elementos, clic derecho sobre el nodo resaltado → Copiar → Copiar selector.",
+      "step3": "Pégalo aquí y simplifícalo si es muy largo.",
+      "stable": "Prefiere ids o clases con significado (#hero-title) antes que rutas largas con :nth-child, que se rompen al cambiar la página."
+    },
+    "pickOnPage": "Seleccionar en la página",
+    "addManually": "Añadir manualmente"
+  },
+  "picker": {
+    "title": "Selecciona un elemento",
+    "description": "Pasa el ratón por la página y haz clic en el texto que quieres optimizar. Los enlaces están desactivados.",
+    "frameTitle": "Copia de {{url}} para seleccionar elementos",
+    "capturedAt": "capturada {{when}}",
+    "refresh": "Actualizar página",
+    "capturing": "Abriendo la página…",
+    "capturingHint": "La cargamos en un navegador real para que se vea igual que en tu web. Puede tardar unos segundos.",
+    "loading": "Cargando…",
+    "failedTitle": "No hemos podido abrir la página",
+    "refreshFailed": "No se ha podido actualizar la página.",
+    "errors": {
+      "blocked_url": "La URL apunta a una dirección privada o no permitida. Usa la URL pública de la página.",
+      "timeout": "La página ha tardado demasiado en cargar.",
+      "unreachable": "La página no responde o devuelve un error. Comprueba la URL del proyecto.",
+      "too_large": "La página es demasiado grande para capturarla.",
+      "rate_limited": "Has actualizado demasiadas veces. Espera un minuto.",
+      "unknown": "Algo ha fallado. Inténtalo de nuevo."
+    }
+  },
+  "tagInput": {
+    "hint": "Escribe y pulsa Enter para añadir. Pega varias líneas para añadir varias a la vez.",
+    "remove": "Quitar «{{item}}»",
+    "full": "Has llegado al máximo"
+  },
+  "brief": {
+    "save": "Guardar brief",
+    "discard": "Descartar cambios",
+    "saved": "Brief guardado",
+    "unsaved": "Tienes cambios sin guardar.",
+    "lastSaved": "Guardado {{when}}.",
+    "neverSaved": "Aún no has guardado el brief.",
+    "leave": {
+      "title": "¿Salir sin guardar?",
+      "description": "Tienes cambios en el brief que se perderán si sales ahora.",
+      "stay": "Seguir editando",
+      "discard": "Salir sin guardar"
+    },
+    "sections": {
+      "offer": "La oferta",
+      "reader": "Quién lee la página",
+      "evidence": "Pruebas",
+      "style": "Estilo de escritura",
+      "rules": "Reglas de la marca"
+    },
+    "sectionDescriptions": {
+      "offer": "Qué vendes en esta página y qué quieres conseguir con ella.",
+      "reader": "Cómo es el visitante y qué le hace dudar. Las variantes le hablarán a esa persona.",
+      "evidence": "Lo que puedes demostrar y lo que no puedes prometer. La IA solo citará datos de aquí.",
+      "style": "Cómo escribe tu marca, para que las variantes suenen a tu equipo.",
+      "rules": "Normas que ninguna variante puede saltarse. Se revisan en cada generación."
+    },
+    "fields": {
+      "offer": {
+        "product": "Producto o servicio",
+        "pageGoal": "Qué quieres que haga el visitante",
+        "benefits": "Beneficios clave"
+      },
+      "reader": {
+        "audience": "Perfil del visitante",
+        "stage": "Momento de compra",
+        "doubts": "Dudas que le frenan"
+      },
+      "evidence": {
+        "proofPoints": "Datos demostrables",
+        "offLimits": "Promesas que no podemos hacer"
+      },
+      "style": {
+        "tones": "Tono",
+        "formality": "Tratamiento",
+        "readingLevel": "Nivel de lectura",
+        "notes": "Notas de estilo"
+      },
+      "rules": {
+        "sensitivity": "Sensibilidad del sector",
+        "bannedWords": "Palabras que no usamos",
+        "requiredMentions": "Siempre mencionar",
+        "legalNotes": "Letra pequeña obligatoria",
+        "avoidStyles": "Recursos que no usamos"
+      }
+    },
+    "placeholders": {
+      "offer": {
+        "product": "Ej. Seguro de hogar con asistencia 24 h y reparaciones urgentes incluidas",
+        "pageGoal": "Ej. Que pidan un presupuesto online",
+        "benefits": "Ej. Presupuesto en 2 minutos"
+      },
+      "reader": {
+        "audience": "Ej. Familias que alquilan o compran su primera vivienda",
+        "doubts": "Ej. «Seguro que luego sube el precio»"
+      },
+      "evidence": {
+        "proofPoints": "Ej. Más de 200.000 clientes",
+        "offLimits": "Ej. «El más barato del mercado»"
+      },
+      "style": {
+        "notes": "Ej. Frases cortas. Evitamos tecnicismos. Hablamos de «tu casa», no de «la vivienda»."
+      },
+      "rules": {
+        "bannedWords": "Ej. gratis, garantizado",
+        "requiredMentions": "Ej. Sin permanencia",
+        "legalNotes": "Ej. Precio para vivienda de 90 m² en Madrid. Consulta condiciones.",
+        "avoidStyles": "Ej. Urgencia falsa («¡solo hoy!»)"
+      }
+    },
+    "hints": {
+      "offer": {
+        "benefits": "Por qué alguien te elegiría a ti. Uno por línea."
+      },
+      "reader": {
+        "doubts": "Lo que hace que el visitante no dé el paso; las variantes intentarán despejarlo."
+      },
+      "evidence": {
+        "proofPoints": "Cifras, garantías y datos reales que la IA puede usar tal cual.",
+        "offLimits": "Frases tentadoras que no se pueden decir."
+      },
+      "style": {
+        "tones": "Elige hasta 3."
+      },
+      "rules": {
+        "bannedWords": "Separa con comas o Enter. Ninguna variante podrá contenerlas.",
+        "requiredMentions": "Textos que tienen que aparecer cuando venga al caso.",
+        "legalNotes": "Aclaraciones legales que acompañan a ciertos datos (precios, rentabilidades…).",
+        "avoidStyles": "Formas de escribir que no encajan con tu marca."
+      }
+    },
+    "options": {
+      "stage": {
+        "exploring": "Explorando opciones",
+        "comparing": "Comparando",
+        "deciding": "A punto de decidir",
+        "customer": "Ya es cliente"
+      },
+      "tone": {
+        "friendly": "Cercano",
+        "professional": "Profesional",
+        "bold": "Atrevido",
+        "playful": "Desenfadado",
+        "reassuring": "Tranquilizador",
+        "premium": "Premium",
+        "technical": "Técnico",
+        "inspiring": "Inspirador"
+      },
+      "formality": {
+        "formal": "De usted",
+        "neutral": "Impersonal",
+        "informal": "De tú"
+      },
+      "readingLevel": {
+        "simple": "Sencillo",
+        "standard": "Estándar",
+        "advanced": "Especializado"
+      },
+      "sensitivity": {
+        "low": "Baja",
+        "medium": "Media",
+        "high": "Alta"
+      },
+      "sensitivityDescriptions": {
+        "low": "Libertad creativa.",
+        "medium": "Afirmaciones prudentes que se puedan comprobar.",
+        "high": "Sector regulado: solo datos de la sección de pruebas, con su letra pequeña."
+      }
+    },
+    "regulated": {
+      "title": "Sector regulado",
+      "description": "En {{industry}} la publicidad está regulada. Te recomendamos sensibilidad alta.",
+      "apply": "Usar sensibilidad alta"
+    },
+    "completeness": {
+      "title": "Calidad del brief",
+      "description": "Cuanto más completo, mejores y más seguras serán las variantes.",
+      "done": "completado",
+      "pending": "pendiente",
+      "checks": {
+        "product": "Producto o servicio",
+        "audience": "Perfil del visitante",
+        "pageGoal": "Qué debe hacer el visitante",
+        "tone": "Tono de la marca",
+        "formality": "Tratamiento (tú / usted)",
+        "benefits": "Al menos un beneficio clave",
+        "proofPoints": "Al menos un dato demostrable",
+        "sensitivity": "Sensibilidad del sector"
+      }
+    }
+  },
+  "variants": {
+    "generate": "Generar variantes",
+    "count": "Variantes",
+    "perElement_one": "{{count}} por elemento",
+    "perElement_other": "{{count}} por elemento",
+    "instructions": "Indicaciones para esta tanda (opcional)",
+    "instructionsPlaceholder": "Ej. más cortas y directas, prueba un enfoque de ahorro…",
+    "generateAll_one": "Generar para {{count}} elemento",
+    "generateAll_other": "Generar para {{count}} elementos",
+    "generateMore": "Generar más",
+    "progress": "Generando variantes… {{done}} de {{total}} elementos",
+    "control": "Original",
+    "activeCount_one": "{{count}} variante",
+    "activeCount_other": "{{count}} variantes",
+    "empty": "Aún no hay variantes para este elemento.",
+    "manual": "Manual",
+    "manualPlaceholder": "Escribe tu propia variante…",
+    "manualLabel": "Nueva variante manual para «{{name}}»",
+    "add": "Añadir",
+    "edit": "Editar",
+    "editLabel": "Texto de la variante",
+    "discard": "Descartar",
+    "restore": "Restaurar",
+    "showDiscarded_one": "Ver {{count}} descartada",
+    "showDiscarded_other": "Ver {{count}} descartadas",
+    "hideDiscarded_one": "Ocultar descartada",
+    "hideDiscarded_other": "Ocultar descartadas",
+    "quality": "Calidad",
+    "qualityHint": "Valoración de la IA: claridad, relevancia y capacidad de persuasión.",
+    "toasts": {
+      "added": "Variante añadida"
+    },
+    "issues": {
+      "banned_word": "Usa «{{detail}}», una palabra que no usamos.",
+      "off_limits_promise": "Hace una promesa que no podemos hacer: «{{detail}}».",
+      "too_long": "Demasiado larga ({{detail}} caracteres).",
+      "too_short": "Demasiado corta ({{detail}} caracteres).",
+      "unchanged": "Es igual que el texto original."
+    },
+    "errors": {
+      "alreadyRunning": "Ya hay una generación en curso para este proyecto.",
+      "rateLimited": "Has lanzado muchas generaciones seguidas. Espera un minuto."
+    },
+    "failed": {
+      "all": "No se ha podido generar ninguna variante",
+      "some_one": "Ha fallado {{count}} elemento",
+      "some_other": "Han fallado {{count}} elementos",
+      "description": "Inténtalo de nuevo con «Generar más». Si sigue fallando, revisa el texto original y el brief."
+    },
+    "demo": {
+      "title": "Modo demo",
+      "description": "No hay una clave de la API de Claude configurada, así que las variantes se generan con plantillas de ejemplo. Añade ANTHROPIC_API_KEY en el servidor para usar la IA real."
+    },
+    "weakBrief": {
+      "title": "El brief está poco completo",
+      "description": "Con más contexto sobre el negocio y la marca, las variantes serán mucho mejores.",
+      "cta": "Completar el brief"
+    },
+    "noElements": {
+      "title": "Primero añade elementos",
+      "description": "Las variantes se generan para los textos de la página que marques como elementos.",
+      "cta": "Ir a Elementos"
+    },
+    "rulesScore": "Reglas {{score}}",
+    "rulesHint": "Revisión automática de palabras que no usamos, promesas que no podemos hacer y longitud.",
+    "approaches": {
+      "clarity": "Claridad",
+      "benefit": "Beneficio",
+      "social_proof": "Prueba social",
+      "urgency": "Urgencia",
+      "risk_reversal": "Sin riesgo",
+      "curiosity": "Curiosidad",
+      "specificity": "Concreción",
+      "emotional": "Emocional",
+      "answers_doubt": "Resuelve dudas"
+    }
+  },
+  "goals": {
+    "title": "Objetivos de conversión",
+    "description": "Qué acción del visitante cuenta como conversión en el experimento.",
+    "add": "Añadir objetivo",
+    "createTitle": "Nuevo objetivo",
+    "editTitle": "Editar objetivo",
+    "dialogDescription": "Define cómo detectamos que un visitante ha convertido.",
+    "primary": "Principal",
+    "secondary": "Secundario",
+    "makePrimary": "Hacer principal",
+    "pick": "Elegir en la página",
+    "defaultClickName": "Clic en «{{text}}»",
+    "fields": {
+      "name": "Nombre",
+      "kind": "Tipo de objetivo",
+      "match": "Coincidencia",
+      "value": "URL o ruta",
+      "eventName": "Nombre del evento"
+    },
+    "placeholders": {
+      "name": "Ej. Solicita presupuesto"
+    },
+    "kinds": {
+      "click": "Clic",
+      "pageview": "Visita a URL",
+      "event": "Evento"
+    },
+    "kindHints": {
+      "click": "Cuando se pulsa un botón o enlace.",
+      "pageview": "Cuando se llega a una página, p. ej. la de «gracias».",
+      "event": "Cuando tu web envía un evento personalizado."
+    },
+    "matches": {
+      "exact": "Exacta",
+      "prefix": "Empieza por",
+      "regex": "Expresión regular"
+    },
+    "hints": {
+      "eventName": "Letras, números, guiones, puntos o dos puntos.",
+      "or": "o bien"
+    },
+    "errors": {
+      "regex": "La expresión regular no es válida",
+      "eventName": "Usa solo letras, números, _, -, . o :"
+    },
+    "test": {
+      "label": "Prueba con una URL",
+      "match": "Esta URL cuenta como conversión",
+      "noMatch": "Esta URL no cuenta como conversión"
+    },
+    "toasts": {
+      "created": "Objetivo añadido",
+      "saved": "Objetivo guardado",
+      "deleted": "Objetivo eliminado",
+      "primary": "Objetivo principal actualizado"
+    },
+    "actions": {
+      "edit": "Editar «{{name}}»",
+      "delete": "Eliminar «{{name}}»"
+    },
+    "deleteTitle": "¿Eliminar «{{name}}»?",
+    "deleteDescription": "Dejará de medirse en los experimentos.",
+    "deletePrimaryDescription": "Es el objetivo principal: el siguiente objetivo más antiguo pasará a ser el principal.",
+    "empty": {
+      "title": "Aún no hay objetivos",
+      "description": "Sin un objetivo no se puede saber qué variante gana. Empieza por la acción más importante de la página."
+    },
+    "primaryHelp": {
+      "title": "Objetivo principal",
+      "description": "Es la métrica con la que se decide la variante ganadora. Los secundarios se miden también para detectar efectos no deseados."
+    }
+  },
+  "preview": {
+    "viewport": "Dispositivo",
+    "viewports": {
+      "desktop": "Escritorio",
+      "tablet": "Tablet",
+      "mobile": "Móvil"
+    },
+    "hideConsent": "Ocultar banners de cookies",
+    "elements": "Variante por elemento",
+    "allOriginal": "Original",
+    "best": "Mejores",
+    "random": "Aleatorio",
+    "original": "Original",
+    "noElements": "Aún no hay elementos.",
+    "notFound": "No encontrado en la página",
+    "notFoundHint": "El selector no encuentra este elemento en la captura actual.",
+    "frameTitle": "Vista previa de {{url}} con variantes",
+    "noSnapshot": {
+      "title": "Aún no hay captura de la página",
+      "description": "Cargamos la página en un navegador real para enseñarte cómo quedan las variantes.",
+      "cta": "Cargar la página"
+    }
+  },
+  "activation": {
+    "armName": "Variante {{letter}}",
+    "statuses": {
+      "draft": "Borrador",
+      "running": "En marcha",
+      "paused": "Pausado",
+      "finished": "Finalizado"
+    },
+    "status": {
+      "title": "Experimento",
+      "startedAt": "En marcha desde el {{date}}",
+      "hints": {
+        "draft": "Configura las versiones y lánzalo cuando esté listo.",
+        "running": "",
+        "paused": "No se asigna tráfico nuevo mientras esté pausado.",
+        "finished": "El experimento ha terminado."
+      }
+    },
+    "checks": {
+      "goal": "Hay un objetivo principal",
+      "variantArm": "Al menos una versión cambia algún elemento y recibe tráfico",
+      "saved": "Los cambios están guardados",
+      "fix": "Configurar"
+    },
+    "actions": {
+      "start": "Lanzar experimento",
+      "pause": "Pausar",
+      "resume": "Reanudar",
+      "finish": "Finalizar",
+      "reset": "Reiniciar"
+    },
+    "toasts": {
+      "start": "Experimento en marcha",
+      "pause": "Experimento pausado",
+      "resume": "Experimento reanudado",
+      "finish": "Experimento finalizado",
+      "reset": "Experimento reiniciado",
+      "saved": "Configuración guardada"
+    },
+    "errors": {
+      "no_primary_goal": "Define un objetivo principal antes de lanzar el experimento.",
+      "no_variant_arm": "Al menos una versión debe cambiar algún elemento y recibir tráfico.",
+      "no_control_traffic": "La versión de control necesita recibir tráfico.",
+      "invalid": "Revisa la configuración: hay datos que no son válidos."
+    },
+    "finish": {
+      "title": "¿Finalizar el experimento?",
+      "description": "Dejaremos de medir. Si eliges una versión ganadora, el script la mostrará a todos los visitantes a partir de ahora.",
+      "winner": "Versión ganadora",
+      "noWinner": "Ninguna (mantener el original)"
+    },
+    "resetConfirm": {
+      "title": "¿Reiniciar el experimento?",
+      "description": "Se borrarán todos los datos recogidos y volverá a borrador para que puedas cambiar las versiones."
+    },
+    "arms": {
+      "title": "Versiones",
+      "description": "Cada columna es una versión de la página. Elige qué variante muestra cada elemento y cómo se reparte el tráfico.",
+      "locked": "Las versiones no se pueden cambiar con el experimento lanzado. Reinícialo para editarlas.",
+      "element": "Elemento",
+      "control": "Control",
+      "traffic": "Tráfico",
+      "add": "Añadir versión",
+      "split": "Repartir por igual",
+      "remove": "Quitar «{{name}}»",
+      "nameLabel": "Nombre de la versión",
+      "cellLabel": "Variante de «{{element}}» en «{{arm}}»",
+      "weightLabel": "Peso de tráfico de «{{name}}»"
+    },
+    "settings": {
+      "title": "Ajustes",
+      "description": "Dónde se ejecuta el experimento y a cuánta gente llega.",
+      "traffic": "Visitantes en el experimento",
+      "trafficHint": "El resto ve la página original y no cuenta en los resultados.",
+      "timeout": "Mostrar la página como máximo tras",
+      "domains": "Dominios permitidos",
+      "domainsHint": "El script solo actúa en estos dominios. Usa *.dominio.com para todos los subdominios.",
+      "pages": "Páginas",
+      "allPages": "Todas las páginas",
+      "hidePage": "Ocultar la página hasta aplicar",
+      "hidePageHint": "Oculta la página un instante hasta aplicar la variante, para que no se vea el texto original."
+    },
+    "install": {
+      "title": "Instalación",
+      "description": "Pega este código en el <head> de la página, lo más arriba posible.",
+      "copy": "Copiar código",
+      "testPage": "Abrir página de prueba",
+      "testPageHint": "Una copia de la página con el script ya instalado, para probar el experimento."
+    }
+  },
+  "results": {
+    "applyWinner": "Aplicar ganadora",
+    "toasts": {
+      "applied": "Ganadora aplicada: se mostrará a todos los visitantes",
+      "simulated": "Tráfico simulado",
+      "cleared": "Datos simulados borrados"
+    },
+    "notStarted": {
+      "title": "El experimento aún no ha empezado",
+      "description": "Lánzalo desde Activación para empezar a recoger datos.",
+      "cta": "Ir a Activación"
+    },
+    "finished": {
+      "title": "Experimento finalizado",
+      "serving": "Todos los visitantes ven ahora «{{name}}».",
+      "original": "Todos los visitantes ven la página original."
+    },
+    "verdict": {
+      "collecting": {
+        "title": "Recogiendo datos",
+        "description_one": "Hacen falta al menos {{count}} visitante por versión y un 95 % de seguridad para decidir.",
+        "description_other": "Hacen falta al menos {{count}} visitantes por versión y un 95 % de seguridad para decidir."
+      },
+      "winner": {
+        "title": "«{{name}}» es la ganadora",
+        "description": "{{probability}} de probabilidad de ser la mejor, con una mejora estimada de {{lift}}."
+      },
+      "control": {
+        "title": "El original funciona mejor",
+        "description": "El control tiene un {{probability}} de probabilidad de ser la mejor versión."
+      },
+      "noDifference": {
+        "title": "Sin diferencias claras",
+        "description": "Con este volumen de visitas, ninguna versión destaca. Prueba cambios más ambiciosos."
+      },
+      "beatsControl": {
+        "title": "Varias versiones superan al original",
+        "description": "{{names}} convierten mejor que el control con un 95 % de seguridad, pero aún no está claro cuál es la mejor."
+      }
+    },
+    "table": {
+      "title": "Resultados",
+      "description": "Conversión en el objetivo principal: {{goal}}.",
+      "noGoal": "Define un objetivo principal para ver resultados.",
+      "version": "Versión",
+      "baseline": "Referencia",
+      "visitors": "Visitantes",
+      "conversions": "Conversiones",
+      "rate": "Tasa (IC 95 %)",
+      "probBeat": "Prob. de superar al control",
+      "lift": "Mejora vs control"
+    },
+    "chart": {
+      "title": "Tasa de conversión acumulada",
+      "legend": "Leyenda",
+      "caption": "Cada punto es la tasa acumulada hasta ese día. Suele estabilizarse con el tiempo.",
+      "notEnough": "La evolución aparecerá cuando haya datos de al menos dos días."
+    },
+    "secondary": {
+      "title": "Objetivos secundarios",
+      "description": "Para detectar efectos no deseados: una versión puede ganar en el principal y empeorar otros."
+    },
+    "simulation": {
+      "title": "Modo demo: simular tráfico",
+      "description": "Genera 14 días de visitas simuladas y reproducibles para ver los resultados sin instalar el script en una web real. Se guardan aparte de los datos reales.",
+      "run": "Simular tráfico",
+      "rerun": "Volver a simular",
+      "clear": "Borrar datos simulados",
+      "needsLive": "Lanza el experimento para poder simular tráfico."
+    }
+  },
+  "demoBanner": {
+    "text": "Estás en una cuenta de demo: los datos se borran en 24 horas.",
+    "cta": "Crear mi cuenta"
+  },
+  "library": {
+    "title": "Biblioteca",
+    "description": "Textos que han ganado experimentos y variantes que has guardado, listos para reutilizar.",
+    "search": "Buscar textos",
+    "source": "Origen",
+    "sources": {
+      "all": "Todo",
+      "winner": "Ganadoras",
+      "saved": "Guardadas"
+    },
+    "allTypes": "Todos los tipos",
+    "winner": "Ganadora",
+    "saved": "Guardada",
+    "replaced": "Sustituía a",
+    "copy": "Copiar",
+    "copied": "Copiado",
+    "useInProject": "Usar en un proyecto",
+    "save": "Guardar",
+    "inLibrary": "En la biblioteca",
+    "toasts": {
+      "saved": "Guardada en la biblioteca",
+      "removed": "Quitada de la biblioteca"
+    },
+    "noResults": "Nada coincide con los filtros.",
+    "empty": {
+      "title": "Tu biblioteca está vacía",
+      "description": "Aquí aparecerán las variantes que ganen experimentos y las que guardes desde la pantalla de variantes."
+    },
+    "use": {
+      "title": "Usar en un proyecto",
+      "description": "Se añadirá como nueva variante del elemento que elijas.",
+      "project": "Proyecto",
+      "element": "Elemento",
+      "noElements": "Este proyecto no tiene elementos",
+      "submit": "Añadir variante",
+      "done": "Variante añadida.",
+      "goToVariants": "Ver variantes del proyecto",
+      "close": "Cerrar"
+    }
+  },
+  "settings": {
+    "title": "Ajustes",
+    "description": "Tu cuenta, tu organización y cómo se generan los textos.",
+    "toasts": {
+      "saved": "Cambios guardados",
+      "passwordChanged": "Contraseña cambiada. Se ha cerrado la sesión en los demás dispositivos."
+    },
+    "profile": {
+      "title": "Perfil",
+      "description": "Cómo te ven los demás y en qué idioma usas Uplift."
+    },
+    "password": {
+      "title": "Contraseña",
+      "description": "Al cambiarla se cierra la sesión en los demás dispositivos.",
+      "current": "Contraseña actual",
+      "new": "Nueva contraseña",
+      "submit": "Cambiar contraseña",
+      "wrong": "La contraseña actual no es correcta",
+      "demo": "Las cuentas de demo no tienen contraseña."
+    },
+    "organization": {
+      "title": "Organización",
+      "description": "Los proyectos pertenecen a la organización y los comparten todos sus miembros.",
+      "name": "Nombre",
+      "members": "Miembros",
+      "you": "tú",
+      "invitesSoon": "Las invitaciones a nuevos miembros llegarán pronto."
+    },
+    "roles": {
+      "admin": "Administrador",
+      "editor": "Editor",
+      "viewer": "Lector"
+    },
+    "ai": {
+      "title": "Generación con IA",
+      "description": "Qué motor escribe las variantes.",
+      "mock": "Modo demo: las variantes salen de plantillas de ejemplo. Configura ANTHROPIC_API_KEY en el servidor para usar Claude.",
+      "claude": "Claude ({{model}}) con salidas estructuradas y revisión de reglas en cada variante."
+    }
+  },
+  "boot": {
+    "waking": {
+      "title": "Despertando el servidor…",
+      "body": "Esta demo corre en un plan gratuito que se duerme cuando no se usa. Tarda alrededor de un minuto en arrancar."
+    }
+  }
+}
