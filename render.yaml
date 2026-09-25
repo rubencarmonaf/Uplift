@@ -9,6 +9,8 @@ services:
     name: uplift-api
     runtime: docker
     plan: free
+    # Close to Europe-based users; keep the database (e.g. Neon eu-central-1) in the same area.
+    region: frankfurt
     dockerfilePath: ./Dockerfile
     dockerContext: .
     healthCheckPath: /health
