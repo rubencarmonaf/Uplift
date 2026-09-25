@@ -28,6 +28,12 @@ services:
       - key: PUBLIC_API_URL
         value: https://uplift-api-dfmo.onrender.com
       # The free instance has 512 MB: one page render at a time and a capped heap.
+      # Through the web site's /api rewrite, requests reach the app past 6 proxies (container
+      # proxy, Render's internal network, Cloudflare, the static site, Cloudflare again); counting
+      # from the right keeps the real client IP for rate limits. Direct API calls have fewer hops,
+      # so the leftmost (client) address is used.
+      - key: TRUST_PROXY_HOPS
+        value: '6'
       - key: RENDER_CONCURRENCY
         value: '1'
       - key: NODE_OPTIONS
