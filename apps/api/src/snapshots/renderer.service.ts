@@ -1,6 +1,7 @@
 import { Injectable, Logger, type OnModuleDestroy } from '@nestjs/common';
 import type { SnapshotError } from '@uplift/shared';
 import { type Browser, chromium, errors } from 'playwright';
+import { env } from '../config/env.js';
 import { PinnedProxy } from './pinned-proxy.js';
 import { UrlGuard } from './ssrf.js';
 
@@ -8,7 +9,8 @@ const VIEWPORT = { width: 1366, height: 900 };
 const NAVIGATION_TIMEOUT_MS = 25_000;
 const SETTLE_TIMEOUT_MS = 5_000;
 const MAX_HTML_BYTES = 8 * 1024 * 1024;
-const MAX_CONCURRENT_RENDERS = 2;
+// Chromium is the biggest memory user; close it when no page has been rendered for a while.
+const BROWSER_IDLE_MS = 60_000;
 
 export class SnapshotFailedError extends Error {
   constructor(readonly reason: SnapshotError) {
@@ -125,9 +127,11 @@ export class RendererService implements OnModuleDestroy {
   private browser: Promise<Browser> | null = null;
   private proxy: PinnedProxy | null = null;
   private active = 0;
+  private idleTimer: NodeJS.Timeout | undefined;
   private readonly queue: (() => void)[] = [];
 
   async onModuleDestroy() {
+    clearTimeout(this.idleTimer);
     if (this.browser) await (await this.browser).close().catch(() => {});
     await this.proxy?.close();
   }
@@ -239,7 +243,7 @@ export class RendererService implements OnModuleDestroy {
   }
 
   private async acquire() {
-    if (this.active < MAX_CONCURRENT_RENDERS) {
+    if (this.active < env.RENDER_CONCURRENCY) {
       this.active++;
       return;
     }
@@ -250,5 +254,17 @@ export class RendererService implements OnModuleDestroy {
   private release() {
     this.active--;
     this.queue.shift()?.();
+    if (this.active === 0) this.scheduleIdleClose();
+  }
+
+  private scheduleIdleClose() {
+    clearTimeout(this.idleTimer);
+    this.idleTimer = setTimeout(() => {
+      if (this.active > 0 || !this.browser) return;
+      const browser = this.browser;
+      this.browser = null;
+      void browser.then((b) => b.close()).catch(() => {});
+    }, BROWSER_IDLE_MS);
+    this.idleTimer.unref();
   }
 }

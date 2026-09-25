@@ -853,5 +853,11 @@
       "mock": "Modo demo: las variantes salen de plantillas de ejemplo. Configura ANTHROPIC_API_KEY en el servidor para usar Claude.",
       "claude": "Claude ({{model}}) con salidas estructuradas y comprobaciones de cumplimiento en cada variante."
     }
+  },
+  "boot": {
+    "waking": {
+      "title": "Despertando el servidor…",
+      "body": "Esta demo corre en un plan gratuito que se duerme cuando no se usa. Tarda alrededor de un minuto en arrancar."
+    }
   }
 }

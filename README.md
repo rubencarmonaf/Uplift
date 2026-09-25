@@ -48,6 +48,20 @@ docs/
   SPEC.md     functional specification and roadmap
 ```
 
+## Deployment
+
+`render.yaml` is a Render Blueprint for the free tier:
+
+- **API**: Docker web service built from `Dockerfile` (Node 24 + Chromium headless shell). It
+  applies pending migrations on start. The free instance sleeps after 15 minutes idle and takes
+  about a minute to wake; the web app shows a notice meanwhile and retries.
+- **Web**: static site. It rewrites `/api/*` to the API, so the session cookie stays first-party.
+- **Database**: any Postgres; the Blueprint asks for `DATABASE_URL` (a free Neon database works
+  and, unlike Render's free Postgres, does not expire).
+
+On 512 MB the snapshot browser renders one page at a time and closes when idle; a heavy page
+peaks around 400 MB.
+
 ## Security notes
 
 - Sessions are opaque random tokens in an httpOnly cookie; only their SHA-256 hash is stored.

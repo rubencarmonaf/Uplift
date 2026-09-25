@@ -16,7 +16,10 @@ export function useMe() {
       }
     },
     staleTime: 5 * 60 * 1000,
-    retry: false,
+    // A free-tier API sleeps when idle and can take about a minute to wake: keep trying on
+    // network and 5xx errors; real answers (401 is handled above) are final.
+    retry: (count, err) => !(err instanceof ApiError && err.status < 500) && count < 30,
+    retryDelay: 3000,
   });
 }
 
