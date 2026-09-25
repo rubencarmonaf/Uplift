@@ -28,7 +28,12 @@ export class DemoController {
     @Body(new ZodValidationPipe(demoRequestSchema)) body: z.output<typeof demoRequestSchema>,
     @Res({ passthrough: true }) res: Response,
   ) {
-    const user = await this.demo.createAccount(body.language);
+    const { user, timings } = await this.demo.createAccount(body.language);
+    // Standard header, visible in browser dev tools: where the (slow) seeding time goes.
+    res.setHeader(
+      'Server-Timing',
+      `seed;dur=${Math.round(timings.seed)}, traffic;dur=${Math.round(timings.traffic)}`,
+    );
     const { token, expiresAt } = await this.sessions.create(user.id);
     this.sessions.setCookie(res, token, expiresAt);
     return this.auth.me(user);

@@ -52,6 +52,9 @@ type Tx = Parameters<Parameters<Db['transaction']>[0]>[0];
 export class DemoService implements OnApplicationBootstrap, OnApplicationShutdown {
   private readonly logger = new Logger(DemoService.name);
   private timer: ReturnType<typeof setInterval> | null = null;
+  // Demo accounts never log in with a password. One random, never-shown hash serves them all,
+  // which saves an argon2 run per account (slow on small instances).
+  private demoPasswordHash: Promise<string> | null = null;
 
   constructor(
     @InjectDb() private readonly db: Db,
@@ -70,8 +73,9 @@ export class DemoService implements OnApplicationBootstrap, OnApplicationShutdow
 
   async createAccount(language: 'es' | 'en') {
     const suffix = randomBytes(6).toString('hex');
-    // Demo accounts never log in with a password; this one is random and never shown.
-    const passwordHash = await hash(randomBytes(32).toString('base64url'));
+    const startedAt = performance.now();
+    this.demoPasswordHash ??= hash(randomBytes(32).toString('base64url'));
+    const passwordHash = await this.demoPasswordHash;
 
     const { user, experimentId, finished } = await this.db.transaction(async (tx) => {
       const [user] = await tx
@@ -97,6 +101,7 @@ export class DemoService implements OnApplicationBootstrap, OnApplicationShutdow
       return { user: user!, experimentId, finished };
     });
 
+    const seededAt = performance.now();
     for (const past of finished) {
       const [row] = await this.db.select().from(experiments).where(eq(experiments.id, past.id));
       await this.results.generateTraffic(row!, past.traffic, past.seed);
@@ -108,7 +113,12 @@ export class DemoService implements OnApplicationBootstrap, OnApplicationShutdow
       .from(experiments)
       .where(eq(experiments.id, experimentId));
     await this.results.generateTraffic(experiment!, DEMO_TRAFFIC, DEMO_TRAFFIC_SEED);
-    return user;
+    const done = performance.now();
+    this.logger.log(
+      `Demo account ready in ${Math.round(done - startedAt)} ms ` +
+        `(seed ${Math.round(seededAt - startedAt)} ms, traffic ${Math.round(done - seededAt)} ms)`,
+    );
+    return { user, timings: { seed: seededAt - startedAt, traffic: done - seededAt } };
   }
 
   /** Deletes demo organizations (and, by cascade, their projects) and users older than a day. */
