@@ -3,7 +3,7 @@ import { FolderPlus, Search, SearchX } from 'lucide-react';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
-import { PageHeader } from '@/components/page-header';
+import { PageTitle } from '@/components/page-title';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import {
@@ -26,7 +26,7 @@ import { useCurrentOrg } from '@/features/organizations/use-current-org';
 import { useDebouncedValue } from '@/hooks/use-debounced-value';
 import { displayUrl, formatDateTime, formatRelative } from '@/lib/format';
 import { useProjects } from './api';
-import { CreateProjectDialog } from './create-project-dialog';
+import { NewProjectDialog } from './new-project-dialog';
 import { ProjectActions } from './project-actions';
 import { StatusBadge } from './status-badge';
 
@@ -55,10 +55,10 @@ export function ProjectsPage() {
 
   return (
     <>
-      <PageHeader
+      <PageTitle
         title={t('projects.title')}
         description={t('projects.description')}
-        actions={<CreateProjectDialog />}
+        actions={<NewProjectDialog />}
       />
 
       <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -134,7 +134,7 @@ export function ProjectsPage() {
             icon={FolderPlus}
             title={t('projects.empty.title')}
             description={t('projects.empty.description')}
-            action={org.canEdit && <CreateProjectDialog />}
+            action={org.canEdit && <NewProjectDialog />}
           />
         )
       ) : (

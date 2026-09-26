@@ -1,6 +1,6 @@
 import {
-  ELEMENT_TYPES,
-  type ElementType,
+  ELEMENT_KINDS,
+  type ElementKind,
   type LibraryItem,
   type LibraryQuery,
 } from '@uplift/shared';
@@ -17,7 +17,7 @@ import {
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router';
-import { PageHeader } from '@/components/page-header';
+import { PageTitle } from '@/components/page-title';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -44,7 +44,7 @@ export function LibraryPage() {
   const { t } = useTranslation();
   const org = useCurrentOrg();
   const [search, setSearch] = useState('');
-  const [type, setType] = useState<ElementType | typeof ALL>(ALL);
+  const [type, setType] = useState<ElementKind | typeof ALL>(ALL);
   const [source, setSource] = useState<Source>(ALL);
   const [using, setUsing] = useState<LibraryItem | null>(null);
   const q = useDebouncedValue(search.trim());
@@ -62,7 +62,7 @@ export function LibraryPage() {
 
   return (
     <>
-      <PageHeader title={t('library.title')} description={t('library.description')} />
+      <PageTitle title={t('library.title')} description={t('library.description')} />
 
       <div className="mb-4 flex flex-wrap items-center gap-2">
         <div className="relative min-w-56 flex-1 sm:max-w-xs">
@@ -106,7 +106,7 @@ export function LibraryPage() {
           </SelectTrigger>
           <SelectContent>
             <SelectItem value={ALL}>{t('library.allTypes')}</SelectItem>
-            {ELEMENT_TYPES.map((value) => (
+            {ELEMENT_KINDS.map((value) => (
               <SelectItem key={value} value={value}>
                 {t(`elements.types.${value}`)}
               </SelectItem>
@@ -188,7 +188,7 @@ function LibraryCard({
             <Badge className="gap-1">
               <Trophy className="size-3" aria-hidden="true" />
               {t('library.winner')}
-              {item.uplift != null && ` ${signedPercent(item.uplift, locale, 0)}`}
+              {item.lift != null && ` ${signedPercent(item.lift, locale, 0)}`}
             </Badge>
           ) : (
             <Badge variant="secondary" className="gap-1">
@@ -196,8 +196,10 @@ function LibraryCard({
               {t('library.saved')}
             </Badge>
           )}
-          <Badge variant="outline">{t(`elements.types.${item.elementType}`)}</Badge>
-          {item.angle && <Badge variant="outline">{t(`variants.angles.${item.angle}`)}</Badge>}
+          <Badge variant="outline">{t(`elements.types.${item.elementKind}`)}</Badge>
+          {item.approach && (
+            <Badge variant="outline">{t(`variants.approaches.${item.approach}`)}</Badge>
+          )}
         </div>
         <p className="text-base font-medium">{item.text}</p>
         <p className="text-xs text-muted-foreground">

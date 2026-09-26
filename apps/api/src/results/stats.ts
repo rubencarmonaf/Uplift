@@ -66,9 +66,9 @@ export type ArmStats = {
   /** 95% credible interval for the true rate. */
   rateInterval: [number, number];
   /** Relative uplift of the posterior mean over control (0.1 = +10%); null for control. */
-  uplift: number | null;
+  lift: number | null;
   /** 95% credible interval for the relative uplift; null for control. */
-  upliftInterval: [number, number] | null;
+  liftInterval: [number, number] | null;
   /** P(this arm's rate > control's); null for control. */
   probBeatControl: number | null;
   /** P(this arm has the highest rate of all arms). */
@@ -109,7 +109,7 @@ export function analyze(arms: ArmCounts[], seed: number, draws = 20_000): ArmSta
       probBest: wins[k]! / draws,
     };
     if (arm.isControl || !control) {
-      return { ...base, uplift: null, upliftInterval: null, probBeatControl: null };
+      return { ...base, lift: null, liftInterval: null, probBeatControl: null };
     }
     let beats = 0;
     const lifts = new Float64Array(draws);
@@ -123,8 +123,8 @@ export function analyze(arms: ArmCounts[], seed: number, draws = 20_000): ArmSta
     const meanControl = pc.alpha / (pc.alpha + pc.beta);
     return {
       ...base,
-      uplift: meanOwn / meanControl - 1,
-      upliftInterval: [quantile(sortedLifts, 0.025), quantile(sortedLifts, 0.975)] as [
+      lift: meanOwn / meanControl - 1,
+      liftInterval: [quantile(sortedLifts, 0.025), quantile(sortedLifts, 0.975)] as [
         number,
         number,
       ],

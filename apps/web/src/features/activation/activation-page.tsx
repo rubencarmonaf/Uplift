@@ -37,14 +37,14 @@ import { StatusCard } from './status-card';
 type Draft = {
   arms: Arm[];
   trafficPercent: number;
-  antiFlicker: Experiment['antiFlicker'];
+  hidePage: Experiment['hidePage'];
   scope: ExperimentScope;
 };
 
 const toDraft = (e: Experiment): Draft => ({
   arms: e.arms,
   trafficPercent: e.trafficPercent,
-  antiFlicker: e.antiFlicker,
+  hidePage: e.hidePage,
   scope: e.scope,
 });
 
@@ -56,8 +56,8 @@ export function ActivationPage() {
   const experiment = useExperiment(project.id);
   const elements = useElements(project.id);
   const goals = useGoals(project.id);
-  const job = useLatestGeneration(project.id);
-  const variants = useVariants(project.id, job.data);
+  const run = useLatestGeneration(project.id);
+  const variants = useVariants(project.id, run.data);
 
   if (experiment.isPending || elements.isPending || goals.isPending || variants.isPending) {
     return <Skeleton className="h-96 w-full" />;
@@ -182,20 +182,18 @@ function ActivationForm({
 
             <div className="grid gap-2">
               <div className="flex items-center justify-between gap-3">
-                <Label htmlFor="anti-flicker">{t('activation.settings.antiFlicker')}</Label>
+                <Label htmlFor="hide-page">{t('activation.settings.hidePage')}</Label>
                 <Switch
-                  id="anti-flicker"
-                  checked={draft.antiFlicker.enabled}
-                  onCheckedChange={(enabled) =>
-                    set('antiFlicker', { ...draft.antiFlicker, enabled })
-                  }
+                  id="hide-page"
+                  checked={draft.hidePage.enabled}
+                  onCheckedChange={(enabled) => set('hidePage', { ...draft.hidePage, enabled })}
                   disabled={!org.canEdit}
                 />
               </div>
               <p className="text-xs text-muted-foreground">
-                {t('activation.settings.antiFlickerHint')}
+                {t('activation.settings.hidePageHint')}
               </p>
-              {draft.antiFlicker.enabled && (
+              {draft.hidePage.enabled && (
                 <div className="flex items-center gap-2">
                   <Label htmlFor="af-timeout" className="text-xs font-normal">
                     {t('activation.settings.timeout')}
@@ -206,10 +204,10 @@ function ActivationForm({
                     min={100}
                     max={4000}
                     step={100}
-                    value={draft.antiFlicker.timeoutMs}
+                    value={draft.hidePage.timeoutMs}
                     onChange={(e) =>
-                      set('antiFlicker', {
-                        ...draft.antiFlicker,
+                      set('hidePage', {
+                        ...draft.hidePage,
                         timeoutMs: Math.max(100, Math.min(4000, Number(e.target.value) || 100)),
                       })
                     }

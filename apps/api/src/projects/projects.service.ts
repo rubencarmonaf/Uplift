@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import type {
   CreateProjectInput,
-  DuplicateProjectInput,
+  CopyProjectInput,
   Project,
   UpdateProjectInput,
 } from '@uplift/shared';
@@ -99,7 +99,7 @@ export class ProjectsService {
   }
 
   /** Copies the project setup (details, elements, brief and goals) into a new draft. */
-  async duplicate(userId: string, id: string, { name }: DuplicateProjectInput) {
+  async copy(userId: string, id: string, { name }: CopyProjectInput) {
     const { project: source } = await this.projectAccess.load(userId, id, 'editor');
     const row = await this.db.transaction(async (tx) => {
       const [copy] = await tx

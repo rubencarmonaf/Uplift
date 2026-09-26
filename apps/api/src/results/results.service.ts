@@ -66,8 +66,8 @@ export class ResultsService {
           conversions: s.conversions,
           rate: s.rate,
           rateInterval: s.rateInterval,
-          uplift: s.uplift,
-          upliftInterval: s.upliftInterval,
+          lift: s.lift,
+          liftInterval: s.liftInterval,
           probBeatControl: s.probBeatControl,
           probBest: s.probBest,
         })),
@@ -87,7 +87,7 @@ export class ResultsService {
       startedAt: experiment.startedAt?.toISOString() ?? null,
       endedAt: experiment.endedAt?.toISOString() ?? null,
       winnerArmId: experiment.winnerArmId,
-      primaryGoal: primary ? { id: primary.id, name: primary.name } : null,
+      mainGoal: primary ? { id: primary.id, name: primary.name } : null,
       arms: main.arms,
       verdict: decision,
       secondary: goalRows
@@ -220,7 +220,7 @@ export class ResultsService {
   }
 
   /** Cumulative per-day totals per arm for the primary goal. */
-  private async series(experiment: ExperimentRow, primaryGoalId: string | null) {
+  private async series(experiment: ExperimentRow, mainGoalId: string | null) {
     const rows = await this.db
       .select({
         day: sql<string>`to_char(date_trunc('day', ${experimentEvents.createdAt}), 'YYYY-MM-DD')`,
@@ -232,7 +232,7 @@ export class ResultsService {
       .where(
         and(
           eq(experimentEvents.experimentId, experiment.id),
-          sql`(${experimentEvents.type} = 'exposure' or ${experimentEvents.goalId} = ${primaryGoalId ?? ''})`,
+          sql`(${experimentEvents.type} = 'exposure' or ${experimentEvents.goalId} = ${mainGoalId ?? ''})`,
         ),
       )
       .groupBy(sql`1`, experimentEvents.armId, experimentEvents.type)
@@ -259,14 +259,12 @@ export class ResultsService {
           .select({
             id: variants.id,
             quality: variants.qualityScore,
-            compliance: variants.complianceScore,
+            rules: variants.rulesScore,
           })
           .from(variants)
           .where(sql`${variants.id} in ${ids}`)
       : [];
-    const scoreOf = new Map(
-      rows.map((r) => [r.id, ((r.quality ?? 60) / 100) * (r.compliance / 100)]),
-    );
+    const scoreOf = new Map(rows.map((r) => [r.id, ((r.quality ?? 60) / 100) * (r.rules / 100)]));
     return new Map(
       experiment.arms.map((arm) => {
         const scores = arm.changes.map((c) => scoreOf.get(c.variantId) ?? 0.5);

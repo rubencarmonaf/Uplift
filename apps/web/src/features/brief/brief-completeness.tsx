@@ -5,14 +5,14 @@ import { cn } from '@/lib/utils';
 
 /** Where each check's field lives, to jump to it from the checklist. */
 const CHECK_TARGETS: Record<(typeof BRIEF_CHECKS)[number]['id'], string> = {
-  offering: 'business.offering',
-  audience: 'business.audience',
-  pageGoal: 'business.pageGoal',
-  tone: 'brief-voice',
-  formality: 'brief-voice',
-  valueProps: 'business.valueProps',
-  facts: 'truth.facts',
-  riskLevel: 'brief-guardrails',
+  product: 'offer.product',
+  audience: 'reader.audience',
+  pageGoal: 'offer.pageGoal',
+  tone: 'brief-style',
+  formality: 'brief-style',
+  benefits: 'offer.benefits',
+  proofPoints: 'evidence.proofPoints',
+  sensitivity: 'brief-rules',
 };
 
 export function BriefCompleteness({ brief }: { brief: Brief }) {

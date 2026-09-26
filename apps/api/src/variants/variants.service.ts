@@ -7,7 +7,7 @@ import { InjectDb } from '../db/db.module.js';
 import { pageElements, projectBriefs, projects, variants } from '../db/schema.js';
 import type { Role } from '../organizations/org-access.service.js';
 import { ProjectAccessService } from '../projects/project-access.service.js';
-import { checkCompliance } from './compliance.js';
+import { checkRules } from './rules-check.js';
 
 type VariantRow = typeof variants.$inferSelect;
 
@@ -15,9 +15,9 @@ export const toVariantDto = (row: VariantRow): Variant => ({
   id: row.id,
   elementId: row.elementId,
   text: row.text,
-  angle: row.angle,
+  approach: row.approach,
   rationale: row.rationale,
-  complianceScore: row.complianceScore,
+  rulesScore: row.rulesScore,
   qualityScore: row.qualityScore,
   issues: row.issues,
   status: row.status,
@@ -47,14 +47,14 @@ export class VariantsService {
 
   async createManual(userId: string, elementId: string, { text }: CreateVariantInput) {
     const { element, brief } = await this.loadElement(userId, elementId, 'editor');
-    const { issues, score } = checkCompliance(text, element, brief);
+    const { issues, score } = checkRules(text, element, brief);
     const [row] = await this.db
       .insert(variants)
       .values({
         elementId,
         text,
         source: 'manual',
-        complianceScore: score,
+        rulesScore: score,
         issues,
         createdBy: userId,
       })
@@ -73,8 +73,8 @@ export class VariantsService {
     if (saved !== undefined) changes.savedAt = saved ? (current.savedAt ?? new Date()) : null;
     if (input.text !== undefined && input.text !== current.text) {
       // Edited copy is re-checked; the model's quality score no longer describes it.
-      const { issues, score } = checkCompliance(input.text, element, brief);
-      Object.assign(changes, { issues, complianceScore: score, qualityScore: null });
+      const { issues, score } = checkRules(input.text, element, brief);
+      Object.assign(changes, { issues, rulesScore: score, qualityScore: null });
     }
     const [row] = await this.db
       .update(variants)

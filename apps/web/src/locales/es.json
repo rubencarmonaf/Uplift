@@ -111,17 +111,17 @@
     },
     "toasts": {
       "created": "Proyecto creado",
-      "duplicated": "Proyecto duplicado",
       "archived": "Proyecto archivado",
       "unarchived": "Proyecto restaurado",
       "deleted": "Proyecto eliminado",
-      "saved": "Cambios guardados"
+      "saved": "Cambios guardados",
+      "copied": "Copia creada"
     },
     "actions": {
-      "duplicate": "Duplicar",
       "archive": "Archivar",
       "unarchive": "Restaurar",
-      "delete": "Eliminar"
+      "delete": "Eliminar",
+      "copy": "Hacer una copia"
     },
     "copyName": "{{name}} (copia)",
     "deleteTitle": "¿Eliminar «{{name}}»?",
@@ -298,91 +298,99 @@
       "discard": "Salir sin guardar"
     },
     "sections": {
-      "business": "Negocio y página",
-      "voice": "Voz de la marca",
-      "truth": "Fuente de verdad",
-      "guardrails": "Límites y cumplimiento"
+      "offer": "La oferta",
+      "reader": "Quién lee la página",
+      "evidence": "Pruebas",
+      "style": "Estilo de escritura",
+      "rules": "Reglas de la marca"
     },
     "sectionDescriptions": {
-      "business": "El contexto que la IA necesita para escribir textos que vendan en esta página.",
-      "voice": "Cómo suena la marca. Así las variantes parecerán escritas por tu equipo.",
-      "truth": "Lo que se puede afirmar y lo que no. La IA solo usará datos de esta lista.",
-      "guardrails": "Reglas que ninguna variante puede romper. Se comprueban al generar."
+      "offer": "Qué vendes en esta página y qué quieres conseguir con ella.",
+      "reader": "Cómo es el visitante y qué le hace dudar. Las variantes le hablarán a esa persona.",
+      "evidence": "Lo que puedes demostrar y lo que no puedes prometer. La IA solo citará datos de aquí.",
+      "style": "Cómo escribe tu marca, para que las variantes suenen a tu equipo.",
+      "rules": "Normas que ninguna variante puede saltarse. Se revisan en cada generación."
     },
     "fields": {
-      "business": {
-        "offering": "Qué ofreces",
-        "audience": "A quién va dirigido",
-        "pageGoal": "Objetivo de la página",
-        "funnelStage": "Fase del funnel",
-        "valueProps": "Propuestas de valor",
-        "objections": "Objeciones habituales"
+      "offer": {
+        "product": "Producto o servicio",
+        "pageGoal": "Qué quieres que haga el visitante",
+        "benefits": "Beneficios clave"
       },
-      "voice": {
+      "reader": {
+        "audience": "Perfil del visitante",
+        "stage": "Momento de compra",
+        "doubts": "Dudas que le frenan"
+      },
+      "evidence": {
+        "proofPoints": "Datos demostrables",
+        "offLimits": "Promesas que no podemos hacer"
+      },
+      "style": {
         "tones": "Tono",
         "formality": "Tratamiento",
         "readingLevel": "Nivel de lectura",
         "notes": "Notas de estilo"
       },
-      "truth": {
-        "facts": "Hechos verificables",
-        "forbiddenClaims": "Nunca afirmar"
-      },
-      "guardrails": {
-        "riskLevel": "Nivel de riesgo",
-        "bannedWords": "Palabras vetadas",
-        "requiredMentions": "Menciones obligatorias",
-        "disclaimers": "Avisos legales",
-        "avoidStyles": "Estilos a evitar"
+      "rules": {
+        "sensitivity": "Sensibilidad del sector",
+        "bannedWords": "Palabras que no usamos",
+        "requiredMentions": "Siempre mencionar",
+        "legalNotes": "Letra pequeña obligatoria",
+        "avoidStyles": "Recursos que no usamos"
       }
     },
     "placeholders": {
-      "business": {
-        "offering": "Ej. Seguro de hogar con asistencia 24 h y reparaciones urgentes incluidas",
-        "audience": "Ej. Familias que alquilan o compran su primera vivienda",
+      "offer": {
+        "product": "Ej. Seguro de hogar con asistencia 24 h y reparaciones urgentes incluidas",
         "pageGoal": "Ej. Que pidan un presupuesto online",
-        "valueProps": "Ej. Presupuesto en 2 minutos",
-        "objections": "Ej. «Seguro que luego sube el precio»"
+        "benefits": "Ej. Presupuesto en 2 minutos"
       },
-      "voice": {
+      "reader": {
+        "audience": "Ej. Familias que alquilan o compran su primera vivienda",
+        "doubts": "Ej. «Seguro que luego sube el precio»"
+      },
+      "evidence": {
+        "proofPoints": "Ej. Más de 200.000 clientes",
+        "offLimits": "Ej. «El más barato del mercado»"
+      },
+      "style": {
         "notes": "Ej. Frases cortas. Evitamos tecnicismos. Hablamos de «tu casa», no de «la vivienda»."
       },
-      "truth": {
-        "facts": "Ej. Más de 200.000 clientes",
-        "forbiddenClaims": "Ej. «El más barato del mercado»"
-      },
-      "guardrails": {
+      "rules": {
         "bannedWords": "Ej. gratis, garantizado",
         "requiredMentions": "Ej. Sin permanencia",
-        "disclaimers": "Ej. Precio para vivienda de 90 m² en Madrid. Consulta condiciones.",
+        "legalNotes": "Ej. Precio para vivienda de 90 m² en Madrid. Consulta condiciones.",
         "avoidStyles": "Ej. Urgencia falsa («¡solo hoy!»)"
       }
     },
     "hints": {
-      "business": {
-        "valueProps": "Los motivos por los que alguien elegiría tu producto. Uno por línea.",
-        "objections": "Dudas que frenan la conversión; las variantes intentarán resolverlas."
+      "offer": {
+        "benefits": "Por qué alguien te elegiría a ti. Uno por línea."
       },
-      "voice": {
+      "reader": {
+        "doubts": "Lo que hace que el visitante no dé el paso; las variantes intentarán despejarlo."
+      },
+      "evidence": {
+        "proofPoints": "Cifras, garantías y datos reales que la IA puede usar tal cual.",
+        "offLimits": "Frases tentadoras que no se pueden decir."
+      },
+      "style": {
         "tones": "Elige hasta 3."
       },
-      "truth": {
-        "facts": "Datos, cifras y garantías reales que la IA puede citar tal cual.",
-        "forbiddenClaims": "Afirmaciones que no se pueden hacer aunque parezcan atractivas."
-      },
-      "guardrails": {
+      "rules": {
         "bannedWords": "Separa con comas o Enter. Ninguna variante podrá contenerlas.",
-        "requiredMentions": "Textos que deben aparecer donde aplique.",
-        "disclaimers": "Textos legales que acompañan a ciertas afirmaciones (precios, rentabilidad…).",
-        "avoidStyles": "Recursos de redacción que no encajan con tu marca."
+        "requiredMentions": "Textos que tienen que aparecer cuando venga al caso.",
+        "legalNotes": "Aclaraciones legales que acompañan a ciertos datos (precios, rentabilidades…).",
+        "avoidStyles": "Formas de escribir que no encajan con tu marca."
       }
     },
     "options": {
-      "funnelStage": {
-        "awareness": "Descubrimiento",
-        "consideration": "Consideración",
-        "decision": "Decisión",
-        "retention": "Fidelización"
+      "stage": {
+        "exploring": "Explorando opciones",
+        "comparing": "Comparando",
+        "deciding": "A punto de decidir",
+        "customer": "Ya es cliente"
       },
       "tone": {
         "friendly": "Cercano",
@@ -404,21 +412,21 @@
         "standard": "Estándar",
         "advanced": "Especializado"
       },
-      "riskLevel": {
-        "low": "Bajo",
-        "medium": "Medio",
-        "high": "Alto"
+      "sensitivity": {
+        "low": "Baja",
+        "medium": "Media",
+        "high": "Alta"
       },
-      "riskLevelDescriptions": {
-        "low": "Textos creativos con libertad.",
-        "medium": "Afirmaciones prudentes y verificables.",
-        "high": "Sector regulado: solo hechos de la fuente de verdad, con sus avisos legales."
+      "sensitivityDescriptions": {
+        "low": "Libertad creativa.",
+        "medium": "Afirmaciones prudentes que se puedan comprobar.",
+        "high": "Sector regulado: solo datos de la sección de pruebas, con su letra pequeña."
       }
     },
     "regulated": {
       "title": "Sector regulado",
-      "description": "En {{industry}} las afirmaciones comerciales están reguladas. Te recomendamos un nivel de riesgo alto.",
-      "apply": "Usar riesgo alto"
+      "description": "En {{industry}} la publicidad está regulada. Te recomendamos sensibilidad alta.",
+      "apply": "Usar sensibilidad alta"
     },
     "completeness": {
       "title": "Calidad del brief",
@@ -426,14 +434,14 @@
       "done": "completado",
       "pending": "pendiente",
       "checks": {
-        "offering": "Qué ofreces",
-        "audience": "A quién va dirigido",
-        "pageGoal": "Objetivo de la página",
+        "product": "Producto o servicio",
+        "audience": "Perfil del visitante",
+        "pageGoal": "Qué debe hacer el visitante",
         "tone": "Tono de la marca",
         "formality": "Tratamiento (tú / usted)",
-        "valueProps": "Al menos una propuesta de valor",
-        "facts": "Al menos un hecho verificable",
-        "riskLevel": "Nivel de riesgo"
+        "benefits": "Al menos un beneficio clave",
+        "proofPoints": "Al menos un dato demostrable",
+        "sensitivity": "Sensibilidad del sector"
       }
     }
   },
@@ -464,27 +472,14 @@
     "showDiscarded_other": "Ver {{count}} descartadas",
     "hideDiscarded_one": "Ocultar descartada",
     "hideDiscarded_other": "Ocultar descartadas",
-    "compliance": "Cumplimiento {{score}}",
-    "complianceHint": "Comprobación automática de palabras vetadas, afirmaciones prohibidas y longitud.",
     "quality": "Calidad",
     "qualityHint": "Valoración de la IA: claridad, relevancia y capacidad de persuasión.",
     "toasts": {
       "added": "Variante añadida"
     },
-    "angles": {
-      "clarity": "Claridad",
-      "benefit": "Beneficio",
-      "social_proof": "Prueba social",
-      "urgency": "Urgencia",
-      "risk_reversal": "Sin riesgo",
-      "curiosity": "Curiosidad",
-      "specificity": "Concreción",
-      "objection_handling": "Objeción",
-      "emotional": "Emocional"
-    },
     "issues": {
-      "banned_word": "Usa la palabra vetada «{{detail}}».",
-      "forbidden_claim": "Hace una afirmación prohibida: «{{detail}}».",
+      "banned_word": "Usa «{{detail}}», una palabra que no usamos.",
+      "off_limits_promise": "Hace una promesa que no podemos hacer: «{{detail}}».",
       "too_long": "Demasiado larga ({{detail}} caracteres).",
       "too_short": "Demasiado corta ({{detail}} caracteres).",
       "unchanged": "Es igual que el texto original."
@@ -512,6 +507,19 @@
       "title": "Primero añade elementos",
       "description": "Las variantes se generan para los textos de la página que marques como elementos.",
       "cta": "Ir a Elementos"
+    },
+    "rulesScore": "Reglas {{score}}",
+    "rulesHint": "Revisión automática de palabras que no usamos, promesas que no podemos hacer y longitud.",
+    "approaches": {
+      "clarity": "Claridad",
+      "benefit": "Beneficio",
+      "social_proof": "Prueba social",
+      "urgency": "Urgencia",
+      "risk_reversal": "Sin riesgo",
+      "curiosity": "Curiosidad",
+      "specificity": "Concreción",
+      "emotional": "Emocional",
+      "answers_doubt": "Resuelve dudas"
     }
   },
   "goals": {
@@ -683,13 +691,13 @@
       "description": "Dónde se ejecuta el experimento y a cuánta gente llega.",
       "traffic": "Visitantes en el experimento",
       "trafficHint": "El resto ve la página original y no cuenta en los resultados.",
-      "antiFlicker": "Evitar parpadeo",
-      "antiFlickerHint": "Oculta la página un instante hasta aplicar la variante, para que no se vea el texto original.",
       "timeout": "Mostrar la página como máximo tras",
       "domains": "Dominios permitidos",
       "domainsHint": "El script solo actúa en estos dominios. Usa *.dominio.com para todos los subdominios.",
       "pages": "Páginas",
-      "allPages": "Todas las páginas"
+      "allPages": "Todas las páginas",
+      "hidePage": "Ocultar la página hasta aplicar",
+      "hidePageHint": "Oculta la página un instante hasta aplicar la variante, para que no se vea el texto original."
     },
     "install": {
       "title": "Instalación",
@@ -724,7 +732,7 @@
       },
       "winner": {
         "title": "«{{name}}» es la ganadora",
-        "description": "{{probability}} de probabilidad de ser la mejor, con una mejora estimada de {{uplift}}."
+        "description": "{{probability}} de probabilidad de ser la mejor, con una mejora estimada de {{lift}}."
       },
       "control": {
         "title": "El original funciona mejor",
@@ -748,8 +756,8 @@
       "visitors": "Visitantes",
       "conversions": "Conversiones",
       "rate": "Tasa (IC 95 %)",
-      "uplift": "Mejora vs control",
-      "probBeat": "Prob. de superar al control"
+      "probBeat": "Prob. de superar al control",
+      "lift": "Mejora vs control"
     },
     "chart": {
       "title": "Tasa de conversión acumulada",
@@ -851,7 +859,7 @@
       "title": "Generación con IA",
       "description": "Qué motor escribe las variantes.",
       "mock": "Modo demo: las variantes salen de plantillas de ejemplo. Configura ANTHROPIC_API_KEY en el servidor para usar Claude.",
-      "claude": "Claude ({{model}}) con salidas estructuradas y comprobaciones de cumplimiento en cada variante."
+      "claude": "Claude ({{model}}) con salidas estructuradas y revisión de reglas en cada variante."
     }
   },
   "boot": {

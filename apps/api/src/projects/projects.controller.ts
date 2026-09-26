@@ -13,8 +13,8 @@ import {
 import {
   type CreateProjectInput,
   createProjectSchema,
-  type DuplicateProjectInput,
-  duplicateProjectSchema,
+  type CopyProjectInput,
+  copyProjectSchema,
   listProjectsQuerySchema,
   type UpdateProjectInput,
   updateProjectSchema,
@@ -63,13 +63,13 @@ export class ProjectsController {
     return this.projects.update(user.id, id, body);
   }
 
-  @Post('projects/:id/duplicate')
-  duplicate(
+  @Post('projects/:id/copies')
+  copy(
     @CurrentUser() user: AuthUser,
     @Param('id', uuid) id: string,
-    @Body(new ZodValidationPipe(duplicateProjectSchema)) body: DuplicateProjectInput,
+    @Body(new ZodValidationPipe(copyProjectSchema)) body: CopyProjectInput,
   ) {
-    return this.projects.duplicate(user.id, id, body);
+    return this.projects.copy(user.id, id, body);
   }
 
   @Delete('projects/:id')

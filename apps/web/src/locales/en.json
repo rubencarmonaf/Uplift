@@ -54,11 +54,11 @@
     "title": "Projects",
     "description": "Each project is a page you want to convert better.",
     "empty": {
-      "title": "No projects yet",
+      "title": "Your projects will show up here",
       "description": "Create your first project from the URL of the page you want to optimize."
     },
     "new": "New project",
-    "create": "Create project",
+    "create": "New project",
     "createTitle": "New project",
     "createDescription": "Tell us which page you want to optimize. You can change this later.",
     "archived": "Archived",
@@ -110,18 +110,18 @@
       "required": "Required"
     },
     "toasts": {
-      "created": "Project created",
-      "duplicated": "Project duplicated",
+      "created": "Project ready",
       "archived": "Project archived",
       "unarchived": "Project restored",
-      "deleted": "Project deleted",
-      "saved": "Changes saved"
+      "deleted": "Project removed",
+      "saved": "Changes saved",
+      "copied": "Copy created"
     },
     "actions": {
-      "duplicate": "Duplicate",
       "archive": "Archive",
       "unarchive": "Restore",
-      "delete": "Delete"
+      "delete": "Delete",
+      "copy": "Make a copy"
     },
     "copyName": "{{name}} (copy)",
     "deleteTitle": "Delete “{{name}}”?",
@@ -298,91 +298,99 @@
       "discard": "Leave without saving"
     },
     "sections": {
-      "business": "Business and page",
-      "voice": "Brand voice",
-      "truth": "Source of truth",
-      "guardrails": "Guardrails and compliance"
+      "offer": "The offer",
+      "reader": "Who reads the page",
+      "evidence": "Evidence",
+      "style": "Writing style",
+      "rules": "Brand rules"
     },
     "sectionDescriptions": {
-      "business": "The context the AI needs to write copy that sells on this page.",
-      "voice": "How the brand sounds, so variants read like your team wrote them.",
-      "truth": "What can and cannot be claimed. The AI only uses facts from this list.",
-      "guardrails": "Rules no variant may break. They are checked on generation."
+      "offer": "What this page sells and what you want it to achieve.",
+      "reader": "Who the visitor is and what makes them hesitate. Variants will speak to that person.",
+      "evidence": "What you can prove and what you can't promise. The AI only quotes data from here.",
+      "style": "How your brand writes, so variants sound like your team.",
+      "rules": "Rules no variant may break. They are checked on every generation."
     },
     "fields": {
-      "business": {
-        "offering": "What you offer",
-        "audience": "Who it is for",
-        "pageGoal": "Page goal",
-        "funnelStage": "Funnel stage",
-        "valueProps": "Value propositions",
-        "objections": "Common objections"
+      "offer": {
+        "product": "Product or service",
+        "pageGoal": "What the visitor should do",
+        "benefits": "Key benefits"
       },
-      "voice": {
+      "reader": {
+        "audience": "Visitor profile",
+        "stage": "Buying moment",
+        "doubts": "Doubts holding them back"
+      },
+      "evidence": {
+        "proofPoints": "Provable data",
+        "offLimits": "Promises we can't make"
+      },
+      "style": {
         "tones": "Tone",
         "formality": "Form of address",
         "readingLevel": "Reading level",
         "notes": "Style notes"
       },
-      "truth": {
-        "facts": "Verifiable facts",
-        "forbiddenClaims": "Never claim"
-      },
-      "guardrails": {
-        "riskLevel": "Risk level",
-        "bannedWords": "Banned words",
-        "requiredMentions": "Required mentions",
-        "disclaimers": "Legal disclaimers",
-        "avoidStyles": "Styles to avoid"
+      "rules": {
+        "sensitivity": "Sector sensitivity",
+        "bannedWords": "Words we don't use",
+        "requiredMentions": "Always mention",
+        "legalNotes": "Mandatory small print",
+        "avoidStyles": "Styles we don't use"
       }
     },
     "placeholders": {
-      "business": {
-        "offering": "e.g. Home insurance with 24/7 assistance and urgent repairs included",
-        "audience": "e.g. Families renting or buying their first home",
-        "pageGoal": "e.g. Get an online quote",
-        "valueProps": "e.g. Quote in 2 minutes",
-        "objections": "e.g. “The price will go up later”"
+      "offer": {
+        "product": "E.g. Home insurance with 24/7 assistance and urgent repairs included",
+        "pageGoal": "E.g. Get an online quote",
+        "benefits": "E.g. Quote in 2 minutes"
       },
-      "voice": {
-        "notes": "e.g. Short sentences. No jargon. We say “your home”, not “the property”."
+      "reader": {
+        "audience": "E.g. Families renting or buying their first home",
+        "doubts": "E.g. \"The price will go up later\""
       },
-      "truth": {
-        "facts": "e.g. Over 200,000 customers",
-        "forbiddenClaims": "e.g. “The cheapest on the market”"
+      "evidence": {
+        "proofPoints": "E.g. Over 200,000 customers",
+        "offLimits": "E.g. \"The cheapest on the market\""
       },
-      "guardrails": {
-        "bannedWords": "e.g. free, guaranteed",
-        "requiredMentions": "e.g. No commitment",
-        "disclaimers": "e.g. Price for a 90 m² home in London. Terms apply.",
-        "avoidStyles": "e.g. Fake urgency (“today only!”)"
+      "style": {
+        "notes": "E.g. Short sentences. No jargon. We say \"your home\", not \"the property\"."
+      },
+      "rules": {
+        "bannedWords": "E.g. free, guaranteed",
+        "requiredMentions": "E.g. No lock-in",
+        "legalNotes": "E.g. Price for a 90 m² home in Madrid. Terms apply.",
+        "avoidStyles": "E.g. Fake urgency (\"today only!\")"
       }
     },
     "hints": {
-      "business": {
-        "valueProps": "Why someone would choose your product. One per line.",
-        "objections": "Doubts that hold conversion back; variants will try to address them."
+      "offer": {
+        "benefits": "Why someone would pick you. One per line."
       },
-      "voice": {
+      "reader": {
+        "doubts": "What stops the visitor from acting; variants will try to clear it up."
+      },
+      "evidence": {
+        "proofPoints": "Real figures, guarantees and data the AI can use as is.",
+        "offLimits": "Tempting lines that can't be said."
+      },
+      "style": {
         "tones": "Pick up to 3."
       },
-      "truth": {
-        "facts": "Real data, figures and guarantees the AI may quote as they are.",
-        "forbiddenClaims": "Claims that must not be made, however tempting."
-      },
-      "guardrails": {
+      "rules": {
         "bannedWords": "Separate with commas or Enter. No variant may contain them.",
-        "requiredMentions": "Texts that must appear where relevant.",
-        "disclaimers": "Legal texts that go with certain claims (prices, returns…).",
-        "avoidStyles": "Copywriting devices that don't fit your brand."
+        "requiredMentions": "Text that has to appear when relevant.",
+        "legalNotes": "Legal clarifications that go with certain data (prices, returns…).",
+        "avoidStyles": "Ways of writing that don't fit your brand."
       }
     },
     "options": {
-      "funnelStage": {
-        "awareness": "Awareness",
-        "consideration": "Consideration",
-        "decision": "Decision",
-        "retention": "Retention"
+      "stage": {
+        "exploring": "Exploring options",
+        "comparing": "Comparing",
+        "deciding": "About to decide",
+        "customer": "Already a customer"
       },
       "tone": {
         "friendly": "Friendly",
@@ -404,21 +412,21 @@
         "standard": "Standard",
         "advanced": "Expert"
       },
-      "riskLevel": {
+      "sensitivity": {
         "low": "Low",
         "medium": "Medium",
         "high": "High"
       },
-      "riskLevelDescriptions": {
-        "low": "Creative copy with freedom.",
-        "medium": "Careful, verifiable claims.",
-        "high": "Regulated industry: only facts from the source of truth, with their disclaimers."
+      "sensitivityDescriptions": {
+        "low": "Creative freedom.",
+        "medium": "Careful claims that can be checked.",
+        "high": "Regulated sector: only data from the evidence section, with its small print."
       }
     },
     "regulated": {
-      "title": "Regulated industry",
-      "description": "Marketing claims in {{industry}} are regulated. We recommend a high risk level.",
-      "apply": "Use high risk"
+      "title": "Regulated sector",
+      "description": "Advertising in {{industry}} is regulated. We recommend high sensitivity.",
+      "apply": "Use high sensitivity"
     },
     "completeness": {
       "title": "Brief quality",
@@ -426,14 +434,14 @@
       "done": "done",
       "pending": "pending",
       "checks": {
-        "offering": "What you offer",
-        "audience": "Who it is for",
-        "pageGoal": "Page goal",
+        "product": "Product or service",
+        "audience": "Visitor profile",
+        "pageGoal": "What the visitor should do",
         "tone": "Brand tone",
         "formality": "Form of address",
-        "valueProps": "At least one value proposition",
-        "facts": "At least one verifiable fact",
-        "riskLevel": "Risk level"
+        "benefits": "At least one key benefit",
+        "proofPoints": "At least one provable data point",
+        "sensitivity": "Sector sensitivity"
       }
     }
   },
@@ -443,7 +451,7 @@
     "perElement_one": "{{count}} per element",
     "perElement_other": "{{count}} per element",
     "instructions": "Direction for this run (optional)",
-    "instructionsPlaceholder": "e.g. shorter and punchier, try a savings angle…",
+    "instructionsPlaceholder": "e.g. shorter and punchier, lead with the savings…",
     "generateAll_one": "Generate for {{count}} element",
     "generateAll_other": "Generate for {{count}} elements",
     "generateMore": "Generate more",
@@ -464,27 +472,14 @@
     "showDiscarded_other": "Show {{count}} discarded",
     "hideDiscarded_one": "Hide discarded",
     "hideDiscarded_other": "Hide discarded",
-    "compliance": "Compliance {{score}}",
-    "complianceHint": "Automatic check for banned words, forbidden claims and length.",
     "quality": "Quality",
     "qualityHint": "The AI's rating: clarity, relevance and persuasiveness.",
     "toasts": {
       "added": "Variant added"
     },
-    "angles": {
-      "clarity": "Clarity",
-      "benefit": "Benefit",
-      "social_proof": "Social proof",
-      "urgency": "Urgency",
-      "risk_reversal": "Risk reversal",
-      "curiosity": "Curiosity",
-      "specificity": "Specificity",
-      "objection_handling": "Objection",
-      "emotional": "Emotional"
-    },
     "issues": {
-      "banned_word": "Uses the banned word “{{detail}}”.",
-      "forbidden_claim": "Makes a forbidden claim: “{{detail}}”.",
+      "banned_word": "Uses “{{detail}}”, a word we don't use.",
+      "off_limits_promise": "Makes a promise we can't make: “{{detail}}”.",
       "too_long": "Too long ({{detail}} characters).",
       "too_short": "Too short ({{detail}} characters).",
       "unchanged": "Same as the original copy."
@@ -512,6 +507,19 @@
       "title": "Add elements first",
       "description": "Variants are generated for the copy you mark as elements on the page.",
       "cta": "Go to Elements"
+    },
+    "rulesScore": "Rules {{score}}",
+    "rulesHint": "Automatic review of words we don't use, promises we can't make and length.",
+    "approaches": {
+      "clarity": "Clarity",
+      "benefit": "Benefit",
+      "social_proof": "Social proof",
+      "urgency": "Urgency",
+      "risk_reversal": "Risk reversal",
+      "curiosity": "Curiosity",
+      "specificity": "Specificity",
+      "emotional": "Emotional",
+      "answers_doubt": "Answers doubts"
     }
   },
   "goals": {
@@ -683,13 +691,13 @@
       "description": "Where the experiment runs and how many people it reaches.",
       "traffic": "Visitors in the experiment",
       "trafficHint": "The rest see the original page and don't count in the results.",
-      "antiFlicker": "Prevent flicker",
-      "antiFlickerHint": "Briefly hides the page until the variant is applied, so the original copy never flashes.",
       "timeout": "Show the page after at most",
       "domains": "Allowed domains",
       "domainsHint": "The script only acts on these domains. Use *.domain.com for every subdomain.",
       "pages": "Pages",
-      "allPages": "All pages"
+      "allPages": "All pages",
+      "hidePage": "Hide the page until applied",
+      "hidePageHint": "Briefly hides the page until the variant is applied, so the original copy never flashes."
     },
     "install": {
       "title": "Installation",
@@ -724,7 +732,7 @@
       },
       "winner": {
         "title": "“{{name}}” is the winner",
-        "description": "{{probability}} probability of being the best, with an estimated uplift of {{uplift}}."
+        "description": "{{probability}} probability of being the best, with an estimated lift of {{lift}}."
       },
       "control": {
         "title": "The original performs better",
@@ -748,8 +756,8 @@
       "visitors": "Visitors",
       "conversions": "Conversions",
       "rate": "Rate (95% CI)",
-      "uplift": "Uplift vs control",
-      "probBeat": "Prob. to beat control"
+      "probBeat": "Prob. to beat control",
+      "lift": "Change vs. control"
     },
     "chart": {
       "title": "Cumulative conversion rate",
@@ -828,10 +836,10 @@
     "password": {
       "title": "Password",
       "description": "Changing it signs out every other device.",
-      "current": "Current password",
+      "current": "Password you use now",
       "new": "New password",
-      "submit": "Change password",
-      "wrong": "The current password is not correct",
+      "submit": "Update password",
+      "wrong": "That isn't the password you use now",
       "demo": "Demo accounts don't have a password."
     },
     "organization": {
@@ -851,7 +859,7 @@
       "title": "AI generation",
       "description": "Which engine writes the variants.",
       "mock": "Demo mode: variants come from sample templates. Set ANTHROPIC_API_KEY on the server to use Claude.",
-      "claude": "Claude ({{model}}) with structured outputs and compliance checks on every variant."
+      "claude": "Claude ({{model}}) with structured outputs and a rules review on every variant."
     }
   },
   "boot": {

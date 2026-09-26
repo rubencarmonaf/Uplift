@@ -7,21 +7,21 @@ import {
   NotFoundException,
   type OnApplicationBootstrap,
 } from '@nestjs/common';
-import type { GenerationJob, generateVariantsSchema } from '@uplift/shared';
+import type { GenerationRun, generateVariantsSchema } from '@uplift/shared';
 import { and, asc, desc, eq, inArray, sql } from 'drizzle-orm';
 import type { z } from 'zod';
 import { COPY_PROVIDER, CopyGenerationError, type CopyProvider } from '../ai/copy-provider.js';
 import { normalizeBrief } from '../briefs/briefs.service.js';
 import type { Db } from '../db/client.js';
 import { InjectDb } from '../db/db.module.js';
-import { generationJobs, pageElements, projectBriefs, projects, variants } from '../db/schema.js';
+import { generationRuns, pageElements, projectBriefs, projects, variants } from '../db/schema.js';
 import { ProjectAccessService } from '../projects/project-access.service.js';
-import { checkCompliance, qualityScore } from './compliance.js';
+import { checkRules, qualityScore } from './rules-check.js';
 
-type JobRow = typeof generationJobs.$inferSelect;
+type RunRow = typeof generationRuns.$inferSelect;
 type GenerateInput = z.output<typeof generateVariantsSchema>;
 
-export const toJobDto = (row: JobRow): GenerationJob => ({
+export const toRunDto = (row: RunRow): GenerationRun => ({
   id: row.id,
   projectId: row.projectId,
   status: row.status,
@@ -34,13 +34,13 @@ export const toJobDto = (row: JobRow): GenerationJob => ({
   finishedAt: row.finishedAt?.toISOString() ?? null,
 });
 
-/** Elements generated in parallel within one job: fast enough, without bursting the rate limit. */
+/** Elements generated in parallel within one run: fast enough, without bursting the rate limit. */
 const ELEMENT_CONCURRENCY = 2;
 
 /**
- * Generates variants as a background job: the request returns at once and the UI polls the job,
- * showing variants as each element finishes. Jobs run in-process; a queue (e.g. BullMQ) can
- * replace `run` without changing the API.
+ * Generates variants as a background run: the request returns at once and the UI polls the run,
+ * showing variants as each element finishes. Runs run in-process; a queue (e.g. BullMQ) can
+ * replace `execute` without changing the API.
  */
 @Injectable()
 export class GenerationService implements OnApplicationBootstrap {
@@ -52,15 +52,15 @@ export class GenerationService implements OnApplicationBootstrap {
     @Inject(COPY_PROVIDER) private readonly provider: CopyProvider,
   ) {}
 
-  /** In-process jobs die with the server; mark any left unfinished so projects aren't stuck. */
+  /** In-process runs die with the server; mark any left unfinished so projects aren't stuck. */
   async onApplicationBootstrap() {
     const stale = await this.db
-      .update(generationJobs)
+      .update(generationRuns)
       .set({ status: 'failed', error: 'Interrupted by a server restart', finishedAt: new Date() })
-      .where(inArray(generationJobs.status, ['queued', 'running']))
-      .returning({ id: generationJobs.id });
+      .where(inArray(generationRuns.status, ['queued', 'running']))
+      .returning({ id: generationRuns.id });
     if (stale.length)
-      this.logger.warn(`Marked ${stale.length} interrupted generation job(s) as failed`);
+      this.logger.warn(`Marked ${stale.length} interrupted generation run(s) as failed`);
   }
 
   async start(userId: string, projectId: string, input: GenerateInput) {
@@ -80,20 +80,20 @@ export class GenerationService implements OnApplicationBootstrap {
       throw new NotFoundException('Some elements do not belong to this project');
     }
 
-    // One job per project at a time; the partial check-then-insert is fine at this scale.
+    // One run per project at a time; the partial check-then-insert is fine at this scale.
     const [active] = await this.db
-      .select({ id: generationJobs.id })
-      .from(generationJobs)
+      .select({ id: generationRuns.id })
+      .from(generationRuns)
       .where(
         and(
-          eq(generationJobs.projectId, projectId),
-          inArray(generationJobs.status, ['queued', 'running']),
+          eq(generationRuns.projectId, projectId),
+          inArray(generationRuns.status, ['queued', 'running']),
         ),
       );
     if (active) throw new ConflictException('A generation is already running for this project');
 
-    const [job] = await this.db
-      .insert(generationJobs)
+    const [run] = await this.db
+      .insert(generationRuns)
       .values({
         projectId,
         provider: this.provider.name,
@@ -102,24 +102,24 @@ export class GenerationService implements OnApplicationBootstrap {
       })
       .returning();
 
-    void this.run(job!, project, elements, input, userId);
-    return toJobDto(job!);
+    void this.execute(run!, project, elements, input, userId);
+    return toRunDto(run!);
   }
 
   async latest(userId: string, projectId: string) {
     await this.projectAccess.load(userId, projectId, 'viewer');
-    const [job] = await this.db
+    const [run] = await this.db
       .select()
-      .from(generationJobs)
-      .where(eq(generationJobs.projectId, projectId))
-      .orderBy(desc(generationJobs.createdAt))
+      .from(generationRuns)
+      .where(eq(generationRuns.projectId, projectId))
+      .orderBy(desc(generationRuns.createdAt))
       .limit(1);
-    if (!job) throw new NotFoundException();
-    return toJobDto(job);
+    if (!run) throw new NotFoundException();
+    return toRunDto(run);
   }
 
-  private async run(
-    job: JobRow,
+  private async execute(
+    run: RunRow,
     project: typeof projects.$inferSelect,
     elements: (typeof pageElements.$inferSelect)[],
     input: GenerateInput,
@@ -127,9 +127,9 @@ export class GenerationService implements OnApplicationBootstrap {
   ) {
     try {
       await this.db
-        .update(generationJobs)
+        .update(generationRuns)
         .set({ status: 'running' })
-        .where(eq(generationJobs.id, job.id));
+        .where(eq(generationRuns.id, run.id));
 
       const [briefRow] = await this.db
         .select({ data: projectBriefs.data })
@@ -142,18 +142,18 @@ export class GenerationService implements OnApplicationBootstrap {
       const worker = async () => {
         for (let element = queue.shift(); element; element = queue.shift()) {
           try {
-            await this.generateForElement(job, project, element, brief, input, userId);
+            await this.generateForElement(run, project, element, brief, input, userId);
             await this.db
-              .update(generationJobs)
-              .set({ completedElements: sql`${generationJobs.completedElements} + 1` })
-              .where(eq(generationJobs.id, job.id));
+              .update(generationRuns)
+              .set({ completedElements: sql`${generationRuns.completedElements} + 1` })
+              .where(eq(generationRuns.id, run.id));
           } catch (err) {
             lastError = err instanceof CopyGenerationError ? err.message : 'Generation failed';
             this.logger.error(`Element ${element.id} failed: ${err}`);
             await this.db
-              .update(generationJobs)
-              .set({ failedElements: sql`${generationJobs.failedElements} + 1` })
-              .where(eq(generationJobs.id, job.id));
+              .update(generationRuns)
+              .set({ failedElements: sql`${generationRuns.failedElements} + 1` })
+              .where(eq(generationRuns.id, run.id));
           }
         }
       };
@@ -163,33 +163,33 @@ export class GenerationService implements OnApplicationBootstrap {
 
       const [final] = await this.db
         .select()
-        .from(generationJobs)
-        .where(eq(generationJobs.id, job.id));
+        .from(generationRuns)
+        .where(eq(generationRuns.id, run.id));
       const succeeded = (final?.completedElements ?? 0) > 0;
       await this.db
-        .update(generationJobs)
+        .update(generationRuns)
         .set({
           status: succeeded ? 'succeeded' : 'failed',
           error: final?.failedElements ? lastError : null,
           finishedAt: new Date(),
         })
-        .where(eq(generationJobs.id, job.id));
+        .where(eq(generationRuns.id, run.id));
       await this.db
         .update(projects)
         .set({ updatedAt: sql`now()` })
         .where(eq(projects.id, project.id));
     } catch (err) {
-      this.logger.error(`Generation job ${job.id} crashed: ${err}`);
+      this.logger.error(`Generation run ${run.id} crashed: ${err}`);
       await this.db
-        .update(generationJobs)
+        .update(generationRuns)
         .set({ status: 'failed', error: 'Generation failed', finishedAt: new Date() })
-        .where(eq(generationJobs.id, job.id))
+        .where(eq(generationRuns.id, run.id))
         .catch(() => {});
     }
   }
 
   private async generateForElement(
-    job: JobRow,
+    run: RunRow,
     project: typeof projects.$inferSelect,
     element: typeof pageElements.$inferSelect,
     brief: ReturnType<typeof normalizeBrief>,
@@ -220,14 +220,14 @@ export class GenerationService implements OnApplicationBootstrap {
 
     await this.db.insert(variants).values(
       result.variants.map((v) => {
-        const { issues, score } = checkCompliance(v.text, element, brief);
+        const { issues, score } = checkRules(v.text, element, brief);
         return {
           elementId: element.id,
-          jobId: job.id,
+          runId: run.id,
           text: v.text,
-          angle: v.angle,
+          approach: v.approach,
           rationale: v.rationale,
-          complianceScore: score,
+          rulesScore: score,
           qualityScore: qualityScore(v),
           issues,
           source: 'ai' as const,
@@ -236,12 +236,12 @@ export class GenerationService implements OnApplicationBootstrap {
       }),
     );
     await this.db
-      .update(generationJobs)
+      .update(generationRuns)
       .set({
         model: result.model,
-        inputTokens: sql`${generationJobs.inputTokens} + ${result.usage.inputTokens}`,
-        outputTokens: sql`${generationJobs.outputTokens} + ${result.usage.outputTokens}`,
+        inputTokens: sql`${generationRuns.inputTokens} + ${result.usage.inputTokens}`,
+        outputTokens: sql`${generationRuns.outputTokens} + ${result.usage.outputTokens}`,
       })
-      .where(eq(generationJobs.id, job.id));
+      .where(eq(generationRuns.id, run.id));
   }
 }

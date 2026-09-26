@@ -6,7 +6,7 @@ import { RedirectIfAuthed, RequireAuth } from '@/features/auth/guards';
 import { LoginPage } from '@/features/auth/login-page';
 import { RegisterPage } from '@/features/auth/register-page';
 import { ProjectOverviewPage } from '@/features/projects/project-overview-page';
-import { ProjectShell } from '@/features/projects/project-shell';
+import { ProjectLayout } from '@/features/projects/project-layout';
 import { PROJECT_STEPS, type ProjectStep } from '@/features/projects/project-steps';
 import { ProjectStepPlaceholder } from '@/features/projects/project-step-placeholder';
 import { ProjectsPage } from '@/features/projects/projects-page';
@@ -52,7 +52,7 @@ export const router = createBrowserRouter([
           { path: '/projects', element: <ProjectsPage /> },
           {
             path: '/projects/:projectId',
-            element: <ProjectShell />,
+            element: <ProjectLayout />,
             children: [
               { index: true, element: <ProjectOverviewPage /> },
               ...PROJECT_STEPS.filter((step) => step !== 'overview').map(stepRoute),

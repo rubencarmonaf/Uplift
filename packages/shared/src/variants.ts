@@ -1,11 +1,11 @@
 import { z } from 'zod';
-import { type ElementType, elementTypeSchema } from './elements.js';
+import { type ElementKind, elementKindSchema } from './elements.js';
 
 export const VARIANT_STATUSES = ['active', 'discarded'] as const;
 export const VARIANT_SOURCES = ['ai', 'manual'] as const;
 
-/** Persuasion angles the AI picks from; shown as a label on each variant. */
-export const VARIANT_ANGLES = [
+/** Persuasion approaches the AI picks from; shown as a label on each variant. */
+export const VARIANT_APPROACHES = [
   'clarity',
   'benefit',
   'social_proof',
@@ -13,29 +13,29 @@ export const VARIANT_ANGLES = [
   'risk_reversal',
   'curiosity',
   'specificity',
-  'objection_handling',
+  'answers_doubt',
   'emotional',
 ] as const;
-export type VariantAngle = (typeof VARIANT_ANGLES)[number];
+export type VariantApproach = (typeof VARIANT_APPROACHES)[number];
 
 /** A rule a variant breaks, found by the deterministic checks run on every variant. */
-export const complianceIssueSchema = z.object({
-  rule: z.enum(['banned_word', 'too_long', 'too_short', 'forbidden_claim', 'unchanged']),
+export const ruleIssueSchema = z.object({
+  rule: z.enum(['banned_word', 'too_long', 'too_short', 'off_limits_promise', 'unchanged']),
   detail: z.string(),
 });
-export type ComplianceIssue = z.infer<typeof complianceIssueSchema>;
+export type RuleIssue = z.infer<typeof ruleIssueSchema>;
 
 export const variantSchema = z.object({
   id: z.uuid(),
   elementId: z.uuid(),
   text: z.string(),
-  angle: z.enum(VARIANT_ANGLES).nullable(),
+  approach: z.enum(VARIANT_APPROACHES).nullable(),
   rationale: z.string(),
   /** 0-100. 100 means no rule is broken. */
-  complianceScore: z.number(),
+  rulesScore: z.number(),
   /** 0-100, the model's own assessment of clarity, relevance and persuasiveness. Null for manual variants. */
   qualityScore: z.number().nullable(),
-  issues: z.array(complianceIssueSchema),
+  issues: z.array(ruleIssueSchema),
   status: z.enum(VARIANT_STATUSES),
   source: z.enum(VARIANT_SOURCES),
   /** In the organization's library. */
@@ -73,7 +73,7 @@ export type GenerateVariantsInput = z.input<typeof generateVariantsSchema>;
 
 export const GENERATION_STATUSES = ['queued', 'running', 'succeeded', 'failed'] as const;
 
-export const generationJobSchema = z.object({
+export const generationRunSchema = z.object({
   id: z.uuid(),
   projectId: z.uuid(),
   status: z.enum(GENERATION_STATUSES),
@@ -85,7 +85,7 @@ export const generationJobSchema = z.object({
   createdAt: z.iso.datetime(),
   finishedAt: z.iso.datetime().nullable(),
 });
-export type GenerationJob = z.infer<typeof generationJobSchema>;
+export type GenerationRun = z.infer<typeof generationRunSchema>;
 
 export const LIBRARY_SOURCES = ['winner', 'saved'] as const;
 
@@ -93,14 +93,14 @@ export const LIBRARY_SOURCES = ['winner', 'saved'] as const;
 export type LibraryItem = {
   variantId: string;
   text: string;
-  angle: VariantAngle | null;
-  elementType: ElementType;
+  approach: VariantApproach | null;
+  elementKind: ElementKind;
   elementName: string;
   originalText: string;
   project: { id: string; name: string };
   source: (typeof LIBRARY_SOURCES)[number];
   /** Winners only: measured relative uplift over control and its probability. */
-  uplift: number | null;
+  lift: number | null;
   probBeatControl: number | null;
   qualityScore: number | null;
   /** When it won or was saved. */
@@ -109,7 +109,7 @@ export type LibraryItem = {
 
 export const libraryQuerySchema = z.object({
   q: z.string().trim().max(120).optional(),
-  type: elementTypeSchema.optional(),
+  type: elementKindSchema.optional(),
   source: z.enum(LIBRARY_SOURCES).optional(),
 });
 export type LibraryQuery = z.input<typeof libraryQuerySchema>;

@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react';
 
-export function PageHeader({
+export function PageTitle({
   title,
   description,
   actions,

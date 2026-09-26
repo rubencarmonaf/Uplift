@@ -17,8 +17,8 @@ type Change = { selector: string; text: string };
 const APPLY_WINDOW_MS = 5000;
 
 /** The page URL used for scope and goals (the original site's URL on the test page). */
-let pageUrl = () => location.href;
-const pageHostname = () => new URL(pageUrl()).hostname;
+let targetUrl = () => location.href;
+const pageHostname = () => new URL(targetUrl()).hostname;
 
 /** localStorage when available; in-memory otherwise (private modes, sandboxed frames). */
 const memory = new Map<string, string>();
@@ -108,7 +108,7 @@ function send(endpoint: string, body: Record<string, unknown>) {
 function trackGoals(config: RuntimeConfig, track: (goalId: string) => void) {
   const checkPageviews = () => {
     for (const goal of config.goals) {
-      if (goal.kind === 'pageview' && matchesPageview(goal, pageUrl())) track(goal.id);
+      if (goal.kind === 'pageview' && matchesPageview(goal, targetUrl())) track(goal.id);
     }
   };
 
@@ -170,9 +170,9 @@ function boot(config: RuntimeConfig) {
 }
 
 function run(config: RuntimeConfig) {
-  if (config.pageUrl) {
-    const fixed = config.pageUrl;
-    pageUrl = () => fixed;
+  if (config.targetUrl) {
+    const fixed = config.targetUrl;
+    targetUrl = () => fixed;
   }
   if (!hostnameAllowed(pageHostname(), config.scope.domains)) {
     emit({ type: 'skipped', reason: 'domain' });
@@ -182,7 +182,7 @@ function run(config: RuntimeConfig) {
   // A finished experiment with a winner: everyone gets the winner, nothing is tracked.
   if (config.winner) {
     emit({ type: 'winner', armId: config.winner.armId });
-    return applyChanges(inScope(pageUrl(), config.scope) ? config.winner.changes : [], reveal);
+    return applyChanges(inScope(targetUrl(), config.scope) ? config.winner.changes : [], reveal);
   }
 
   const forced = new URLSearchParams(location.search).get('uplift_arm');
@@ -190,7 +190,7 @@ function run(config: RuntimeConfig) {
   const assignmentKey = `uplift_arm_${config.experimentId}`;
   let armId = forced ?? storage.get(assignmentKey);
 
-  if (!forced && !armId && config.status === 'running' && inScope(pageUrl(), config.scope)) {
+  if (!forced && !armId && config.status === 'running' && inScope(targetUrl(), config.scope)) {
     armId = isInExperiment(vid, config.experimentId, config.trafficPercent)
       ? (pickArm(config.arms, vid, config.experimentId)?.id ?? 'out')
       : 'out';
@@ -212,7 +212,7 @@ function run(config: RuntimeConfig) {
 
   // Paused experiments keep showing assigned visitors their arm but record nothing new.
   const tracking = !!arm && !forced && config.status === 'running';
-  const scoped = inScope(pageUrl(), config.scope);
+  const scoped = inScope(targetUrl(), config.scope);
   applyChanges(arm && scoped ? arm.changes : [], reveal);
   if (!tracking || !arm) return;
 

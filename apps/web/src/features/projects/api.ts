@@ -1,6 +1,6 @@
 import type {
   CreateProjectInput,
-  DuplicateProjectInput,
+  CopyProjectInput,
   ListProjectsQuery,
   Project,
   UpdateProjectInput,
@@ -63,11 +63,11 @@ export function useUpdateProject() {
   });
 }
 
-export function useDuplicateProject() {
+export function useCopyProject() {
   const onSuccess = useInvalidateOnSuccess();
   return useMutation({
-    mutationFn: ({ id, ...input }: DuplicateProjectInput & { id: string }) =>
-      api<Project>(`/projects/${id}/duplicate`, { method: 'POST', json: input }),
+    mutationFn: ({ id, ...input }: CopyProjectInput & { id: string }) =>
+      api<Project>(`/projects/${id}/copies`, { method: 'POST', json: input }),
     onSuccess,
   });
 }

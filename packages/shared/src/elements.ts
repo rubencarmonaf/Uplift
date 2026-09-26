@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const ELEMENT_TYPES = [
+export const ELEMENT_KINDS = [
   'headline',
   'subheadline',
   'cta',
@@ -9,11 +9,11 @@ export const ELEMENT_TYPES = [
   'label',
   'other',
 ] as const;
-export const elementTypeSchema = z.enum(ELEMENT_TYPES);
-export type ElementType = z.infer<typeof elementTypeSchema>;
+export const elementKindSchema = z.enum(ELEMENT_KINDS);
+export type ElementKind = z.infer<typeof elementKindSchema>;
 
 /** Sensible length ceilings per element type, offered as defaults in the UI. */
-export const SUGGESTED_MAX_LENGTH: Record<ElementType, number | undefined> = {
+export const SUGGESTED_MAX_LENGTH: Record<ElementKind, number | undefined> = {
   headline: 70,
   subheadline: 160,
   cta: 25,
@@ -27,7 +27,7 @@ const lengthSchema = z.number().int().min(1).max(5000);
 
 const elementFields = z.object({
   name: z.string().trim().min(1).max(80),
-  type: elementTypeSchema,
+  type: elementKindSchema,
   selector: z.string().trim().min(1).max(500),
   originalText: z.string().trim().min(1).max(5000),
   minLength: lengthSchema.nullable(),
@@ -62,7 +62,7 @@ export const elementSchema = z.object({
   id: z.uuid(),
   projectId: z.uuid(),
   name: z.string(),
-  type: elementTypeSchema,
+  type: elementKindSchema,
   selector: z.string(),
   originalText: z.string(),
   minLength: z.number().nullable(),

@@ -1,4 +1,4 @@
-import type { Brief, ElementType, Industry, PageType, VariantAngle } from '@uplift/shared';
+import type { Brief, ElementKind, Industry, PageType, VariantApproach } from '@uplift/shared';
 
 /** Everything a provider needs to write variants for one element. */
 export type CopyRequest = {
@@ -13,7 +13,7 @@ export type CopyRequest = {
   brief: Brief;
   element: {
     name: string;
-    type: ElementType;
+    type: ElementKind;
     originalText: string;
     minLength: number | null;
     maxLength: number | null;
@@ -29,7 +29,7 @@ export type CopyRequest = {
 
 export type GeneratedCopy = {
   text: string;
-  angle: VariantAngle;
+  approach: VariantApproach;
   rationale: string;
   /** Self-assessment, 1-5 each. */
   clarity: number;

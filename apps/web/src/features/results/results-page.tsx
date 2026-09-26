@@ -65,8 +65,8 @@ function Results({ results }: { results: ExperimentResults }) {
         <CardHeader>
           <CardTitle>{t('results.table.title')}</CardTitle>
           <CardDescription>
-            {results.primaryGoal
-              ? t('results.table.description', { goal: results.primaryGoal.name })
+            {results.mainGoal
+              ? t('results.table.description', { goal: results.mainGoal.name })
               : t('results.table.noGoal')}
           </CardDescription>
         </CardHeader>
@@ -136,7 +136,7 @@ function VerdictBanner({ results, canEdit }: { results: ExperimentResults; canEd
       title: t('results.verdict.winner.title', { name: winnerArm?.name ?? '' }),
       description: t('results.verdict.winner.description', {
         probability: probability(verdict.status === 'winner' ? verdict.probability : 0, locale),
-        uplift: winnerArm?.uplift != null ? signedPercent(winnerArm.uplift, locale) : '',
+        lift: winnerArm?.lift != null ? signedPercent(winnerArm.lift, locale) : '',
       }),
     },
     control: {
@@ -235,7 +235,7 @@ function ArmsTable({
               {t('results.table.rate')}
             </th>
             <th scope="col" className="px-3 py-2 text-right font-medium">
-              {t('results.table.uplift')}
+              {t('results.table.lift')}
             </th>
             <th scope="col" className="py-2 pl-3 font-medium">
               {t('results.table.probBeat')}
@@ -275,24 +275,24 @@ function ArmsTable({
                 )}
               </td>
               <td className="px-3 py-2.5 text-right tabular-nums">
-                {arm.uplift == null ? (
+                {arm.lift == null ? (
                   <span className="text-muted-foreground">—</span>
                 ) : (
                   <>
                     <span
                       className={cn(
-                        arm.upliftInterval &&
-                          arm.upliftInterval[0] > 0 &&
+                        arm.liftInterval &&
+                          arm.liftInterval[0] > 0 &&
                           'text-emerald-700 dark:text-emerald-400',
-                        arm.upliftInterval && arm.upliftInterval[1] < 0 && 'text-destructive',
+                        arm.liftInterval && arm.liftInterval[1] < 0 && 'text-destructive',
                       )}
                     >
-                      {signedPercent(arm.uplift, locale)}
+                      {signedPercent(arm.lift, locale)}
                     </span>
-                    {!compact && arm.upliftInterval && (
+                    {!compact && arm.liftInterval && (
                       <span className="block text-xs text-muted-foreground">
-                        {signedPercent(arm.upliftInterval[0], locale, 0)} –{' '}
-                        {signedPercent(arm.upliftInterval[1], locale, 0)}
+                        {signedPercent(arm.liftInterval[0], locale, 0)} –{' '}
+                        {signedPercent(arm.liftInterval[1], locale, 0)}
                       </span>
                     )}
                   </>

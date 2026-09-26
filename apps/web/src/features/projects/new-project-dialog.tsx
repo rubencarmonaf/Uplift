@@ -17,7 +17,7 @@ import { useCurrentOrg } from '@/features/organizations/use-current-org';
 import { useCreateProject } from './api';
 import { ProjectForm } from './project-form';
 
-export function CreateProjectDialog({ trigger }: { trigger?: React.ReactNode }) {
+export function NewProjectDialog({ trigger }: { trigger?: React.ReactNode }) {
   const { t } = useTranslation();
   const org = useCurrentOrg();
   const navigate = useNavigate();

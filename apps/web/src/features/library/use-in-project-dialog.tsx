@@ -47,7 +47,7 @@ export function UseInProjectDialog({
   // Prefer elements of the same type as the item.
   const elementOptions = (projectId ? (elements.data ?? []) : [])
     .slice()
-    .sort((a, b) => Number(b.type === item?.elementType) - Number(a.type === item?.elementType))
+    .sort((a, b) => Number(b.type === item?.elementKind) - Number(a.type === item?.elementKind))
     .map((e) => ({ value: e.id, label: `${e.name} · ${t(`elements.types.${e.type}`)}` }));
 
   return (

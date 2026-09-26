@@ -9,7 +9,7 @@ export function useMe() {
     queryKey: meQueryKey,
     queryFn: async () => {
       try {
-        return await api<MeResponse>('/auth/me');
+        return await api<MeResponse>('/session');
       } catch (err) {
         if (err instanceof ApiError && err.status === 401) return null;
         throw err;
@@ -26,8 +26,7 @@ export function useMe() {
 export function useLogin() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: (input: LoginInput) =>
-      api<MeResponse>('/auth/login', { method: 'POST', json: input }),
+    mutationFn: (input: LoginInput) => api<MeResponse>('/session', { method: 'POST', json: input }),
     onSuccess: (me) => qc.setQueryData(meQueryKey, me),
   });
 }
@@ -36,7 +35,7 @@ export function useRegister() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (input: RegisterInput) =>
-      api<MeResponse>('/auth/register', { method: 'POST', json: input }),
+      api<MeResponse>('/accounts', { method: 'POST', json: input }),
     onSuccess: (me) => qc.setQueryData(meQueryKey, me),
   });
 }
@@ -44,7 +43,7 @@ export function useRegister() {
 export function useLogout() {
   const qc = useQueryClient();
   return useMutation({
-    mutationFn: () => api<void>('/auth/logout', { method: 'POST' }),
+    mutationFn: () => api<void>('/session', { method: 'DELETE' }),
     onSettled: () => {
       qc.clear();
       qc.setQueryData(meQueryKey, null);
@@ -57,7 +56,7 @@ export function useStartDemo() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (language: 'es' | 'en') =>
-      api<MeResponse>('/auth/demo', { method: 'POST', json: { language } }),
+      api<MeResponse>('/demo-accounts', { method: 'POST', json: { language } }),
     onSuccess: (me) => {
       qc.clear();
       qc.setQueryData(meQueryKey, me);

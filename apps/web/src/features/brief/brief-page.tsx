@@ -1,10 +1,10 @@
 import {
   type Brief,
+  BUYER_STAGES,
   FORMALITIES,
-  FUNNEL_STAGES,
   READING_LEVELS,
   REGULATED_INDUSTRIES,
-  RISK_LEVELS,
+  SENSITIVITY_LEVELS,
   TONES,
 } from '@uplift/shared';
 import { ShieldAlert } from 'lucide-react';
@@ -131,43 +131,59 @@ function BriefForm({ initial, updatedAt }: { initial: Brief; updatedAt: string |
     <form onSubmit={onSubmit} className="grid gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]" noValidate>
       <div className="grid content-start gap-6">
         <Section
-          id="business"
-          title={t('brief.sections.business')}
-          description={t('brief.sectionDescriptions.business')}
+          id="offer"
+          title={t('brief.sections.offer')}
+          description={t('brief.sectionDescriptions.offer')}
         >
-          {textField('business.offering', 3)}
-          {textField('business.audience')}
-          {textField('business.pageGoal')}
+          {textField('offer.product', 3)}
+          {textField('offer.pageGoal')}
+          {tagField('offer.benefits', { maxItems: 20 })}
+        </Section>
+
+        <Section
+          id="reader"
+          title={t('brief.sections.reader')}
+          description={t('brief.sectionDescriptions.reader')}
+        >
+          {textField('reader.audience')}
           <Controller
             control={form.control}
-            name="business.funnelStage"
+            name="reader.stage"
             render={({ field }) => (
               <SingleChoice
-                name="funnelStage"
-                legend={t('brief.fields.business.funnelStage')}
-                options={options(FUNNEL_STAGES, 'funnelStage')}
+                name="stage"
+                legend={t('brief.fields.reader.stage')}
+                options={options(BUYER_STAGES, 'stage')}
                 value={field.value}
                 onChange={field.onChange}
                 disabled={disabled}
               />
             )}
           />
-          {tagField('business.valueProps', { maxItems: 20 })}
-          {tagField('business.objections', { maxItems: 20 })}
+          {tagField('reader.doubts', { maxItems: 20 })}
         </Section>
 
         <Section
-          id="voice"
-          title={t('brief.sections.voice')}
-          description={t('brief.sectionDescriptions.voice')}
+          id="evidence"
+          title={t('brief.sections.evidence')}
+          description={t('brief.sectionDescriptions.evidence')}
+        >
+          {tagField('evidence.proofPoints', { maxItems: 40 })}
+          {tagField('evidence.offLimits', { maxItems: 40 })}
+        </Section>
+
+        <Section
+          id="style"
+          title={t('brief.sections.style')}
+          description={t('brief.sectionDescriptions.style')}
         >
           <Controller
             control={form.control}
-            name="voice.tones"
+            name="style.tones"
             render={({ field }) => (
               <MultiChoice
-                legend={t('brief.fields.voice.tones')}
-                hint={t('brief.hints.voice.tones')}
+                legend={t('brief.fields.style.tones')}
+                hint={t('brief.hints.style.tones')}
                 options={options(TONES, 'tone')}
                 value={field.value}
                 onChange={field.onChange}
@@ -178,11 +194,11 @@ function BriefForm({ initial, updatedAt }: { initial: Brief; updatedAt: string |
           />
           <Controller
             control={form.control}
-            name="voice.formality"
+            name="style.formality"
             render={({ field }) => (
               <SingleChoice
                 name="formality"
-                legend={t('brief.fields.voice.formality')}
+                legend={t('brief.fields.style.formality')}
                 options={options(FORMALITIES, 'formality')}
                 value={field.value}
                 onChange={field.onChange}
@@ -192,11 +208,11 @@ function BriefForm({ initial, updatedAt }: { initial: Brief; updatedAt: string |
           />
           <Controller
             control={form.control}
-            name="voice.readingLevel"
+            name="style.readingLevel"
             render={({ field }) => (
               <SingleChoice
                 name="readingLevel"
-                legend={t('brief.fields.voice.readingLevel')}
+                legend={t('brief.fields.style.readingLevel')}
                 options={options(READING_LEVELS, 'readingLevel')}
                 value={field.value}
                 onChange={field.onChange}
@@ -204,24 +220,15 @@ function BriefForm({ initial, updatedAt }: { initial: Brief; updatedAt: string |
               />
             )}
           />
-          {textField('voice.notes', 3)}
+          {textField('style.notes', 3)}
         </Section>
 
         <Section
-          id="truth"
-          title={t('brief.sections.truth')}
-          description={t('brief.sectionDescriptions.truth')}
+          id="rules"
+          title={t('brief.sections.rules')}
+          description={t('brief.sectionDescriptions.rules')}
         >
-          {tagField('truth.facts', { maxItems: 40 })}
-          {tagField('truth.forbiddenClaims', { maxItems: 40 })}
-        </Section>
-
-        <Section
-          id="guardrails"
-          title={t('brief.sections.guardrails')}
-          description={t('brief.sectionDescriptions.guardrails')}
-        >
-          {regulated && brief.guardrails.riskLevel !== 'high' && (
+          {regulated && brief.rules.sensitivity !== 'high' && (
             <Alert>
               <ShieldAlert aria-hidden="true" />
               <AlertTitle>{t('brief.regulated.title')}</AlertTitle>
@@ -235,7 +242,7 @@ function BriefForm({ initial, updatedAt }: { initial: Brief; updatedAt: string |
                     size="sm"
                     variant="outline"
                     onClick={() =>
-                      form.setValue('guardrails.riskLevel', 'high', { shouldDirty: true })
+                      form.setValue('rules.sensitivity', 'high', { shouldDirty: true })
                     }
                   >
                     {t('brief.regulated.apply')}
@@ -246,15 +253,15 @@ function BriefForm({ initial, updatedAt }: { initial: Brief; updatedAt: string |
           )}
           <Controller
             control={form.control}
-            name="guardrails.riskLevel"
+            name="rules.sensitivity"
             render={({ field }) => (
               <SingleChoice
-                name="riskLevel"
-                legend={t('brief.fields.guardrails.riskLevel')}
-                options={RISK_LEVELS.map((value) => ({
+                name="sensitivity"
+                legend={t('brief.fields.rules.sensitivity')}
+                options={SENSITIVITY_LEVELS.map((value) => ({
                   value,
-                  label: t(`brief.options.riskLevel.${value}`),
-                  description: t(`brief.options.riskLevelDescriptions.${value}`),
+                  label: t(`brief.options.sensitivity.${value}`),
+                  description: t(`brief.options.sensitivityDescriptions.${value}`),
                 }))}
                 value={field.value}
                 onChange={field.onChange}
@@ -262,10 +269,10 @@ function BriefForm({ initial, updatedAt }: { initial: Brief; updatedAt: string |
               />
             )}
           />
-          {tagField('guardrails.bannedWords', { maxItems: 100, maxLength: 60, splitOnComma: true })}
-          {tagField('guardrails.requiredMentions', { maxItems: 20 })}
-          {tagField('guardrails.disclaimers', { maxItems: 10, maxLength: 1000 })}
-          {tagField('guardrails.avoidStyles', { maxItems: 20 })}
+          {tagField('rules.bannedWords', { maxItems: 100, maxLength: 60, splitOnComma: true })}
+          {tagField('rules.requiredMentions', { maxItems: 20 })}
+          {tagField('rules.legalNotes', { maxItems: 10, maxLength: 1000 })}
+          {tagField('rules.avoidStyles', { maxItems: 20 })}
         </Section>
       </div>
 

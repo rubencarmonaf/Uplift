@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { toast } from 'sonner';
 import type { z } from 'zod';
 import { FormField } from '@/components/form-field';
-import { PageHeader } from '@/components/page-header';
+import { PageTitle } from '@/components/page-title';
 import { SelectField } from '@/components/select-field';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -31,7 +31,7 @@ export function SettingsPage() {
   const { t } = useTranslation();
   return (
     <>
-      <PageHeader title={t('settings.title')} description={t('settings.description')} />
+      <PageTitle title={t('settings.title')} description={t('settings.description')} />
       <div className="grid max-w-3xl gap-6">
         <ProfileCard />
         <PasswordCard />

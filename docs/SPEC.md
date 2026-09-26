@@ -51,12 +51,13 @@ Multi-tenant desde el inicio: todo recurso pertenece a una **organización** (wo
 
 ### 3.4 Contexto y reglas (brief)
 
-Configurable a **nivel de proyecto** y **sobrescribible por elemento**. Se organiza en bloques:
+Configurable a **nivel de proyecto** y **sobrescribible por elemento**. Responde a las preguntas que se haría un redactor:
 
-- **Voz y tono**: tono, complejidad del lenguaje y longitud preferida.
-- **Negocio y página**: qué se vende, objetivo de la página, fase del funnel, propuestas de valor, objeciones habituales y mercado o idioma.
-- **Fuente de verdad**: hechos verificables que la IA puede usar y afirmaciones que nunca debe hacer.
-- **Marca y cumplimiento**: nivel de riesgo del sector, palabras vetadas, afirmaciones obligatorias y prohibidas, disclaimers y tonos a evitar.
+- **La oferta**: qué se vende, qué debe hacer el visitante y los beneficios clave.
+- **Quién lee la página**: perfil del visitante, en qué momento de la compra está y qué dudas le frenan.
+- **Pruebas**: datos demostrables que la IA puede citar y promesas que no se pueden hacer.
+- **Estilo de escritura**: tono, tratamiento, nivel de lectura y notas de estilo.
+- **Reglas de la marca**: sensibilidad del sector, palabras que no se usan, menciones obligatorias, letra pequeña y recursos a evitar.
 
 Plantillas de brief reutilizables a nivel de organización ("Brand kits").
 
@@ -95,9 +96,9 @@ Plantillas de brief reutilizables a nivel de organización ("Brand kits").
 - El script:
   - asigna al visitante una variante de forma persistente (cookie o localStorage),
   - aplica los textos,
-  - evita el parpadeo del contenido original con un anti-flicker y timeout configurable,
+  - oculta la página hasta aplicar la variante (con un tiempo máximo configurable), para que no se vea el texto original,
   - registra impresiones y conversiones.
-- Configuración: ámbito (dominios y rutas donde se ejecuta), anti-flicker, reparto de tráfico (%), fecha de inicio y fin.
+- Configuración: ámbito (dominios y rutas donde se ejecuta), ocultación hasta aplicar, reparto de tráfico (%), fecha de inicio y fin.
 - Estados de activación: `inactivo → activo → pausado → finalizado`.
 - Verificación de instalación ("¿está el script detectado en la URL?").
 
@@ -137,7 +138,7 @@ Plantillas de brief reutilizables a nivel de organización ("Brand kits").
   - `packages/shared`: esquemas zod y tipos compartidos entre web y api.
   - `packages/snippet`: script de experimentos (bundle mínimo).
 - **Base de datos**: PostgreSQL con **Drizzle ORM** y sus migraciones.
-- **Jobs asíncronos** (generación IA, capturas de página): cola (p. ej. BullMQ con Redis) o, para empezar, jobs en proceso.
+- **Tareas en segundo plano** (generación IA, capturas de página): cola (p. ej. BullMQ con Redis) o, para empezar, ejecución en proceso.
 - **Render o captura de páginas** para preview y picker: Playwright en el backend.
 - **IA**: capa de proveedor abstracta (Claude por defecto) con salidas estructuradas validadas por zod.
 - **Local**: docker-compose con Postgres y Redis.

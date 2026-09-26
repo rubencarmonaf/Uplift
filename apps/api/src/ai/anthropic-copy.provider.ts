@@ -1,7 +1,7 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { betaZodOutputFormat } from '@anthropic-ai/sdk/helpers/beta/zod';
 import { Logger } from '@nestjs/common';
-import { VARIANT_ANGLES } from '@uplift/shared';
+import { VARIANT_APPROACHES } from '@uplift/shared';
 import { z } from 'zod';
 import {
   type CopyProvider,
@@ -16,7 +16,7 @@ const outputSchema = z.object({
   variants: z.array(
     z.object({
       text: z.string(),
-      angle: z.enum(VARIANT_ANGLES),
+      approach: z.enum(VARIANT_APPROACHES),
       rationale: z.string(),
       clarity: z.number(),
       relevance: z.number(),

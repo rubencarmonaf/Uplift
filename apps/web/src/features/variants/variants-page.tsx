@@ -1,4 +1,4 @@
-import type { GenerationJob, PageElement, Variant } from '@uplift/shared';
+import type { GenerationRun, PageElement, Variant } from '@uplift/shared';
 import { BRIEF_CHECKS, MAX_VARIANTS_PER_REQUEST } from '@uplift/shared';
 import { AlertTriangle, FlaskConical, Info, Plus, Sparkles } from 'lucide-react';
 import { useState } from 'react';
@@ -32,8 +32,8 @@ import {
 } from './api';
 import { VariantCard } from './variant-card';
 
-const isRunning = (job: GenerationJob | null | undefined) =>
-  job?.status === 'queued' || job?.status === 'running';
+const isRunning = (run: GenerationRun | null | undefined) =>
+  run?.status === 'queued' || run?.status === 'running';
 
 export function VariantsPage() {
   const { t, i18n } = useTranslation();
@@ -42,16 +42,16 @@ export function VariantsPage() {
   const elements = useElements(project.id);
   const brief = useBrief(project.id);
   const aiStatus = useAiStatus();
-  const job = useLatestGeneration(project.id);
-  const variants = useVariants(project.id, job.data);
+  const run = useLatestGeneration(project.id);
+  const variants = useVariants(project.id, run.data);
   const generate = useGenerateVariants(project.id);
   const [count, setCount] = useState(3);
   const [instructions, setInstructions] = useState('');
 
-  const running = isRunning(job.data) || generate.isPending;
+  const running = isRunning(run.data) || generate.isPending;
   const language = i18n.resolvedLanguage === 'es' ? 'es' : 'en';
 
-  const run = (elementIds?: string[]) =>
+  const startGeneration = (elementIds?: string[]) =>
     generate.mutate(
       { elementIds, count, instructions, language },
       {
@@ -157,14 +157,14 @@ export function VariantsPage() {
               placeholder={t('variants.instructionsPlaceholder')}
             />
           </div>
-          <Button onClick={() => run()} disabled={running}>
+          <Button onClick={() => startGeneration()} disabled={running}>
             <Sparkles />
             {t('variants.generateAll', { count: elements.data.length })}
           </Button>
         </section>
       )}
 
-      {job.data && <JobStatus job={job.data} />}
+      {run.data && <RunStatus run={run.data} />}
 
       <div className="grid gap-8">
         {elements.data.map((element) => (
@@ -174,7 +174,7 @@ export function VariantsPage() {
             variants={byElement.get(element.id) ?? []}
             canEdit={org.canEdit}
             running={running}
-            onGenerate={() => run([element.id])}
+            onGenerate={() => startGeneration([element.id])}
           />
         ))}
       </div>
@@ -182,17 +182,17 @@ export function VariantsPage() {
   );
 }
 
-function JobStatus({ job }: { job: GenerationJob }) {
+function RunStatus({ run }: { run: GenerationRun }) {
   const { t } = useTranslation();
-  if (isRunning(job)) {
-    const done = job.completedElements + job.failedElements;
-    const percent = Math.round((done / job.totalElements) * 100);
+  if (isRunning(run)) {
+    const done = run.completedElements + run.failedElements;
+    const percent = Math.round((done / run.totalElements) * 100);
     return (
       <div className="grid gap-2 rounded-xl border p-4" role="status" aria-live="polite">
         <div className="flex items-center justify-between text-sm">
           <span className="flex items-center gap-2 font-medium">
             <Sparkles className="size-4 animate-pulse text-primary" aria-hidden="true" />
-            {t('variants.progress', { done, total: job.totalElements })}
+            {t('variants.progress', { done, total: run.totalElements })}
           </span>
           <span className="text-muted-foreground tabular-nums">{percent}%</span>
         </div>
@@ -205,13 +205,13 @@ function JobStatus({ job }: { job: GenerationJob }) {
       </div>
     );
   }
-  if (job.failedElements > 0) {
+  if (run.failedElements > 0) {
     return (
       <Alert variant="destructive">
         <AlertTriangle aria-hidden="true" />
         <AlertTitle>
-          {t(job.status === 'failed' ? 'variants.failed.all' : 'variants.failed.some', {
-            count: job.failedElements,
+          {t(run.status === 'failed' ? 'variants.failed.all' : 'variants.failed.some', {
+            count: run.failedElements,
           })}
         </AlertTitle>
         <AlertDescription>{t('variants.failed.description')}</AlertDescription>

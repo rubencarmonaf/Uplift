@@ -22,9 +22,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { useDeleteProject, useDuplicateProject, useUpdateProject } from './api';
+import { useDeleteProject, useCopyProject, useUpdateProject } from './api';
 
-/** Duplicate, archive and delete, shared by the projects table and the project header. */
+/** Copy, archive and delete, shared by the projects table and the project header. */
 export function ProjectActions({
   project,
   onDeleted,
@@ -35,7 +35,7 @@ export function ProjectActions({
   const { t } = useTranslation();
   const navigate = useNavigate();
   const update = useUpdateProject();
-  const duplicate = useDuplicateProject();
+  const copy = useCopyProject();
   const remove = useDeleteProject();
   const [confirmDelete, setConfirmDelete] = useState(false);
   const archived = !!project.archivedAt;
@@ -52,11 +52,11 @@ export function ProjectActions({
         <DropdownMenuContent align="end">
           <DropdownMenuItem
             onSelect={() =>
-              duplicate.mutate(
+              copy.mutate(
                 { id: project.id, name: t('projects.copyName', { name: project.name }) },
                 {
                   onSuccess: (copy) => {
-                    toast.success(t('projects.toasts.duplicated'));
+                    toast.success(t('projects.toasts.copied'));
                     void navigate(`/projects/${copy.id}`);
                   },
                   onError,
@@ -65,7 +65,7 @@ export function ProjectActions({
             }
           >
             <Copy />
-            {t('projects.actions.duplicate')}
+            {t('projects.actions.copy')}
           </DropdownMenuItem>
           <DropdownMenuItem
             onSelect={() =>

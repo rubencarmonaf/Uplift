@@ -1,4 +1,15 @@
-import { Body, Controller, Get, HttpCode, Patch, Post, Req, Res } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  HttpCode,
+  Patch,
+  Post,
+  Put,
+  Req,
+  Res,
+} from '@nestjs/common';
 import { Throttle } from '@nestjs/throttler';
 import {
   type ChangePasswordInput,
@@ -19,7 +30,7 @@ import { SESSION_COOKIE, SessionService } from './session.service.js';
 
 const strictLimit = { default: { ttl: 60_000, limit: 10 } };
 
-@Controller('auth')
+@Controller()
 export class AuthController {
   constructor(
     private readonly auth: AuthService,
@@ -28,7 +39,7 @@ export class AuthController {
 
   @Public()
   @Throttle(strictLimit)
-  @Post('register')
+  @Post('accounts')
   async register(
     @Body(new ZodValidationPipe(registerSchema)) body: RegisterInput,
     @Res({ passthrough: true }) res: Response,
@@ -41,7 +52,7 @@ export class AuthController {
   @Public()
   @Throttle(strictLimit)
   @HttpCode(200)
-  @Post('login')
+  @Post('session')
   async login(
     @Body(new ZodValidationPipe(loginSchema)) body: LoginInput,
     @Res({ passthrough: true }) res: Response,
@@ -53,19 +64,19 @@ export class AuthController {
 
   @Public()
   @HttpCode(204)
-  @Post('logout')
+  @Delete('session')
   async logout(@Req() req: Request, @Res({ passthrough: true }) res: Response) {
     const token: string | undefined = req.cookies?.[SESSION_COOKIE];
     if (token) await this.sessions.invalidate(token);
     this.sessions.clearCookie(res);
   }
 
-  @Get('me')
+  @Get('session')
   me(@CurrentUser() user: AuthUser) {
     return this.auth.me(user);
   }
 
-  @Patch('me')
+  @Patch('account')
   updateProfile(
     @CurrentUser() user: AuthUser,
     @Body(new ZodValidationPipe(updateProfileSchema)) body: UpdateProfileInput,
@@ -76,7 +87,7 @@ export class AuthController {
   /** Changes the password and signs out every other session. */
   @Throttle(strictLimit)
   @HttpCode(204)
-  @Post('me/password')
+  @Put('account/password')
   async changePassword(
     @CurrentUser() user: AuthUser,
     @Req() req: Request,

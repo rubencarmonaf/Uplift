@@ -17,7 +17,7 @@ export const armSchema = z.object({
 });
 export type Arm = z.infer<typeof armSchema>;
 
-export const antiFlickerSchema = z.object({
+export const hidePageSchema = z.object({
   enabled: z.boolean(),
   /** The page is shown after this long even if the script has not finished. */
   timeoutMs: z.number().int().min(100).max(4000),
@@ -44,7 +44,7 @@ export type ExperimentScope = z.infer<typeof scopeSchema>;
 export const experimentSettingsSchema = z.object({
   /** Percentage of visitors that enter the experiment; the rest see the original page. */
   trafficPercent: z.number().int().min(1).max(100),
-  antiFlicker: antiFlickerSchema,
+  hidePage: hidePageSchema,
   scope: scopeSchema,
 });
 
@@ -94,7 +94,7 @@ export type RuntimeConfig = {
   experimentId: string;
   status: ExperimentStatus;
   trafficPercent: number;
-  antiFlicker: { enabled: boolean; timeoutMs: number };
+  hidePage: { enabled: boolean; timeoutMs: number };
   scope: ExperimentScope;
   /** When the experiment is finished with a winner, everyone gets this arm and nothing is tracked. */
   winner: { armId: string; changes: { selector: string; text: string }[] } | null;
@@ -106,7 +106,7 @@ export type RuntimeConfig = {
   ))[];
   endpoint: string;
   /** Test page only: the URL of the original page, used instead of location for scope and goals. */
-  pageUrl?: string;
+  targetUrl?: string;
 };
 
 export const EVENT_TYPES = ['exposure', 'conversion'] as const;

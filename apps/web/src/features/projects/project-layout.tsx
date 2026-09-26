@@ -12,7 +12,7 @@ import { ProjectActions } from './project-actions';
 import { PROJECT_STEPS } from './project-steps';
 import { StatusBadge } from './status-badge';
 
-export function ProjectShell() {
+export function ProjectLayout() {
   const { t } = useTranslation();
   const { projectId = '' } = useParams();
   const navigate = useNavigate();

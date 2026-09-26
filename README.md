@@ -1,6 +1,6 @@
 # Uplift
 
-AI-assisted conversion rate optimization. Point Uplift at a page, pick the elements that matter (headline, CTA, benefits…), describe your brand and legal guardrails, and it generates on-brand copy variants, previews them on the live page and runs A/B experiments to find the winner.
+AI-assisted conversion rate optimization. Point Uplift at a page, pick the elements that matter (headline, CTA, benefits…), describe your offer, audience and brand rules, and it generates on-brand copy variants, previews them on the live page and runs A/B experiments to find the winner.
 
 > Personal portfolio project. Work in progress — see the [functional spec](docs/SPEC.md) and roadmap.
 
@@ -32,8 +32,8 @@ structured outputs validated by zod and server-side refusal fallbacks enabled. S
 template-based mock provider, so everything works end to end at no cost. `AI_MODEL`, `AI_EFFORT`
 and `AI_PROVIDER` (`auto` | `anthropic` | `mock`) tune it.
 
-Every variant, AI-written or manual, goes through deterministic compliance checks (banned words,
-forbidden claims, length limits) based on the project brief; the model is told the rules but is
+Every variant, AI-written or manual, goes through a deterministic rules review (banned words,
+off-limits promises, length limits) based on the project brief; the model is told the rules but is
 never trusted to police itself.
 
 ## Project layout

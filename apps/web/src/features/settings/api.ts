@@ -13,7 +13,7 @@ export function useUpdateProfile() {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (input: UpdateProfileInput) =>
-      api<MeResponse>('/auth/me', { method: 'PATCH', json: input }),
+      api<MeResponse>('/account', { method: 'PATCH', json: input }),
     onSuccess: (me) => qc.setQueryData(meQueryKey, me),
   });
 }
@@ -21,7 +21,7 @@ export function useUpdateProfile() {
 export function useChangePassword() {
   return useMutation({
     mutationFn: (input: ChangePasswordInput) =>
-      api<void>('/auth/me/password', { method: 'POST', json: input }),
+      api<void>('/account/password', { method: 'PUT', json: input }),
   });
 }
 

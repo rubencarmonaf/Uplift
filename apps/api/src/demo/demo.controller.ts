@@ -10,7 +10,7 @@ import { DemoService } from './demo.service.js';
 
 const demoRequestSchema = z.object({ language: z.enum(['es', 'en']).default('es') });
 
-@Controller('auth')
+@Controller()
 export class DemoController {
   constructor(
     private readonly demo: DemoService,
@@ -23,7 +23,7 @@ export class DemoController {
   // Each demo seeds a full project; keep it well away from being a cheap way to fill the database.
   @Throttle({ default: { ttl: 60_000, limit: 5 } })
   @HttpCode(201)
-  @Post('demo')
+  @Post('demo-accounts')
   async start(
     @Body(new ZodValidationPipe(demoRequestSchema)) body: z.output<typeof demoRequestSchema>,
     @Res({ passthrough: true }) res: Response,

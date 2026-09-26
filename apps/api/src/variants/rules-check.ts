@@ -1,4 +1,4 @@
-import type { Brief, ComplianceIssue } from '@uplift/shared';
+import type { Brief, RuleIssue } from '@uplift/shared';
 
 /** Lowercase without diacritics, so "Garantía" matches the banned word "garantia". */
 const fold = (s: string) =>
@@ -20,8 +20,8 @@ function containsTerm(text: string, term: string) {
   return pattern.test(fold(text));
 }
 
-const PENALTIES: Record<ComplianceIssue['rule'], number> = {
-  forbidden_claim: 50,
+const PENALTIES: Record<RuleIssue['rule'], number> = {
+  off_limits_promise: 50,
   banned_word: 40,
   unchanged: 60,
   too_long: 30,
@@ -32,20 +32,20 @@ const PENALTIES: Record<ComplianceIssue['rule'], number> = {
  * Deterministic rule checks run on every variant, AI-written or manual. They catch the rules that
  * can be checked mechanically; the model is also told the rules, but is never trusted to police itself.
  */
-export function checkCompliance(
+export function checkRules(
   text: string,
   element: { originalText: string; minLength: number | null; maxLength: number | null },
   brief: Brief,
 ) {
-  const issues: ComplianceIssue[] = [];
+  const issues: RuleIssue[] = [];
 
-  for (const word of brief.guardrails.bannedWords) {
+  for (const word of brief.rules.bannedWords) {
     if (containsTerm(text, word)) issues.push({ rule: 'banned_word', detail: word });
   }
   // Only exact phrases can be detected reliably; paraphrased claims need a human (or model) review.
-  for (const claim of brief.truth.forbiddenClaims) {
+  for (const claim of brief.evidence.offLimits) {
     if (fold(claim).length >= 4 && fold(text).includes(fold(claim))) {
-      issues.push({ rule: 'forbidden_claim', detail: claim });
+      issues.push({ rule: 'off_limits_promise', detail: claim });
     }
   }
   if (element.maxLength != null && text.length > element.maxLength) {

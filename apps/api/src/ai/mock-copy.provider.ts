@@ -1,97 +1,100 @@
-import type { ElementType, VariantAngle } from '@uplift/shared';
+import type { ElementKind, VariantApproach } from '@uplift/shared';
 import type { CopyProvider, CopyRequest, CopyResult, GeneratedCopy } from './copy-provider.js';
 
 type Lang = 'es' | 'en';
-type Template = { angle: VariantAngle; make: (ctx: Context) => string | null };
-type Context = { original: string; valueProp?: string; fact?: string; goal?: string };
+type Template = { approach: VariantApproach; make: (ctx: Context) => string | null };
+type Context = { original: string; benefit?: string; proof?: string; goal?: string };
 
 const lower = (s: string) => s.charAt(0).toLowerCase() + s.slice(1);
 
 // Deliberately simple patterns: enough to demo the workflow without an API key.
-const TEMPLATES: Record<Lang, Partial<Record<ElementType, Template[]>> & { default: Template[] }> =
+const TEMPLATES: Record<Lang, Partial<Record<ElementKind, Template[]>> & { default: Template[] }> =
   {
     es: {
       cta: [
-        { angle: 'clarity', make: () => 'Empieza ahora' },
-        { angle: 'risk_reversal', make: () => 'Pruébalo sin compromiso' },
+        { approach: 'clarity', make: () => 'Empieza ahora' },
+        { approach: 'risk_reversal', make: () => 'Pruébalo sin compromiso' },
         {
-          angle: 'benefit',
+          approach: 'benefit',
           make: (c) => (c.goal ? `Quiero ${lower(c.goal)}` : 'Ver cómo funciona'),
         },
-        { angle: 'urgency', make: () => 'Empieza hoy mismo' },
-        { angle: 'curiosity', make: () => 'Descubre cómo' },
-        { angle: 'specificity', make: () => 'Empieza en 2 minutos' },
-        { angle: 'benefit', make: () => 'Quiero empezar' },
-        { angle: 'clarity', make: () => 'Continuar' },
-        { angle: 'risk_reversal', make: () => 'Probar gratis' },
-        { angle: 'curiosity', make: () => 'Ver ejemplos' },
-        { angle: 'emotional', make: () => '¡Vamos allá!' },
-        { angle: 'specificity', make: () => 'Ver precios y planes' },
+        { approach: 'urgency', make: () => 'Empieza hoy mismo' },
+        { approach: 'curiosity', make: () => 'Descubre cómo' },
+        { approach: 'specificity', make: () => 'Empieza en 2 minutos' },
+        { approach: 'benefit', make: () => 'Quiero empezar' },
+        { approach: 'clarity', make: () => 'Continuar' },
+        { approach: 'risk_reversal', make: () => 'Probar gratis' },
+        { approach: 'curiosity', make: () => 'Ver ejemplos' },
+        { approach: 'emotional', make: () => '¡Vamos allá!' },
+        { approach: 'specificity', make: () => 'Ver precios y planes' },
       ],
       default: [
-        { angle: 'benefit', make: (c) => c.valueProp ?? null },
-        { angle: 'social_proof', make: (c) => (c.fact ? `${c.fact}. ${c.original}` : null) },
+        { approach: 'benefit', make: (c) => c.benefit ?? null },
+        { approach: 'social_proof', make: (c) => (c.proof ? `${c.proof}. ${c.original}` : null) },
         {
-          angle: 'clarity',
+          approach: 'clarity',
           make: (c) => c.original.replace(/[.!]+$/, '') + ', sin complicaciones',
         },
         {
-          angle: 'objection_handling',
+          approach: 'answers_doubt',
           make: (c) => `${c.original.replace(/[.!]+$/, '')}. Sin letra pequeña.`,
         },
-        { angle: 'curiosity', make: (c) => `¿Y si ${lower(c.valueProp ?? c.original)}?` },
-        { angle: 'emotional', make: (c) => `Por fin: ${lower(c.original)}` },
+        { approach: 'curiosity', make: (c) => `¿Y si ${lower(c.benefit ?? c.original)}?` },
+        { approach: 'emotional', make: (c) => `Por fin: ${lower(c.original)}` },
         {
-          angle: 'specificity',
-          make: (c) => (c.fact && c.valueProp ? `${c.valueProp}: ${lower(c.fact)}` : null),
+          approach: 'specificity',
+          make: (c) => (c.proof && c.benefit ? `${c.benefit}: ${lower(c.proof)}` : null),
         },
         {
-          angle: 'benefit',
+          approach: 'benefit',
           make: (c) =>
             c.goal ? `${c.original.replace(/[.!]+$/, '')} para ${lower(c.goal)}` : null,
         },
-        { angle: 'clarity', make: (c) => `Así de fácil: ${lower(c.original)}` },
+        { approach: 'clarity', make: (c) => `Así de fácil: ${lower(c.original)}` },
       ],
     },
     en: {
       cta: [
-        { angle: 'clarity', make: () => 'Get started' },
-        { angle: 'risk_reversal', make: () => 'Try it risk-free' },
-        { angle: 'benefit', make: (c) => (c.goal ? `Yes, ${lower(c.goal)}` : 'See how it works') },
-        { angle: 'urgency', make: () => 'Start today' },
-        { angle: 'curiosity', make: () => 'Find out how' },
-        { angle: 'specificity', make: () => 'Start in 2 minutes' },
-        { angle: 'benefit', make: () => 'I want this' },
-        { angle: 'clarity', make: () => 'Continue' },
-        { angle: 'risk_reversal', make: () => 'Try it free' },
-        { angle: 'curiosity', make: () => 'See examples' },
-        { angle: 'emotional', make: () => "Let's go!" },
-        { angle: 'specificity', make: () => 'See plans and pricing' },
+        { approach: 'clarity', make: () => 'Get started' },
+        { approach: 'risk_reversal', make: () => 'Try it risk-free' },
+        {
+          approach: 'benefit',
+          make: (c) => (c.goal ? `Yes, ${lower(c.goal)}` : 'See how it works'),
+        },
+        { approach: 'urgency', make: () => 'Start today' },
+        { approach: 'curiosity', make: () => 'Find out how' },
+        { approach: 'specificity', make: () => 'Start in 2 minutes' },
+        { approach: 'benefit', make: () => 'I want this' },
+        { approach: 'clarity', make: () => 'Continue' },
+        { approach: 'risk_reversal', make: () => 'Try it free' },
+        { approach: 'curiosity', make: () => 'See examples' },
+        { approach: 'emotional', make: () => "Let's go!" },
+        { approach: 'specificity', make: () => 'See plans and pricing' },
       ],
       default: [
-        { angle: 'benefit', make: (c) => c.valueProp ?? null },
-        { angle: 'social_proof', make: (c) => (c.fact ? `${c.fact}. ${c.original}` : null) },
-        { angle: 'clarity', make: (c) => c.original.replace(/[.!]+$/, '') + ', made simple' },
+        { approach: 'benefit', make: (c) => c.benefit ?? null },
+        { approach: 'social_proof', make: (c) => (c.proof ? `${c.proof}. ${c.original}` : null) },
+        { approach: 'clarity', make: (c) => c.original.replace(/[.!]+$/, '') + ', made simple' },
         {
-          angle: 'objection_handling',
+          approach: 'answers_doubt',
           make: (c) => `${c.original.replace(/[.!]+$/, '')}. No fine print.`,
         },
-        { angle: 'curiosity', make: (c) => `What if ${lower(c.valueProp ?? c.original)}?` },
-        { angle: 'emotional', make: (c) => `Finally: ${lower(c.original)}` },
+        { approach: 'curiosity', make: (c) => `What if ${lower(c.benefit ?? c.original)}?` },
+        { approach: 'emotional', make: (c) => `Finally: ${lower(c.original)}` },
         {
-          angle: 'specificity',
-          make: (c) => (c.fact && c.valueProp ? `${c.valueProp}: ${lower(c.fact)}` : null),
+          approach: 'specificity',
+          make: (c) => (c.proof && c.benefit ? `${c.benefit}: ${lower(c.proof)}` : null),
         },
         {
-          angle: 'benefit',
+          approach: 'benefit',
           make: (c) => (c.goal ? `${c.original.replace(/[.!]+$/, '')} to ${lower(c.goal)}` : null),
         },
-        { angle: 'clarity', make: (c) => `It's this simple: ${lower(c.original)}` },
+        { approach: 'clarity', make: (c) => `It's this simple: ${lower(c.original)}` },
       ],
     },
   };
 
-const RATIONALES: Record<Lang, Record<VariantAngle, string>> = {
+const RATIONALES: Record<Lang, Record<VariantApproach, string>> = {
   es: {
     clarity: 'Más directo: deja claro qué pasa al hacer clic.',
     benefit: 'Lidera con el beneficio en lugar de con la característica.',
@@ -100,7 +103,7 @@ const RATIONALES: Record<Lang, Record<VariantAngle, string>> = {
     risk_reversal: 'Reduce el miedo a comprometerse.',
     curiosity: 'Despierta curiosidad para seguir leyendo.',
     specificity: 'Un detalle concreto resulta más creíble que una promesa genérica.',
-    objection_handling: 'Responde a una objeción habitual antes de que aparezca.',
+    answers_doubt: 'Despeja una duda habitual antes de que aparezca.',
     emotional: 'Conecta con el alivio de resolver el problema.',
   },
   en: {
@@ -111,7 +114,7 @@ const RATIONALES: Record<Lang, Record<VariantAngle, string>> = {
     risk_reversal: 'Lowers the fear of committing.',
     curiosity: 'Sparks curiosity to keep reading.',
     specificity: 'A concrete detail is more credible than a generic promise.',
-    objection_handling: 'Answers a common objection before it comes up.',
+    answers_doubt: 'Clears up a common doubt before it comes up.',
     emotional: 'Connects with the relief of solving the problem.',
   },
 };
@@ -157,10 +160,10 @@ export class MockCopyProvider implements CopyProvider {
       const template = templates[(offset + i) % templates.length]!;
       const ctx: Context = {
         original: element.originalText,
-        valueProp:
-          brief.business.valueProps[(offset + i) % Math.max(1, brief.business.valueProps.length)],
-        fact: brief.truth.facts[(offset + i) % Math.max(1, brief.truth.facts.length)],
-        goal: brief.business.pageGoal || undefined,
+        benefit: brief.offer.benefits[(offset + i) % Math.max(1, brief.offer.benefits.length)],
+        proof:
+          brief.evidence.proofPoints[(offset + i) % Math.max(1, brief.evidence.proofPoints.length)],
+        goal: brief.offer.pageGoal || undefined,
       };
       const raw = template.make(ctx);
       if (!raw) continue;
@@ -170,8 +173,8 @@ export class MockCopyProvider implements CopyProvider {
       const h = hash(text);
       variants.push({
         text,
-        angle: template.angle,
-        rationale: RATIONALES[rationaleLang][template.angle],
+        approach: template.approach,
+        rationale: RATIONALES[rationaleLang][template.approach],
         clarity: 3 + (h % 3),
         relevance: 3 + ((h >> 3) % 3),
         persuasion: 2 + ((h >> 6) % 4),

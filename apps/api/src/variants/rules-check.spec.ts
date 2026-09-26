@@ -1,18 +1,18 @@
 import { type Brief, EMPTY_BRIEF } from '@uplift/shared';
 import { describe, expect, it } from 'vitest';
-import { checkCompliance, qualityScore } from './compliance.js';
+import { checkRules, qualityScore } from './rules-check.js';
 
 const brief: Brief = {
   ...EMPTY_BRIEF,
-  truth: { ...EMPTY_BRIEF.truth, forbiddenClaims: ['el más barato del mercado'] },
-  guardrails: { ...EMPTY_BRIEF.guardrails, bannedWords: ['garantía', 'gratis'] },
+  evidence: { ...EMPTY_BRIEF.evidence, offLimits: ['el más barato del mercado'] },
+  rules: { ...EMPTY_BRIEF.rules, bannedWords: ['garantía', 'gratis'] },
 };
 const element = { originalText: 'Pide tu presupuesto', minLength: 5, maxLength: 30 };
-const rules = (text: string) => checkCompliance(text, element, brief).issues.map((i) => i.rule);
+const rules = (text: string) => checkRules(text, element, brief).issues.map((i) => i.rule);
 
-describe('checkCompliance', () => {
+describe('checkRules', () => {
   it('passes clean copy with a full score', () => {
-    expect(checkCompliance('Calcula tu precio en 2 minutos', element, brief)).toEqual({
+    expect(checkRules('Calcula tu precio en 2 minutos', element, brief)).toEqual({
       issues: [],
       score: 100,
     });
@@ -28,8 +28,8 @@ describe('checkCompliance', () => {
     expect(rules('Gratisfacción total')).not.toContain('banned_word');
   });
 
-  it('finds forbidden claims', () => {
-    expect(rules('El más barato del mercado')).toContain('forbidden_claim');
+  it('finds off-limits promises', () => {
+    expect(rules('El más barato del mercado')).toContain('off_limits_promise');
   });
 
   it('checks length limits', () => {
@@ -42,7 +42,7 @@ describe('checkCompliance', () => {
   });
 
   it('never goes below zero', () => {
-    const { score } = checkCompliance(
+    const { score } = checkRules(
       'Gratis y con garantía: el más barato del mercado',
       element,
       brief,

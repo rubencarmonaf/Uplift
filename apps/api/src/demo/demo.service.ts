@@ -24,7 +24,7 @@ import {
   variants,
 } from '../db/schema.js';
 import { ResultsService } from '../results/results.service.js';
-import { checkCompliance } from '../variants/compliance.js';
+import { checkRules } from '../variants/rules-check.js';
 import {
   DEMO_ARMS,
   DEMO_BRIEF,
@@ -168,7 +168,7 @@ export class DemoService implements OnApplicationBootstrap, OnApplicationShutdow
       html: DEMO_HTML,
     });
 
-    // Elements and their variants, scored by the same compliance checks as real ones.
+    // Elements and their variants, scored by the same rule checks as real ones.
     const variantIds = new Map<string, string[]>();
     const elementIds = new Map<string, string>();
     for (const [position, element] of DEMO_ELEMENTS.entries()) {
@@ -190,14 +190,14 @@ export class DemoService implements OnApplicationBootstrap, OnApplicationShutdow
         .insert(variants)
         .values(
           element.variants.map((v) => {
-            const { issues, score } = checkCompliance(v.text, row!, DEMO_BRIEF);
+            const { issues, score } = checkRules(v.text, row!, DEMO_BRIEF);
             return {
               elementId: row!.id,
               text: v.text,
-              angle: v.angle,
+              approach: v.approach,
               rationale: v.rationale,
               qualityScore: v.quality,
-              complianceScore: score,
+              rulesScore: score,
               issues,
               source: 'ai' as const,
               createdBy: userId,
@@ -296,7 +296,7 @@ export class DemoService implements OnApplicationBootstrap, OnApplicationShutdow
               text,
               rationale: '',
               qualityScore: 70 + i * 6,
-              complianceScore: 100,
+              rulesScore: 100,
               source: 'ai' as const,
               createdBy: userId,
             })),

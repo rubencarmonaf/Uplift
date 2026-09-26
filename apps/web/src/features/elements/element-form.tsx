@@ -1,8 +1,8 @@
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   createElementSchema,
-  ELEMENT_TYPES,
-  type ElementType,
+  ELEMENT_KINDS,
+  type ElementKind,
   SUGGESTED_MAX_LENGTH,
 } from '@uplift/shared';
 import { Controller, useForm, useWatch } from 'react-hook-form';
@@ -48,7 +48,7 @@ export function ElementForm({
   const maxLength = useWatch({ control: form.control, name: 'maxLength' });
   const overLimit = maxLength != null && text.length > maxLength;
 
-  const onTypeChange = (type: ElementType) => {
+  const onTypeChange = (type: ElementKind) => {
     form.setValue('type', type, { shouldValidate: form.formState.isSubmitted });
     // Suggest a length ceiling for the type, without overriding one the user already set.
     if (form.getValues('maxLength') == null && SUGGESTED_MAX_LENGTH[type]) {
@@ -76,8 +76,8 @@ export function ElementForm({
               label={t('elements.fields.type')}
               placeholder={t('projects.placeholders.select')}
               value={field.value}
-              onChange={(v) => onTypeChange(v as ElementType)}
-              options={ELEMENT_TYPES.map((v) => ({ value: v, label: t(`elements.types.${v}`) }))}
+              onChange={(v) => onTypeChange(v as ElementKind)}
+              options={ELEMENT_KINDS.map((v) => ({ value: v, label: t(`elements.types.${v}`) }))}
               error={errors.type && t('projects.errors.required')}
               disabled={disabled}
             />

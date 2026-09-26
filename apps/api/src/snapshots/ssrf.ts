@@ -36,7 +36,7 @@ export async function resolvePublicAddress(host: string, resolve: Resolver = sys
 
 /**
  * First line of defence against SSRF: only http(s) on standard ports to hosts that resolve to
- * public addresses. Lookups are cached per instance, so create one guard per rendering job.
+ * public addresses. Lookups are cached per instance, so create one guard per rendering run.
  *
  * On its own this is open to DNS rebinding (the name could resolve differently when the browser
  * connects); the renderer therefore also sends all traffic through PinnedProxy, which connects

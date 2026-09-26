@@ -104,7 +104,7 @@ export class PublicSnippetController {
         .from(pageSnapshots)
         .innerJoin(experiments, eq(experiments.projectId, pageSnapshots.projectId))
         .where(eq(experiments.publicKey, key));
-      if (snapshot) config.pageUrl = snapshot.finalUrl;
+      if (snapshot) config.targetUrl = snapshot.finalUrl;
     }
     // Short cache: status changes (pause, winner) reach visitors within a minute.
     res.setHeader('Cache-Control', test ? 'no-store' : 'public, max-age=60');
@@ -154,8 +154,8 @@ export class PublicSnippetController {
       .where(eq(goals.projectId, experiment.projectId));
 
     const nonce = randomBytes(16).toString('base64');
-    const antiFlicker = experiment.antiFlickerEnabled
-      ? `<style>.uplift-hide{opacity:0!important}</style><script nonce="${nonce}">document.documentElement.classList.add('uplift-hide');setTimeout(function(){document.documentElement.classList.remove('uplift-hide')},${experiment.antiFlickerTimeoutMs})</script>`
+    const hidePage = experiment.hidePageEnabled
+      ? `<style>.uplift-hide{opacity:0!important}</style><script nonce="${nonce}">document.documentElement.classList.add('uplift-hide');setTimeout(function(){document.documentElement.classList.remove('uplift-hide')},${experiment.hidePageTimeoutMs})</script>`
       : '';
     const testbarAttrs = [
       `data-arms="${escapeAttr(JSON.stringify(experiment.arms.map((a) => ({ id: a.id, name: a.name }))))}"`,
@@ -163,7 +163,7 @@ export class PublicSnippetController {
       `data-labels="${escapeAttr(JSON.stringify(TESTBAR_LABELS[lang]))}"`,
     ].join(' ');
     const head = [
-      antiFlicker,
+      hidePage,
       `<script nonce="${nonce}" ${testbarAttrs}>${bundle('testbar').replace(/<\/script/gi, '<\\/script')}</script>`,
       `<script nonce="${nonce}" src="${env.PUBLIC_API_URL}/s/${encodeURIComponent(key)}/uplift.js?test=1"></script>`,
     ].join('');

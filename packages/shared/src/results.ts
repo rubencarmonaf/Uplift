@@ -8,8 +8,8 @@ export type ArmResult = {
   conversions: number;
   rate: number;
   rateInterval: [number, number];
-  uplift: number | null;
-  upliftInterval: [number, number] | null;
+  lift: number | null;
+  liftInterval: [number, number] | null;
   probBeatControl: number | null;
   probBest: number;
 };
@@ -27,7 +27,7 @@ export type ExperimentResults = {
   startedAt: string | null;
   endedAt: string | null;
   winnerArmId: string | null;
-  primaryGoal: { id: string; name: string } | null;
+  mainGoal: { id: string; name: string } | null;
   arms: ArmResult[];
   verdict: Verdict;
   /** Other goals, with the same statistics per arm. */

@@ -110,8 +110,8 @@ export function VariantCard({
       )}
 
       <div className="flex flex-wrap items-center gap-2 text-xs">
-        {variant.angle && (
-          <Badge variant="secondary">{t(`variants.angles.${variant.angle}`)}</Badge>
+        {variant.approach && (
+          <Badge variant="secondary">{t(`variants.approaches.${variant.approach}`)}</Badge>
         )}
         {variant.source === 'manual' && <Badge variant="outline">{t('variants.manual')}</Badge>}
         <Badge
@@ -122,10 +122,10 @@ export function VariantCard({
               ? 'border-emerald-500/40 text-emerald-700 dark:text-emerald-300'
               : 'border-amber-500/50 text-amber-700 dark:text-amber-300',
           )}
-          title={t('variants.complianceHint')}
+          title={t('variants.rulesHint')}
         >
           {compliant ? <ShieldCheck className="size-3" /> : <ShieldAlert className="size-3" />}
-          {t('variants.compliance', { score: variant.complianceScore })}
+          {t('variants.rulesScore', { score: variant.rulesScore })}
         </Badge>
         {variant.qualityScore != null && (
           <span

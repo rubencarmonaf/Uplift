@@ -1,17 +1,17 @@
 import {
   type Brief,
-  ELEMENT_TYPES,
+  ELEMENT_KINDS,
   INDUSTRIES,
   PAGE_TYPES,
   PROJECT_STATUSES,
   type Arm,
-  type ComplianceIssue,
+  type RuleIssue,
   EVENT_TYPES,
   EXPERIMENT_STATUSES,
   type ExperimentScope,
   type GoalTarget,
   GENERATION_STATUSES,
-  VARIANT_ANGLES,
+  VARIANT_APPROACHES,
   VARIANT_SOURCES,
   VARIANT_STATUSES,
 } from '@uplift/shared';
@@ -108,7 +108,7 @@ export const projects = pgTable(
   (t) => [index('projects_org_updated_idx').on(t.organizationId, t.updatedAt)],
 );
 
-export const elementTypeEnum = pgEnum('element_type', ELEMENT_TYPES);
+export const elementKindEnum = pgEnum('element_kind', ELEMENT_KINDS);
 
 /** A piece of copy on the project's page that Uplift optimizes. */
 export const pageElements = pgTable(
@@ -119,7 +119,7 @@ export const pageElements = pgTable(
       .notNull()
       .references(() => projects.id, { onDelete: 'cascade' }),
     name: text('name').notNull(),
-    type: elementTypeEnum('type').notNull(),
+    type: elementKindEnum('type').notNull(),
     selector: text('selector').notNull(),
     originalText: text('original_text').notNull(),
     minLength: integer('min_length'),
@@ -157,12 +157,12 @@ export const projectBriefs = pgTable('project_briefs', {
 
 export const variantStatusEnum = pgEnum('variant_status', VARIANT_STATUSES);
 export const variantSourceEnum = pgEnum('variant_source', VARIANT_SOURCES);
-export const variantAngleEnum = pgEnum('variant_angle', VARIANT_ANGLES);
+export const variantApproachEnum = pgEnum('variant_approach', VARIANT_APPROACHES);
 export const generationStatusEnum = pgEnum('generation_status', GENERATION_STATUSES);
 
 /** A background run that generates variants for some of a project's elements. */
-export const generationJobs = pgTable(
-  'generation_jobs',
+export const generationRuns = pgTable(
+  'generation_runs',
   {
     id: uuid('id').primaryKey().defaultRandom(),
     projectId: uuid('project_id')
@@ -181,7 +181,7 @@ export const generationJobs = pgTable(
     createdAt: timestamp('created_at', { withTimezone: true }).notNull().defaultNow(),
     finishedAt: timestamp('finished_at', { withTimezone: true }),
   },
-  (t) => [index('generation_jobs_project_created_idx').on(t.projectId, t.createdAt)],
+  (t) => [index('generation_runs_project_created_idx').on(t.projectId, t.createdAt)],
 );
 
 export const variants = pgTable(
@@ -191,13 +191,13 @@ export const variants = pgTable(
     elementId: uuid('element_id')
       .notNull()
       .references(() => pageElements.id, { onDelete: 'cascade' }),
-    jobId: uuid('job_id').references(() => generationJobs.id, { onDelete: 'set null' }),
+    runId: uuid('run_id').references(() => generationRuns.id, { onDelete: 'set null' }),
     text: text('text').notNull(),
-    angle: variantAngleEnum('angle'),
+    approach: variantApproachEnum('approach'),
     rationale: text('rationale').notNull().default(''),
-    complianceScore: integer('compliance_score').notNull(),
+    rulesScore: integer('rules_score').notNull(),
     qualityScore: integer('quality_score'),
-    issues: jsonb('issues').$type<ComplianceIssue[]>().notNull().default([]),
+    issues: jsonb('issues').$type<RuleIssue[]>().notNull().default([]),
     status: variantStatusEnum('status').notNull().default('active'),
     source: variantSourceEnum('source').notNull(),
     /** Kept in the organization's library for reuse in other projects. */
@@ -242,8 +242,8 @@ export const experiments = pgTable('experiments', {
   publicKey: text('public_key').notNull().unique(),
   status: experimentStatusEnum('status').notNull().default('draft'),
   trafficPercent: integer('traffic_percent').notNull().default(100),
-  antiFlickerEnabled: boolean('anti_flicker_enabled').notNull().default(true),
-  antiFlickerTimeoutMs: integer('anti_flicker_timeout_ms').notNull().default(1000),
+  hidePageEnabled: boolean('hide_page_enabled').notNull().default(true),
+  hidePageTimeoutMs: integer('hide_page_timeout_ms').notNull().default(1000),
   scope: jsonb('scope').$type<ExperimentScope>().notNull(),
   arms: jsonb('arms').$type<Arm[]>().notNull(),
   winnerArmId: uuid('winner_arm_id'),

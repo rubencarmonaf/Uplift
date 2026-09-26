@@ -34,7 +34,7 @@ export const toExperimentDto = (row: ExperimentRow): Experiment => ({
   status: row.status,
   publicKey: row.publicKey,
   trafficPercent: row.trafficPercent,
-  antiFlicker: { enabled: row.antiFlickerEnabled, timeoutMs: row.antiFlickerTimeoutMs },
+  hidePage: { enabled: row.hidePageEnabled, timeoutMs: row.hidePageTimeoutMs },
   scope: row.scope,
   arms: row.arms,
   winnerArmId: row.winnerArmId,
@@ -72,9 +72,9 @@ export class ExperimentsService {
 
     const changes: Partial<typeof experiments.$inferInsert> = {};
     if (input.trafficPercent !== undefined) changes.trafficPercent = input.trafficPercent;
-    if (input.antiFlicker) {
-      changes.antiFlickerEnabled = input.antiFlicker.enabled;
-      changes.antiFlickerTimeoutMs = input.antiFlicker.timeoutMs;
+    if (input.hidePage) {
+      changes.hidePageEnabled = input.hidePage.enabled;
+      changes.hidePageTimeoutMs = input.hidePage.timeoutMs;
     }
     if (input.scope) changes.scope = input.scope;
     if (input.arms) {
@@ -200,7 +200,7 @@ export class ExperimentsService {
       experimentId: row.id,
       status: row.status,
       trafficPercent: row.trafficPercent,
-      antiFlicker: { enabled: row.antiFlickerEnabled, timeoutMs: row.antiFlickerTimeoutMs },
+      hidePage: { enabled: row.hidePageEnabled, timeoutMs: row.hidePageTimeoutMs },
       scope: row.scope,
       winner:
         row.status === 'finished' && winner ? { armId: winner.id, changes: resolve(winner) } : null,
@@ -250,7 +250,7 @@ export class ExperimentsService {
         elementId: variants.elementId,
         variantId: variants.id,
         quality: variants.qualityScore,
-        compliance: variants.complianceScore,
+        rules: variants.rulesScore,
       })
       .from(variants)
       .innerJoin(pageElements, eq(variants.elementId, pageElements.id))
@@ -258,7 +258,7 @@ export class ExperimentsService {
     const best = new Map<string, (typeof rows)[number]>();
     for (const row of rows) {
       const current = best.get(row.elementId);
-      const score = (r: typeof row) => r.compliance * 1000 + (r.quality ?? 0);
+      const score = (r: typeof row) => r.rules * 1000 + (r.quality ?? 0);
       if (!current || score(row) > score(current)) best.set(row.elementId, row);
     }
     return [...best.values()].map((r) => ({ elementId: r.elementId, variantId: r.variantId }));

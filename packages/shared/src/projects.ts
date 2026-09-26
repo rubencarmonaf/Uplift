@@ -35,11 +35,11 @@ export type ProjectStatus = z.infer<typeof projectStatusSchema>;
 /** BCP 47 language tag such as `es-ES` or `en`. */
 export const localeTagSchema = z.string().regex(/^[a-z]{2,3}(-[A-Z]{2})?$/);
 
-const pageUrlSchema = z.url({ protocol: /^https?$/, hostname: z.regexes.domain }).max(2048);
+const targetUrlSchema = z.url({ protocol: /^https?$/, hostname: z.regexes.domain }).max(2048);
 
 export const createProjectSchema = z.object({
   name: z.string().trim().min(1).max(120),
-  url: pageUrlSchema,
+  url: targetUrlSchema,
   industry: industrySchema,
   pageType: pageTypeSchema,
   locale: localeTagSchema,
@@ -51,10 +51,10 @@ export const updateProjectSchema = createProjectSchema
   .partial();
 export type UpdateProjectInput = z.infer<typeof updateProjectSchema>;
 
-export const duplicateProjectSchema = z.object({
+export const copyProjectSchema = z.object({
   name: z.string().trim().min(1).max(120),
 });
-export type DuplicateProjectInput = z.infer<typeof duplicateProjectSchema>;
+export type CopyProjectInput = z.infer<typeof copyProjectSchema>;
 
 export const PROJECT_SORTS = ['updated', 'created', 'name'] as const;
 

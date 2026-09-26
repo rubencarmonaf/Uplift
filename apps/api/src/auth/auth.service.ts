@@ -50,7 +50,7 @@ export class AuthService {
   async login({ email, password }: LoginInput): Promise<AuthUser> {
     const [user] = await this.db.select().from(users).where(eq(users.email, email));
     const valid = await verify(user?.passwordHash ?? DUMMY_HASH, password);
-    if (!user || !valid) throw new UnauthorizedException('Invalid email or password');
+    if (!user || !valid) throw new UnauthorizedException("Email and password don't match");
     return user;
   }
 

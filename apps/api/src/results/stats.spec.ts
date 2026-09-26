@@ -36,9 +36,9 @@ describe('analyze', () => {
     expect(a!.probBest).toBeGreaterThan(0.99);
     expect(control!.probBest).toBeLessThan(0.01);
     // True uplift is +40%: the estimate and its interval should reflect it.
-    expect(a!.uplift!).toBeCloseTo(0.4, 1);
-    expect(a!.upliftInterval![0]).toBeGreaterThan(0.15);
-    expect(a!.upliftInterval![1]).toBeLessThan(0.7);
+    expect(a!.lift!).toBeCloseTo(0.4, 1);
+    expect(a!.liftInterval![0]).toBeGreaterThan(0.15);
+    expect(a!.liftInterval![1]).toBeLessThan(0.7);
   });
 
   it('matches the analytical answer for a known case', () => {

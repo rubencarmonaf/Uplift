@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import type { ElementType } from './elements.js';
+import type { ElementKind } from './elements.js';
 
 /** A rendered, script-free copy of the project's page, used by the visual element picker. */
 export const snapshotSchema = z.object({
@@ -17,7 +17,7 @@ export type PickedElement = {
   selector: string;
   text: string;
   tagName: string;
-  suggestedType: ElementType;
+  suggestedType: ElementKind;
 };
 
 /** Messages between the snapshot iframe (picker) and the app. */

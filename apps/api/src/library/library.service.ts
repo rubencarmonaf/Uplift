@@ -19,9 +19,9 @@ type Query = z.output<typeof libraryQuerySchema>;
 type VariantInfo = {
   id: string;
   text: string;
-  angle: LibraryItem['angle'];
+  approach: LibraryItem['approach'];
   qualityScore: number | null;
-  elementType: LibraryItem['elementType'];
+  elementKind: LibraryItem['elementKind'];
   elementName: string;
   originalText: string;
   projectId: string;
@@ -60,7 +60,7 @@ export class LibraryService {
     const q = query.q ? fold(query.q) : null;
     return unique.filter(
       (item) =>
-        (!query.type || item.elementType === query.type) &&
+        (!query.type || item.elementKind === query.type) &&
         (!query.source || item.source === query.source) &&
         (!q || fold(`${item.text} ${item.elementName} ${item.project.name}`).includes(q)),
     );
@@ -140,7 +140,7 @@ export class LibraryService {
     // Same seed as the results page, so the numbers match what people saw there.
     const stats = analyze(arms, seedFrom(`${experiment.id}:${primary.id}`));
     const winner = stats.find((s) => s.id === experiment.winnerArmId);
-    return winner ? { uplift: winner.uplift, probBeatControl: winner.probBeatControl } : null;
+    return winner ? { lift: winner.lift, probBeatControl: winner.probBeatControl } : null;
   }
 
   private async variantInfo(ids: string[]): Promise<VariantInfo[]> {
@@ -149,9 +149,9 @@ export class LibraryService {
       .select({
         id: variants.id,
         text: variants.text,
-        angle: variants.angle,
+        approach: variants.approach,
         qualityScore: variants.qualityScore,
-        elementType: pageElements.type,
+        elementKind: pageElements.type,
         elementName: pageElements.name,
         originalText: pageElements.originalText,
         projectId: projects.id,
@@ -168,18 +168,18 @@ function toItem(
   info: VariantInfo,
   source: LibraryItem['source'],
   date: string,
-  lift: { uplift: number | null; probBeatControl: number | null } | null,
+  lift: { lift: number | null; probBeatControl: number | null } | null,
 ): LibraryItem {
   return {
     variantId: info.id,
     text: info.text,
-    angle: info.angle,
-    elementType: info.elementType,
+    approach: info.approach,
+    elementKind: info.elementKind,
     elementName: info.elementName,
     originalText: info.originalText,
     project: { id: info.projectId, name: info.projectName },
     source,
-    uplift: lift?.uplift ?? null,
+    lift: lift?.lift ?? null,
     probBeatControl: lift?.probBeatControl ?? null,
     qualityScore: info.qualityScore,
     date,

@@ -1,6 +1,6 @@
 import type {
   GenerateVariantsInput,
-  GenerationJob,
+  GenerationRun,
   UpdateVariantInput,
   Variant,
 } from '@uplift/shared';
@@ -11,12 +11,12 @@ import { api, ApiError } from '@/lib/api';
 
 export const variantKeys = {
   list: (projectId: string) => ['projects', 'detail', projectId, 'variants'] as const,
-  latestJob: (projectId: string) => ['projects', 'detail', projectId, 'generation'] as const,
+  latestRun: (projectId: string) => ['projects', 'detail', projectId, 'generation'] as const,
   aiStatus: ['ai', 'status'] as const,
 };
 
-const isActive = (job: GenerationJob | null | undefined) =>
-  job?.status === 'queued' || job?.status === 'running';
+const isActive = (run: GenerationRun | null | undefined) =>
+  run?.status === 'queued' || run?.status === 'running';
 
 export function useAiStatus() {
   return useQuery({
@@ -26,13 +26,13 @@ export function useAiStatus() {
   });
 }
 
-/** The project's latest generation job; polled every second while it runs. */
+/** The project's latest generation run; polled every second while it runs. */
 export function useLatestGeneration(projectId: string) {
   return useQuery({
-    queryKey: variantKeys.latestJob(projectId),
+    queryKey: variantKeys.latestRun(projectId),
     queryFn: async () => {
       try {
-        return await api<GenerationJob>(`/projects/${projectId}/generations/latest`);
+        return await api<GenerationRun>(`/projects/${projectId}/generations/latest`);
       } catch (err) {
         if (err instanceof ApiError && err.status === 404) return null;
         throw err;
@@ -44,24 +44,24 @@ export function useLatestGeneration(projectId: string) {
   });
 }
 
-/** Variants refresh on each job poll, so new ones appear as each element finishes. */
-export function useVariants(projectId: string, job: GenerationJob | null | undefined) {
+/** Variants refresh on each run poll, so new ones appear as each element finishes. */
+export function useVariants(projectId: string, run: GenerationRun | null | undefined) {
   const qc = useQueryClient();
   const query = useQuery({
     queryKey: variantKeys.list(projectId),
     queryFn: () => api<Variant[]>(`/projects/${projectId}/variants`),
   });
 
-  const progress = job ? `${job.id}:${job.status}:${job.completedElements}` : null;
+  const progress = run ? `${run.id}:${run.status}:${run.completedElements}` : null;
   const lastProgress = useRef(progress);
   useEffect(() => {
     if (progress === lastProgress.current) return;
     lastProgress.current = progress;
     void qc.invalidateQueries({ queryKey: variantKeys.list(projectId) });
-    if (job && !isActive(job)) {
+    if (run && !isActive(run)) {
       void qc.invalidateQueries({ queryKey: projectKeys.detail(projectId), exact: true });
     }
-  }, [progress, job, projectId, qc]);
+  }, [progress, run, projectId, qc]);
 
   return query;
 }
@@ -70,8 +70,8 @@ export function useGenerateVariants(projectId: string) {
   const qc = useQueryClient();
   return useMutation({
     mutationFn: (input: GenerateVariantsInput) =>
-      api<GenerationJob>(`/projects/${projectId}/generations`, { method: 'POST', json: input }),
-    onSuccess: (job) => qc.setQueryData(variantKeys.latestJob(projectId), job),
+      api<GenerationRun>(`/projects/${projectId}/generations`, { method: 'POST', json: input }),
+    onSuccess: (run) => qc.setQueryData(variantKeys.latestRun(projectId), run),
   });
 }
 

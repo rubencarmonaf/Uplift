@@ -59,8 +59,8 @@ export function PreviewPage() {
   const { t, i18n } = useTranslation();
   const { project } = useProjectContext();
   const elements = useElements(project.id);
-  const job = useLatestGeneration(project.id);
-  const variants = useVariants(project.id, job.data);
+  const run = useLatestGeneration(project.id);
+  const variants = useVariants(project.id, run.data);
   const snapshot = useSnapshot(project.id);
   const capture = useCaptureSnapshot(project.id);
 
