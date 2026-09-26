@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Casaclara Seguros · Seguro de hogar</title>
+    <style>
+      :root {
+        --ink: #13233a;
+        --muted: #5a6b82;
+        --brand: #1f5eff;
+        --brand-dark: #1446c8;
+        --soft: #eef3ff;
+        --line: #dfe6f2;
+        --warm: #ffb547;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        font:
+          16px/1.55 system-ui,
+          -apple-system,
+          'Segoe UI',
+          sans-serif;
+        color: var(--ink);
+        background: #fff;
+      }
+      a {
+        color: inherit;
+      }
+      .wrap {
+        max-width: 1120px;
+        margin: 0 auto;
+        padding: 0 24px;
+      }
+      header.nav {
+        border-bottom: 1px solid var(--line);
+        background: #fff;
+        position: sticky;
+        top: 0;
+        z-index: 5;
+      }
+      header.nav .wrap {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 68px;
+      }
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-weight: 700;
+        font-size: 19px;
+        text-decoration: none;
+      }
+      .logo-mark {
+        width: 30px;
+        height: 30px;
+        border-radius: 8px;
+        background: var(--brand);
+        display: grid;
+        place-items: center;
+        color: #fff;
+        font-size: 16px;
+      }
+      nav ul {
+        display: flex;
+        gap: 28px;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        font-size: 15px;
+        color: var(--muted);
+      }
+      nav a {
+        text-decoration: none;
+      }
+      .nav-phone {
+        font-weight: 600;
+        font-size: 15px;
+      }
+      .hero {
+        background: linear-gradient(180deg, var(--soft), #fff);
+        padding: 72px 0 64px;
+      }
+      .hero .wrap {
+        display: grid;
+        grid-template-columns: 1.1fr 0.9fr;
+        gap: 48px;
+        align-items: center;
+      }
+      .eyebrow {
+        display: inline-block;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 4px 12px;
+        font-size: 13px;
+        color: var(--muted);
+      }
+      h1 {
+        font-size: 46px;
+        line-height: 1.12;
+        letter-spacing: -0.02em;
+        margin: 18px 0 16px;
+      }
+      .lead {
+        font-size: 19px;
+        color: var(--muted);
+        max-width: 540px;
+        margin: 0 0 28px;
+      }
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 16px;
+      }
+      .btn {
+        display: inline-block;
+        border: 0;
+        border-radius: 10px;
+        padding: 15px 26px;
+        font:
+          600 17px system-ui,
+          sans-serif;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .btn-primary {
+        background: var(--brand);
+        color: #fff;
+        box-shadow: 0 8px 20px rgba(31, 94, 255, 0.25);
+      }
+      .btn-primary:hover {
+        background: var(--brand-dark);
+      }
+      .btn-link {
+        color: var(--brand);
+        font-weight: 600;
+        text-decoration: none;
+      }
+      .trust {
+        display: flex;
+        gap: 18px;
+        margin-top: 26px;
+        font-size: 14px;
+        color: var(--muted);
+      }
+      .trust strong {
+        color: var(--ink);
+      }
+      .card {
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 20px 40px rgba(19, 35, 58, 0.08);
+      }
+      .card h2 {
+        font-size: 20px;
+        margin: 0 0 6px;
+      }
+      .card p {
+        margin: 0 0 18px;
+        color: var(--muted);
+        font-size: 15px;
+      }
+      .field {
+        display: grid;
+        gap: 6px;
+        margin-bottom: 14px;
+        font-size: 14px;
+        font-weight: 600;
+      }
+      .field input,
+      .field select {
+        font: inherit;
+        font-weight: 400;
+        padding: 11px 12px;
+        border: 1px solid var(--line);
+        border-radius: 8px;
+      }
+      .price {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        margin: 6px 0 18px;
+      }
+      .price strong {
+        font-size: 34px;
+      }
+      .card .btn {
+        width: 100%;
+        text-align: center;
+      }
+      section.benefits {
+        padding: 72px 0;
+      }
+      .section-title {
+        font-size: 32px;
+        letter-spacing: -0.01em;
+        margin: 0 0 8px;
+        text-align: center;
+      }
+      .section-sub {
+        color: var(--muted);
+        text-align: center;
+        margin: 0 0 40px;
+      }
+      .benefits ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 20px;
+      }
+      .benefits li {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 24px;
+      }
+      .benefits li b {
+        display: block;
+        font-size: 18px;
+        margin-bottom: 6px;
+      }
+      .benefits .icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 10px;
+        background: var(--soft);
+        display: grid;
+        place-items: center;
+        margin-bottom: 14px;
+        font-size: 20px;
+      }
+      .benefits span.text {
+        color: var(--muted);
+        font-size: 15px;
+      }
+      section.proof {
+        background: var(--ink);
+        color: #fff;
+        padding: 64px 0;
+      }
+      .proof .wrap {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+      }
+      .proof blockquote {
+        margin: 0;
+        font-size: 17px;
+      }
+      .proof cite {
+        display: block;
+        margin-top: 12px;
+        font-style: normal;
+        color: #aebbd0;
+        font-size: 14px;
+      }
+      .stars {
+        color: var(--warm);
+        letter-spacing: 2px;
+      }
+      section.faq {
+        padding: 72px 0;
+      }
+      .faq details {
+        border-bottom: 1px solid var(--line);
+        padding: 18px 0;
+        max-width: 760px;
+        margin: 0 auto;
+      }
+      .faq summary {
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .faq p {
+        color: var(--muted);
+        margin: 10px 0 0;
+      }
+      .final {
+        text-align: center;
+        padding: 64px 0 80px;
+        background: var(--soft);
+      }
+      .final h2 {
+        font-size: 30px;
+        margin: 0 0 12px;
+      }
+      footer {
+        padding: 28px 0;
+        font-size: 13px;
+        color: var(--muted);
+        border-top: 1px solid var(--line);
+      }
+      footer .wrap {
+        display: flex;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+      }
+      .cookie-banner {
+        position: fixed;
+        left: 24px;
+        right: 24px;
+        bottom: 24px;
+        max-width: 720px;
+        margin: 0 auto;
+        background: #fff;
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 18px 20px;
+        box-shadow: 0 20px 50px rgba(19, 35, 58, 0.2);
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        z-index: 20;
+        font-size: 14px;
+      }
+      .cookie-banner p {
+        margin: 0;
+        flex: 1;
+        color: var(--muted);
+      }
+      .cookie-banner button {
+        border: 0;
+        border-radius: 8px;
+        padding: 10px 16px;
+        font:
+          600 14px system-ui,
+          sans-serif;
+        background: var(--ink);
+        color: #fff;
+        cursor: pointer;
+      }
+      @media (max-width: 860px) {
+        nav ul,
+        .nav-phone {
+          display: none;
+        }
+        .hero .wrap,
+        .proof .wrap {
+          grid-template-columns: 1fr;
+        }
+        .benefits ul {
+          grid-template-columns: 1fr;
+        }
+        h1 {
+          font-size: 34px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="nav">
+      <div class="wrap">
+        <a class="logo" href="/"><span class="logo-mark">⌂</span> Casaclara</a>
+        <nav aria-label="Principal">
+          <ul>
+            <li><a href="/hogar">Hogar</a></li>
+            <li><a href="/alquiler">Alquiler</a></li>
+            <li><a href="/coberturas">Coberturas</a></li>
+            <li><a href="/opiniones">Opiniones</a></li>
+          </ul>
+        </nav>
+        <span class="nav-phone">900 000 000</span>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="wrap">
+          <div>
+            <span class="eyebrow">Seguro de hogar · Sin permanencia</span>
+            <h1 data-testid="hero-title">El seguro de hogar que entiendes a la primera</h1>
+            <p class="lead" data-testid="hero-subtitle">
+              Coberturas claras, asistencia las 24 horas y un precio que no sube al año siguiente
+              sin avisarte.
+            </p>
+            <div class="cta-row">
+              <a class="btn btn-primary" href="/presupuesto" data-testid="hero-cta"
+                >Calcular mi precio</a
+              >
+              <a class="btn-link" href="/coberturas">Ver coberturas →</a>
+            </div>
+            <div class="trust">
+              <span><strong>4,6/5</strong> en opiniones</span>
+              <span><strong>120.000</strong> hogares asegurados</span>
+            </div>
+          </div>
+          <form class="card" action="/presupuesto">
+            <h2>Tu precio en 2 minutos</h2>
+            <p>Sin llamadas comerciales. Solo te pedimos lo imprescindible.</p>
+            <label class="field">Código postal<input name="cp" placeholder="28001" /></label>
+            <label class="field">Metros cuadrados<input name="m2" placeholder="85" /></label>
+            <label class="field">
+              Vives en
+              <select name="tipo">
+                <option>Piso</option>
+                <option>Casa</option>
+                <option>Ático</option>
+              </select>
+            </label>
+            <div class="price"><span>Desde</span><strong>9,90 €</strong><span>/mes</span></div>
+            <button class="btn btn-primary" type="submit" data-testid="form-submit">
+              Ver mi precio
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <section class="benefits">
+        <div class="wrap">
+          <h2 class="section-title">Todo lo que necesitas, nada que no</h2>
+          <p class="section-sub">Tres cosas que nuestros clientes valoran por encima del precio.</p>
+          <ul>
+            <li data-testid="benefit-1">
+              <div class="icon">⏱</div>
+              <b>Reparaciones urgentes en 3 horas</b
+              ><span class="text"
+                >Fontaneros, cerrajeros y electricistas de guardia todos los días del año.</span
+              >
+            </li>
+            <li data-testid="benefit-2">
+              <div class="icon">✓</div>
+              <b>Sin letra pequeña</b
+              ><span class="text"
+                >Cada cobertura explicada en una frase. Si no está escrita, no existe.</span
+              >
+            </li>
+            <li data-testid="benefit-3">
+              <div class="icon">↺</div>
+              <b>Cancela cuando quieras</b
+              ><span class="text"
+                >Sin permanencia ni penalizaciones. Te devolvemos la parte no consumida.</span
+              >
+            </li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="proof" aria-label="Opiniones">
+        <div class="wrap">
+          <blockquote>
+            <span class="stars">★★★★★</span><br />“Se me rompió una tubería un domingo y a las dos
+            horas estaba arreglado.”<cite>— Marta, Valencia</cite>
+          </blockquote>
+          <blockquote>
+            <span class="stars">★★★★★</span><br />“Por fin un seguro en el que sé exactamente qué
+            tengo contratado.”<cite>— Jorge, Madrid</cite>
+          </blockquote>
+          <blockquote>
+            <span class="stars">★★★★☆</span><br />“Contratarlo me llevó cinco minutos desde el
+            móvil.”<cite>— Lucía, Sevilla</cite>
+          </blockquote>
+        </div>
+      </section>
+
+      <section class="faq">
+        <div class="wrap">
+          <h2 class="section-title">Preguntas frecuentes</h2>
+          <details>
+            <summary>¿Cubre los daños por agua?</summary>
+            <p>Sí, incluidos los daños a tus vecinos, con reparación de la avería que los causó.</p>
+          </details>
+          <details>
+            <summary>¿Subirá el precio el año que viene?</summary>
+            <p>
+              Te avisamos con dos meses de antelación de cualquier cambio y puedes irte sin coste.
+            </p>
+          </details>
+          <details>
+            <summary>¿Puedo asegurar un piso de alquiler?</summary>
+            <p>Sí, tanto si eres el propietario como si eres el inquilino.</p>
+          </details>
+        </div>
+      </section>
+
+      <section class="final">
+        <div class="wrap">
+          <h2>¿Cuánto te costaría a ti?</h2>
+          <a class="btn btn-primary" href="/presupuesto" data-testid="final-cta"
+            >Calcular mi precio</a
+          >
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">
+        <span>© Casaclara Seguros · Empresa ficticia creada para la demo de Uplift</span>
+        <span>Precio para un piso de 85 m² en Madrid con la cobertura básica.</span>
+      </div>
+    </footer>
+
+    <div class="cookie-banner" id="cookie-consent-banner">
+      <p>
+        Usamos cookies propias y de terceros para analizar el uso de la web y mostrarte publicidad
+        relacionada con tus preferencias.
+      </p>
+      <button type="button">Aceptar</button>
+    </div>
+  </body>
+</html>
