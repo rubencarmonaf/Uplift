@@ -1,0 +1,10 @@
+**/node_modules
+**/dist
+**/.env
+**/.env.*
+.git
+.github
+apps/web/*
+!apps/web/package.json
+docs
+coverage
