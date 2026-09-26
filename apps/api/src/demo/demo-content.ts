@@ -93,7 +93,7 @@ export const DEMO_ELEMENTS: DemoElement[] = [
       {
         text: 'Un seguro de hogar sin letra pequeña, por fin',
         approach: 'answers_doubt',
-        rationale: 'Responde a la desconfianza hacia los seguros, la objeción más habitual.',
+        rationale: 'Responde a la desconfianza hacia los seguros, la duda más habitual.',
         quality: 78,
       },
       {
